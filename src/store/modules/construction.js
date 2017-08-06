@@ -25,6 +25,7 @@ const state = {
 
 // ========= getters =========
 const getters = {
+  listUpToDate: state => state.listUpToDate,
   constructionsList: state => state.constrList,
   constrFilters: state => state.constrFilters,
 

@@ -1,7 +1,7 @@
 <template>
   <div class="row">
 
-    <template v-if="status == 'ready'">
+    <template v-if="listUpToDate">
       <div v-if="constructionsList.total">
     <div class="col-12-sm" ><b>Constructii gasite: {{ constructionsList.total }}</b></div>
 
@@ -72,7 +72,7 @@ export default{
   },
 
   computed:{
-    ...mapGetters(['constructionsList']),
+    ...mapGetters(['listUpToDate', 'constructionsList']),
   }
   ,
 

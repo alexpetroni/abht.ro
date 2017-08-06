@@ -1,10 +1,16 @@
 <template>
 <div>
+  <h4>Indentificare lucrare</h4>
   <table class="table">
     <tbody>
+
   <tr>
-    <td class="data-label">Anul ultimei inventarieri (Ys)</td>
-    <td class="data-val">{{ last_inventory_year }} ({{ last_inventory_ys }})</td>
+    <td class="data-label">Anul ultimei inventarieri</td>
+    <td class="data-val">{{ last_inventory_year }}</td>
+  </tr>
+  <tr>
+    <td class="data-label">Ys ultima inventariere</td>
+    <td class="data-val">{{ last_inventory_ys }}</td>
   </tr>
   <tr>
     <td class="data-label">Cod cadastral</td>
