@@ -44,21 +44,23 @@ export default{
     constructionUpdated(data){
       console.log(' constructionUpdated(data) ')
       console.log(data)
-      this.construction = data
+      this.setConstructionFromData(data)
     },
 
     setConstructionFromData(data){
+      data.gd._cadastral_code_items_arr = this.parseCadastralCodeToArr(data.gd.cadastral_code)
       this.construction = data
-      this.parseCadastralCodeToArr();
+      console.log('setConstructionFromData ', this.construction)
     },
 
-    parseCadastralCodeToArr(){
-        let cc = this.constructions.gd.cadastral_code
-        if(cc && cc.breadcrumb){
-          let elArr = cc.breadcrumb.split('-')
-          elArr[0] = cc.ancestors[0]
-          this.this.constructions.gd.__cadastral_code_items_arr = [...elArr]
+    parseCadastralCodeToArr(cadastral_code){
+        if(cadastral_code && cadastral_code.breadcrumb && cadastral_code.ancestors && Array.isArray(cadastral_code.ancestors) ){
+          let elArr = cadastral_code.breadcrumb.split('-')
+          elArr[0] = cadastral_code.ancestors[0]
+          return elArr;
         }
+
+        return []
     },
   },
 
@@ -101,10 +103,6 @@ export default{
       axios._get( req )
     .then( res => {
       console.log(res)
-      if(res.data.inventories){
-        delete res.data.inventories
-      }
-
       this.setConstructionFromData(res.data)
       console.log('incarcat')
       console.log(this.construction)

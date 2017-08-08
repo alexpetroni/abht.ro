@@ -399,6 +399,96 @@ router.route('/constructions/:id')
 
 
 
+router.route('/constructions/:id/generaldata')
+
+.put((req, res, next) => {
+  const id = req.params.id
+  if(ObjectId.isValid(id)){
+    let data = req.body
+
+    console.log(data)
+
+    db.Construction.findById( id , function(err, construction){
+      if(err) return next(err)
+
+      if(!construction){
+        return next(new Error("No construction with this id"))
+      }
+
+      construction.gd = data
+
+      async.parallel([
+        async.reflect(function(callback){
+          getAdminlocationId(data.adminlocation.county_id, data.adminlocation.city, callback)
+        }),
+
+        async.reflect(function(callback){
+          getCadastralCodeId(data._cadastral_code_items_arr, callback)
+        }),
+      ],
+      function(err, results){
+        if(!results[0].error){
+          construction.gd._adminlocation = ObjectId(results[0].value)
+        }
+        console.log('cadastral result', results[1])
+        if(!results[1].error){
+          construction.gd.cadastral_code = ObjectId(results[1].value)
+        }
+
+
+        construction.save(function(err, newConstruction){
+          if(err) return next(err)
+
+          db.Construction.getFullConstruction(id, function(err, updatedConstr){
+            res.send(updatedConstr)
+          })
+
+        })
+      })
+    })
+  }else{
+    next(new Error("Invalid construction id"))
+  }
+
+})
+
+router.route('/constructions/:id/constructiondata')
+
+.put((req, res, next) => {
+  const id = req.params.id
+  if(ObjectId.isValid(id)){
+    let data = req.body
+
+    console.log(data)
+
+    db.Construction.findById( id , function(err, construction){
+      if(err) return next(err)
+
+      if(!construction){
+        return next(new Error("No construction with this id"))
+      }
+
+      construction.cd.dam = data.dam
+
+      if(construction.cd.has_final_spur){
+        construction.cd.final_spur = data.final_spur
+      }
+
+      construction.save(function(err, newConstruction){
+        if(err) return next(err)
+        
+        db.Construction.getFullConstruction(id, function(err, updatedConstr){
+          res.send(updatedConstr)
+        })
+      })
+    })
+  }else{
+    next(new Error("Invalid construction id"))
+  }
+
+})
+
+
 
 router.route('/upload-images')
 

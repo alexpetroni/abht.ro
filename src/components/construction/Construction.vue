@@ -2,6 +2,8 @@
   <div>
     <div v-if = "construction && inventory">
 
+      <editor-menu :construction="construction" :inventory="inventory"></editor-menu>
+
       <component :is="constructionPresentationType" :construction="construction" :inventory="inventory"></component>
     </div>
   </div>
@@ -15,7 +17,7 @@ import * as axios from './../../api'
 
 import constructionMixin from './../../mixins/construction'
 
-//import EditorMenu from './editors/EditorMenu.vue'
+import EditorMenu from './editors/EditorMenu.vue'
 
 import LongConstr from './LongConstr.vue'
 import TransConstr from './TransConstr.vue'
@@ -51,7 +53,7 @@ export default{
   },
 
   components: {
-  //  EditorMenu,
+    EditorMenu,
     LongConstr,
     TransConstr,
   },
