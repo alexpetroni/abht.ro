@@ -323,6 +323,7 @@ export default{
             dam: this.editedDam,
             final_spur: this.editedFinalSpur
           }
+          console.log('editorDam emit ', data)
           this.$emit('submit', JSON.stringify(data));
         }else{
           this.showInvalidFormMessage()

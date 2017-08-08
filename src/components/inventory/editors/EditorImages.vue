@@ -94,7 +94,7 @@ export default{
         }
       }
 
-      axios.post('/upload', formData, config)
+      axios.post('/upload-images', formData, config)
       .then( res => {
         // console.log('after image upload')
         // console.log(res.data)

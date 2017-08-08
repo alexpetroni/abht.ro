@@ -290,6 +290,7 @@ export default{
         comments: this.comments,
         causes: this.jsonCopy(this.causes),
        }
+      console.log('editorObserverAndCauses emit ', data)
       this.$emit('submit', JSON.stringify(data));
     },
 

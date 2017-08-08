@@ -13,7 +13,7 @@ const async = require('async')
 
 const config = require('./../abht.config.js')
 
-//const ys = require('./ys.js')
+const ys = require('./ys.js')
 
 
 const ObjectId = mongoose.Types.ObjectId
@@ -174,7 +174,7 @@ router.route('/constructions')
   data.kind = req.body.type
 
 
-  let cadastralCodeArr = data.gd.cadastral_code
+  let cadastralCodeArr = data.gd._cadastral_code_items_arr
   let adminLocation = data.gd.adminlocation
 
     delete data['_id']
@@ -395,6 +395,15 @@ router.route('/constructions/:id')
   }else{
     next(new Error("Invalid construction id"))
   }
+})
+
+
+
+
+router.route('/upload-images')
+
+.post((req, res, next) => {
+    res.send('xx')
 })
 
 

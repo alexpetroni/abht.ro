@@ -28,6 +28,7 @@ const adminChildren = [
 
   { path: 'construction/:id/new-inventory', name: 'add-inventory' , component: EditorInventory, props: true },
   { path: 'construction/:id/inventory/:year/edit', name: 'edit-inventory' , component: EditorInventory, props: true },
+
 ]
 
 export default new Router({

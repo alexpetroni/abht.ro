@@ -54,7 +54,6 @@ export default{
   mixins: [ generalMixin ],
   data() {
     return {
-        status: 'loading', // 'ready'
     }
   },
 

@@ -45,7 +45,21 @@ export default{
       console.log(' constructionUpdated(data) ')
       console.log(data)
       this.construction = data
-    }
+    },
+
+    setConstructionFromData(data){
+      this.construction = data
+      this.parseCadastralCodeToArr();
+    },
+
+    parseCadastralCodeToArr(){
+        let cc = this.constructions.gd.cadastral_code
+        if(cc && cc.breadcrumb){
+          let elArr = cc.breadcrumb.split('-')
+          elArr[0] = cc.ancestors[0]
+          this.this.constructions.gd.__cadastral_code_items_arr = [...elArr]
+        }
+    },
   },
 
   computed: {
@@ -91,7 +105,7 @@ export default{
         delete res.data.inventories
       }
 
-      this.construction = res.data
+      this.setConstructionFromData(res.data)
       console.log('incarcat')
       console.log(this.construction)
     })

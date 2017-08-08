@@ -12,6 +12,13 @@
     </div>
 
     <div class="col-sm-12 col-md-4">
+        <construction-on-map
+        :construction = "construction"
+        :inventory = "inventory"
+        ></construction-on-map>
+    </div>
+
+    <div class="col-sm-12 col-md-4">
         <constr-inventory-images
         :construction = "construction"
         :inventory = "inventory"
@@ -62,6 +69,7 @@
 import constructionMixin from './../../mixins/construction'
 
 import ConstrIdentifyData from './ConstrIdentifyData.vue'
+import ConstructionOnMap from './ConstructionOnMap.vue'
 import Sector from './Sector.vue'
 import LongInventory from './../inventory/LongInventory.vue'
 
@@ -87,6 +95,7 @@ export default{
 
   components: {
     ConstrIdentifyData,
+    ConstructionOnMap,
     Sector,
     LongInventory,
     ConstrInventoryImages

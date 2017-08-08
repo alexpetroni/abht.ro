@@ -74,14 +74,14 @@
                 <label class="col-xs-12" for="constructionCode">Cod cadastral</label>
 
                 <div class="col-xs-2">
-                  <select v-model="cadastralCodesArr[0]" class="form-control">
+                  <select v-model="editedItem.gd._cadastral_code_items_arr[0]" class="form-control">
                     <option v-for="cod in cadastralLevel_0_Options" :value="cod._id">{{cod.name}}</option>
                   </select>
                 </div>
 
                 <template v-for="n in 5">
                   <div class="col-xs-2">
-                    <input type="text" v-model="cadastralCodesArr[n]" class="form-control">
+                    <input type="text" v-model="editedItem.gd._cadastral_code_items_arr[n]" class="form-control">
                   </div>
                 </template>
 
@@ -104,7 +104,7 @@
               <div class="row">
                 <label class="col-xs-12" for="longitude">Longitudine</label>
                 <div class="col-xs-12">
-                  <input type="text" name="longitude" id="longitude" v-model="editedItem.longitude" class="form-control">
+                  <input type="text" name="longitude" id="longitude" v-model="editedItem.gd.geolocation.long" class="form-control">
                 </div>
               </div>
             </div>
@@ -114,7 +114,7 @@
               <div class="row">
                 <label class="col-xs-12" for="latitude">Latitudine</label>
                 <div class="col-xs-12">
-                  <input type="text" name="latitude" id="latitude" v-model="editedItem.latitude" class="form-control">
+                  <input type="text" name="latitude" id="latitude" v-model="editedItem.gd.geolocation.lat" class="form-control">
                 </div>
               </div>
             </div>
@@ -239,35 +239,39 @@ export default{
 
   data() {
     return {
-      editedItem: this.jsonCopy(this.construction),
-      cadastralCodesArr: [undefined, undefined, undefined, undefined, undefined, undefined], // first is the level_0 id, rest are strings/numbers representing the names
+      editedItem: this.jsonCopy(this.construction)
     }
   },
 
   methods: {
     onSubmit(){
+      console.log('onSubmit')
       this.$validate().then(success => {
 
         if(success){
-
+            console.log('onSubmit success')
           let arr = []
-          if(this.this.cadastralCodesArr[0]){
-            this.cadastralCodesArr.forEach( (e, index) => {
-              if(isNaN(e) && index > 0){
+
+          // should be always true
+          if(this.editedItem.gd._cadastral_code_items_arr[0]){
+            this.editedItem.gd._cadastral_code_items_arr.forEach( (e, index) => {
+              console.log('cadastralCodesArr e ', e)
+              if(e && isNaN(e) && index > 0){
                 arr[index] = e.toLowerCase(e)
               }else{
                 arr[index] = e
               }
             })
+
+            this.editedItem.gd._cadastral_code_items_arr = arr
           }
 
-          console.log('afer')
-          this.editedItem.gd.cadastral_code = this.cadastralCodesArr = arr
+          console.log('after')
           let data = { construction: this.editedItem }
           console.log('emit ', data)
           this.$emit('submit', JSON.stringify(data));
         }else{
-            console.log('invalid submit')
+          console.log('showInvalidFormMessage()')
           this.showInvalidFormMessage()
         }
       })
@@ -282,17 +286,6 @@ export default{
       }
 
     },
-
-
-    parseCadastralCodeToArr(){
-      let cc = this.editedItem.gd.cadastral_code
-      if(cc && cc.breadcrumb){
-        let elArr = cc.breadcrumb.split('-')
-        elArr[0] = cc.ancestors[0]
-        this.cadastralCodesArr = [...elArr]
-      }
-    },
-
 
   },
 
@@ -454,15 +447,10 @@ export default{
   },
 
   watch: {
-    'editedItem.gd.cadastral_code': function(val){
-      this.parseCadastralCodeToArr()
-    }
+
   },
 
 
-  created: function(){
-    this.parseCadastralCodeToArr()
-  },
 
 }
 </script>
