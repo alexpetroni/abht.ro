@@ -177,7 +177,7 @@
               <thead>
                 <tr  class="first-row">
                   <td colspan="2" class="text-center"><strong>Colmatare radier</strong></td>
-                  <td class="text-center"><strong>Reducere sect. aval</strong></td>
+                  <td class="text-center"><strong>Reducere secţ. aval</strong></td>
                 </tr>
 
                 <tr>

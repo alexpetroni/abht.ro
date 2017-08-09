@@ -5,7 +5,7 @@
       <form @submit.prevent="onSubmit">
 
         <fieldset>
-          <legend>Elemente dimensionale lucrarea propriu-zisa</legend>
+          <legend>Elemente dimensionale lucrarea propriu-zisă</legend>
 
           <div class="row">
 
@@ -185,7 +185,7 @@
 
 
         <fieldset>
-          <legend>Materiale de constructie</legend>
+          <legend>Materiale de construcție</legend>
 
           <div class="row">
             <div class="form-group col-xs-12 col-sm-6 col-md-3">

@@ -22,7 +22,7 @@
           <td :class="noApronClass">Br(m)</td>
           <td :class="noApronClass">tip disip.</td>
           <td :class="noApronClass">Hz(m)</td>
-          <td :class="noApronClass">Nr. total de dinti</td>
+          <td :class="noApronClass">Nr. total de dinți</td>
 
           <td :class="noConfuseurClass">Lc(m)</td>
           <td :class="noConfuseurClass">Bc(m)</td>

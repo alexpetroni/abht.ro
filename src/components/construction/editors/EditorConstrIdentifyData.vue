@@ -124,7 +124,7 @@
 
             <div class="form-group col-xs-6 col-sm-6 col-md-3">
               <div class="row">
-                <label class="col-xs-12" for="constructionYear">An constructie</label>
+                <label class="col-xs-12" for="constructionYear">An construcție</label>
                 <div class="col-xs-12">
                   <input type="text" name="constructionYear" id="constructionYear" v-model="editedItem.gd.construction_year" class="form-control">
                 </div>
@@ -144,7 +144,7 @@
 
             <div class="form-group col-xs-12 col-sm-6 col-md-3">
               <div class="row">
-                <label class="col-xs-12" for="reparationYears">Ani reparatie</label>
+                <label class="col-xs-12" for="reparationYears">Ani reparație</label>
                 <div class="col-xs-12">
                   <input type="text" name="reparationYears" id="reparationYears" v-model.lazy="reparationYears" class="form-control">
                 </div>
@@ -154,7 +154,7 @@
 
             <div class="form-group col-xs-12 col-sm-6 col-md-3">
               <div class="row">
-                <label class="col-xs-12" for="county">Judet</label>
+                <label class="col-xs-12" for="county">Județ</label>
                 <div class="col-xs-12">
                   <select v-model="editedItem.gd.adminlocation.county_id"  class="form-control">
                     <option v-for="el in countiesListOptions(countiesList)" :value="el._id">{{el.name}}</option>
@@ -186,12 +186,12 @@
 
             <div class="form-group col-xs-12 col-sm-6 col-md-3">
               <div class="row">
-                <label class="col-xs-12" for="protectedArea">Arie protejata</label>
+                <label class="col-xs-12" for="protectedArea">Arie protejată</label>
                 <div class="col-xs-3 col-md-2">
                   <input type="checkbox" name="protectedArea" id="protectedArea" v-model="editedItem.gd.protected_area">
                 </div>
                 <div class="col-xs-9 col-md-10" :class="{invisible:!editedItem.gd.protected_area}">
-                  <input  placeholder="Denumire arie protejata" type="text" name="protected_area_name" id="protectedAreaName" v-model="editedItem.gd.protected_area_name" class="form-control">
+                  <input  placeholder="Denumire arie protejată" type="text" name="protected_area_name" id="protectedAreaName" v-model="editedItem.gd.protected_area_name" class="form-control">
                   <div class="form-err-message">{{ validation.firstError('editedItem.gd.protected_area_name') }}</div>
                 </div>
               </div>

@@ -138,7 +138,7 @@
 
 
         <fieldset v-if="editedItem.spurs.length > 0">
-          <legend>Pinteni si trepte</legend>
+          <legend>Pinteni și trepte</legend>
           <editor-sector-spur v-for="item in editedItem.spurs" :spur="item" :key="editedItem.sector_nr+'_'+item.spur_nr"></editor-sector-spur>
         </fieldset>
 

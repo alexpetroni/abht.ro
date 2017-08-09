@@ -32,7 +32,7 @@
                 <td colspan="2">Eroziuni</td>
               </tr>
               <tr>
-                <td>stanga</td>
+                <td>stânga</td>
                 <td>dreapta</td>
 
                 <td>H(m)</td>
@@ -149,7 +149,7 @@
             </thead>
             <tbody>
               <tr>
-                <td>Zid stanga</td>
+                <td>Zid stânga</td>
                 <template v-for="d in damSidewallDamagesFields">
                   <td>
                     <div class="form-group" :class="{'has-error': validation.hasError('editedItem.dam.sidewall_left_'+d)}">
@@ -190,7 +190,7 @@
                 <td colspan="2">Eroziuni</td>
               </tr>
               <tr>
-                <td>stanga</td>
+                <td>stânga</td>
                 <td>dreapta</td>
 
 
@@ -200,7 +200,7 @@
                 <td>nr</td>
                 <td>lungime(m)</td>
 
-                <td>stanga</td>
+                <td>stânga</td>
                 <td>dreapta</td>
                 <td>central</td>
 
