@@ -8,7 +8,7 @@
     <div class="form-group col-xs-6 col-sm-4 col-md-2">
       <div class="row">
 
-        <label class="col-xs-12 compact" :for="'mat_sect_spur_'+spur.spur_nr">Material de constructie</label>
+        <label class="col-xs-12 compact" :for="'mat_sect_spur_'+spur.spur_nr">Material de construcție</label>
         <div class="col-xs-12">
           <select v-model="spur.mat_sect_spur" class="form-control" :id="'mat_sect_spur_'+spur.spur_nr">
           <option disabled value="">Selectează</option>
@@ -24,7 +24,7 @@
     <div class="form-group col-xs-6 col-sm-4 col-md-2">
       <div class="row">
 
-        <label class="col-xs-12 compact" :for="'spur_sidewall_height_'+spur.spur_nr">Inaltime zid cond. Hz(m)</label>
+        <label class="col-xs-12 compact" :for="'spur_sidewall_height_'+spur.spur_nr">Înălțime zid cond. Hz(m)</label>
         <div class="col-xs-12">
           <input type="text" v-model="spur.spur_sidewall_height" class="form-control">
         </div>
@@ -37,7 +37,7 @@
     <div class="form-group col-xs-6 col-sm-4 col-md-2">
       <div class="row">
 
-        <label class="col-xs-12 compact" :for="'spur_stair_height_'+spur.spur_nr">Inaltime treapata H(m)</label>
+        <label class="col-xs-12 compact" :for="'spur_stair_height_'+spur.spur_nr">Înălțime treaptă H(m)</label>
         <div class="col-xs-12">
           <input type="text" name="spur_stair_height" :id="'spur_stair_height_'+spur.spur_nr" v-model="spur.spur_stair_height" class="form-control">
         </div>

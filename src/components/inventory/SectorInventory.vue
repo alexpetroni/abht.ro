@@ -14,7 +14,7 @@
           <td>nr</td>
           <td>% afectat</td>
           <td>% desprins</td>
-          <td>adancime (cm)</td>
+          <td>adâncime (cm)</td>
           <td>% afectat</td>
         </tr>
       </thead>
@@ -45,13 +45,13 @@
           <td>nr</td>
           <td>lungime(m)</td>
           <td>%</td>
-          <td>adancime(cm)</td>
+          <td>adâncime(cm)</td>
           <td>%</td>
         </tr>
       </thead>
       <tbody>
         <tr>
-          <td>Zid stanga</td>
+          <td>Zid stânga</td>
           <td>{{ sectorInventory.sidewall_left_horiz_craks_nr }}</td>
           <td>{{ sectorInventory.sidewall_left_horiz_length }}</td>
           <td>{{ sectorInventory.sidewall_left_vert_craks_nr }}</td>
@@ -90,7 +90,7 @@
           <td>lungime(m)</td>
           <td>nr</td>
           <td>lungime(m)</td>
-          <td>stanga</td>
+          <td>stânga</td>
           <td>dreapta</td>
           <td>centru</td>
           <td>h(cm)</td>
@@ -119,7 +119,7 @@
       <thead>
         <tr class="first-row">
           <td colspan="2">Colmatare radier</td>
-          <td>Reducere sect. aval</td>
+          <td>Reducere secţ. aval</td>
         </tr>
 
         <tr class="icas-secondary-thead">

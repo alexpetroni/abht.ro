@@ -18,7 +18,7 @@
           <td colspan="2">Eroziuni</td>
         </tr>
         <tr>
-          <td>stanga</td>
+          <td>stânga</td>
           <td>dreapta</td>
 
           <td>H(m)</td>
@@ -38,7 +38,7 @@
 
           <td>%</td>
 
-          <td>stanga</td>
+          <td>stânga</td>
           <td>dreapta</td>
 
           <td>h(cm)</td>
@@ -76,7 +76,7 @@
             <td colspan="2">Fisuri</td>
             <td colspan="2">Afuieri</td>
             <td>Desprindere radier</td>
-            <td>Dinţi desprinsi</td>
+            <td>Dinţi desprinși</td>
             <td>Desprindere contrabaraj</td>
             <td colspan="2">Eroziuni</td>
           </tr>
@@ -136,7 +136,7 @@
       </thead>
       <tbody>
         <tr>
-          <td>Zid stanga</td>
+          <td>Zid stânga</td>
           <td>{{ inventory.dam.sidewall_left_horiz_craks_nr }}</td>
           <td>{{ inventory.dam.sidewall_left_horiz_length }}</td>
           <td>{{ inventory.dam.sidewall_left_vert_craks_nr }}</td>
@@ -171,7 +171,7 @@
           <td colspan="2">Eroziuni</td>
         </tr>
         <tr>
-          <td>stanga</td>
+          <td>stânga</td>
           <td>dreapta</td>
 
 
@@ -181,7 +181,7 @@
           <td>nr</td>
           <td>lungime(m)</td>
 
-          <td>stanga</td>
+          <td>stânga</td>
           <td>dreapta</td>
           <td>central</td>
 
@@ -215,10 +215,10 @@
       <tr class="first-row">
         <td>Colmatare deversor</td>
         <td colspan="2" :class="noApronClass">Colmatare radier</td>
-        <td>Inaltime aterisament</td>
+        <td>Înălțime aterisament</td>
         <td>Granulometrie aluviuni</td>
-        <td colspan="2">Vegetatie lemnoasa nedorita</td>
-        <td>Reducere sectiune</td>
+        <td colspan="2">Vegetație lemnoasă nedorită</td>
+        <td>Reducere secțiune</td>
       </tr>
       <tr>
         <td>%SU</td>

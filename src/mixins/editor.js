@@ -134,7 +134,7 @@ const editorMixin = {
       this.inventory.causes = data.causes
 
       if(this.editState == EditState.EDIT){ // edit existent inventory
-        this.updateInventoryCausesAndObservations()
+        this.updateCurrentInventory()
       }else{
         this.markupCurrentStepAsValid()
         this.showNextFormStep()
@@ -208,7 +208,7 @@ const editorMixin = {
 
     registerNewConstructionWithInventory(){
       console.log('registerNewConstructionWithInventory')
-      this.construction.current_inventory =  this.inventory 
+      this.construction.current_inventory =  this.inventory
 
       if(this.isLongitudinal){
         this.construction.cd.total_length = this.calculateLongitudinalTotalLength()
@@ -335,18 +335,7 @@ console.log(data)
       })
       .catch( error => console.log(error) )
     },
-
-
-    updateInventoryCausesAndObservations(){
-      let url = 'constructions/'+this.construction._id+'/inventory/' + this.inventory.year + '/causes'
-      let req = { url: url, data: this.jsonCopy(this.inventory) }
-
-      axios._put(req)
-      .then( res => {
-
-      })
-      .catch( error => console.log(error) )
-    },
+    
 
     registerNewInventoryForConstruction(){
 

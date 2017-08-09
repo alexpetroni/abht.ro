@@ -21,7 +21,7 @@
           <td :class="noApronClass">Lr(m)</td>
           <td :class="noApronClass">Br(m)</td>
           <td :class="noApronClass">tip disip.</td>
-          <td :class="noApronClass">Hz</td>
+          <td :class="noApronClass">Hz(m)</td>
           <td :class="noApronClass">Nr. total de dinti</td>
 
           <td :class="noConfuseurClass">Lc(m)</td>
@@ -68,7 +68,7 @@
     </table>
 
 
-    <h4>Materiale de constructii</h4>
+    <h4>Materiale de construcții</h4>
     <table class="table table-bordered abht-table text-center">
       <thead>
         <tr class="first-row">

@@ -1,7 +1,7 @@
 const ys = {
 
   calculateYs: function(construction, inventory){
-    return 45
+    return ( 100 * Math.random()).toFixed(2)
   }
 }
 

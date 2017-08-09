@@ -14,7 +14,7 @@
 
           <tr>
 
-            <td>stanga</td>
+            <td>stânga</td>
             <td>dreapta</td>
             <td>H(m)</td>
             <td>%</td>
@@ -22,7 +22,7 @@
             <td>lungime(m)</td>
             <td>nr</td>
             <td>lungime(m)</td>
-            <td>stanga</td>
+            <td>stânga</td>
             <td>dreapta</td>
             <td>centru</td>
             <td>H</td>

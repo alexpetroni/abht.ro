@@ -476,7 +476,53 @@ router.route('/constructions/:id/constructiondata')
 
       construction.save(function(err, newConstruction){
         if(err) return next(err)
-        
+
+        db.Construction.getFullConstruction(id, function(err, updatedConstr){
+          res.send(updatedConstr)
+        })
+      })
+    })
+  }else{
+    next(new Error("Invalid construction id"))
+  }
+
+})
+
+
+router.route('/constructions/:id/inventory/:year')
+
+.put((req, res, next) => {
+  const id = req.params.id
+  const year = req.params.year
+
+  if(ObjectId.isValid(id)){
+    let data = req.body
+
+    console.log(' inventory ' , data)
+
+    db.Construction.findById( id , function(err, construction){
+      if(err) return next(err)
+
+      if(!construction){
+        return next(new Error("No construction with this id"))
+      }
+
+      let invYs = ys.calculateYs(construction, data)
+      data.ys = invYs
+
+      if(construction.current_inventory.year == year){
+        construction.current_inventory = data
+      }else{
+        let invIndex = construction.inventories_archive.findIndex(e => { return e.year == year } )
+
+        if(invIndex != -1){
+          construction.inventories_archive[invIndex] = data
+        }
+      }
+
+      construction.save(function(err, newConstruction){
+        if(err) return next(err)
+
         db.Construction.getFullConstruction(id, function(err, updatedConstr){
           res.send(updatedConstr)
         })

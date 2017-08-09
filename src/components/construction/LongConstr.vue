@@ -41,8 +41,8 @@
       <table  class="table table-bordered abht-table text-center">
         <thead>
           <tr class="first-row">
-            <td>Material de constructie</td>
-            <td>Inaltime zid cond. Hz(m)</td>
+            <td>Material de construcție</td>
+            <td>Înălțime zid cond. Hz(m)</td>
             <td>Lungime pinten Bp(m)</td>
           </tr>
         </thead>

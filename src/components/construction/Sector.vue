@@ -7,18 +7,18 @@
       <thead>
         <tr class="first-row">
           <td  colspan="6">Elemente dimensionale</td>
-          <td  colspan="2">Materiale de constructie</td>
+          <td  colspan="2">Materiale de construcție</td>
         </tr>
         <tr>
           <td>Nr. trepte</td>
           <td>Nr. pinteni</td>
           <td>Lungime(m)</td>
-          <td>Adancime(m)</td>
-          <td>Latime radier(m)</td>
-          <td>Fruct zid garda</td>
+          <td>Adâncime(m)</td>
+          <td>Lățime radier(m)</td>
+          <td>Fruct zid gardă</td>
 
           <td>Radier</td>
-          <td>Ziduri garda</td>
+          <td>Ziduri gardă</td>
         </tr>
       </thead>
       <tbody>
@@ -41,13 +41,13 @@
       <table  class="table table-bordered abht-table text-center">
         <thead>
           <tr class="first-row">
-            <td  colspan="5">Pinteni si trepte</td>
+            <td  colspan="5">Pinteni și trepte</td>
           </tr>
           <tr>
             <td>Pinten nr.</td>
-            <td>Material de constructie</td>
-            <td>Inaltime zid cond. Hz(m)</td>
-            <td>Inaltime treapata H(m)</td>
+            <td>Material de construcție</td>
+            <td>Înălțime zid cond. Hz(m)</td>
+            <td>Înălțime treaptă H(m)</td>
             <td>Lungime pinten Bp(m)</td>
           </tr>
         </thead>
