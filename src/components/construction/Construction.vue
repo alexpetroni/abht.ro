@@ -6,6 +6,10 @@
 
       <component :is="constructionPresentationType" :construction="construction" :inventory="inventory"></component>
     </div>
+
+    <div v-if = "noResult">
+      <h4>Nu s-a găsit nici o construcție cu acest id.</h4>
+    </div>
   </div>
 </template>
 
@@ -31,6 +35,8 @@ export default{
     return {
       construction: null,
       inventory:null,
+
+      noResult: false
     }
   },
 
@@ -70,11 +76,15 @@ export default{
       const req = { url: '/constructions/' + this.id }
       axios._get( req )
     .then( res => {
-      this.construction = res.data
-      this.inventory = res.data.current_inventory
+      if(!res.data){
+        this.noResult = true
+      }else{
+        this.construction = res.data
+        this.inventory = res.data.current_inventory
 
-      console.log('Loaded construction ', this.construction)
-      console.log('Loaded inventory ', this.inventory)
+        console.log('Loaded construction ', this.construction)
+        console.log('Loaded inventory ', this.inventory)
+      }
     })
     .catch(err => console.log(err))
     }

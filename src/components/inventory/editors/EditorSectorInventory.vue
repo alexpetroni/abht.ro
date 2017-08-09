@@ -86,7 +86,7 @@
                   </tr></thead>
                   <tbody>
                     <tr>
-                      <td style="font-weight:bold">Zid stanga</td>
+                      <td style="font-weight:bold">Zid stânga</td>
                       <td><div class="icas-field"><span class="metabox_label"></span><input size="3" class="form-control"  name="sidewall_left_horiz_craks_nr" v-model="editedItem.sidewall_left_horiz_craks_nr"></div></td>
                       <td><div class="icas-field"><span class="metabox_label"></span><input size="3" class="form-control"  name="sidewall_left_horiz_length" v-model="editedItem.sidewall_left_horiz_length"></div></td>
                       <td><div class="icas-field"><span class="metabox_label"></span><input size="3" class="form-control"  name="sidewall_left_vert_craks_nr" v-model="editedItem.sidewall_left_vert_craks_nr"></div></td>
@@ -135,7 +135,7 @@
                   <td>lungime(m)</td>
                   <td>nr</td>
                   <td>lungime(m)</td>
-                  <td>stanga</td>
+                  <td>stânga</td>
                   <td>dreapta</td>
                   <td>centru</td>
                   <td>h(cm)</td>
@@ -170,7 +170,7 @@
 
       <div class="col-sm-12">
       <fieldset>
-        <legend>Disfunctionalitati</legend>
+        <legend>Disfuncţionalităţi</legend>
         <div class="row">
           <div class="col-sm-12 col-md-5">
             <table  class="table table-bordered abht-table text-center">

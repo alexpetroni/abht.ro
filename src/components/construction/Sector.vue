@@ -15,7 +15,7 @@
           <td>Lungime(m)</td>
           <td>Adâncime(m)</td>
           <td>Lățime radier(m)</td>
-          <td>Fruct zid gardă</td>
+          <td>Fruct zid gardă(m)</td>
 
           <td>Radier</td>
           <td>Ziduri gardă</td>

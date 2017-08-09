@@ -19,7 +19,7 @@
             <div class="form-group col-xs-6 col-sm-4 col-md-2">
               <div class="row">
 
-                <label class="col-xs-12 compact" for="nr_of_stairs">Numar trepte</label>
+                <label class="col-xs-12 compact" for="nr_of_stairs">Număr trepte</label>
                 <div class="col-xs-12">
                   <input type="text" name="nr_of_stairs" id="nr_of_stairs" v-model="editedItem.nr_of_stairs" class="form-control" :disabled="!isNew">
                 </div>
@@ -32,7 +32,7 @@
             <div class="form-group col-xs-6 col-sm-4 col-md-2">
               <div class="row">
 
-                <label class="col-xs-12 compact" for="nr_of_spurs">Numar pinteni</label>
+                <label class="col-xs-12 compact" for="nr_of_spurs">Număr pinteni</label>
                 <div class="col-xs-12">
                   <input type="text" name="nr_of_spurs" id="nr_of_spurs" v-model="nr_of_spurs" class="form-control" :disabled="!isNew">
                 </div>
@@ -45,7 +45,7 @@
             <div class="form-group col-xs-6 col-sm-4 col-md-2">
               <div class="row">
 
-                <label class="col-xs-12 compact" for="sector_length">Lungime</label>
+                <label class="col-xs-12 compact" for="sector_length">Lungime(m)</label>
                 <div class="col-xs-12">
                   <input type="text" name="sector_length" id="sector_length" v-model="editedItem.sector_length" class="form-control">
                 </div>
@@ -58,7 +58,7 @@
             <div class="form-group col-xs-6 col-sm-4 col-md-2">
               <div class="row">
 
-                <label class="col-xs-12 compact" for="sector_deep">Adancime</label>
+                <label class="col-xs-12 compact" for="sector_deep">Adâncime(m)</label>
                 <div class="col-xs-12">
                   <input type="text" name="sector_deep" id="sector_deep" v-model="editedItem.sector_deep" class="form-control">
                 </div>
@@ -71,7 +71,7 @@
             <div class="form-group  col-xs-6 col-sm-4 col-md-2">
               <div class="row">
 
-                <label class="col-xs-12 compact" for="apron_width">Latime radier</label>
+                <label class="col-xs-12 compact" for="apron_width">Lățime radier(m)</label>
                 <div class="col-xs-12">
                   <input type="text" name="apron_width" id="apron_width" v-model="editedItem.apron_width" class="form-control">
                 </div>
@@ -84,7 +84,7 @@
             <div class="form-group col-xs-6 col-sm-4 col-md-2">
               <div class="row">
 
-                <label class="col-xs-12 compact" for="fruit_guard_wall">Fruct zid garda</label>
+                <label class="col-xs-12 compact" for="fruit_guard_wall">Fruct zid gardă(m)</label>
                 <div class="col-xs-12">
                   <input type="text" name="fruit_guard_wall" id="fruit_guard_wall" v-model="editedItem.fruit_guard_wall" class="form-control">
                 </div>
@@ -97,7 +97,7 @@
         </fieldset>
 
         <fieldset>
-          <legend>Materiale de constructie</legend>
+          <legend>Materiale de construcție</legend>
 
           <div class="row">
 
@@ -121,7 +121,7 @@
             <div class="form-group col-xs-6 col-sm-4 col-md-2">
               <div class="row">
 
-                <label class="col-xs-12 compact" for="mat_sect_walls">Ziduri garda</label>
+                <label class="col-xs-12 compact" for="mat_sect_walls">Ziduri gardă</label>
                 <div class="col-xs-12">
                   <select name="mat_sect_walls" id="mat_sect_walls" v-model="editedItem.mat_sect_walls" class="form-control">
                   <option disabled value="">Selectează</option>

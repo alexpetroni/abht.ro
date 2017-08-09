@@ -70,7 +70,7 @@
 
     <div class="form-group col-xs-4">
       <div class="row">
-        <label class="col-xs-12 compact" :for="'spur_displaced_left_' + spur.spur_nr">stanga</label>
+        <label class="col-xs-12 compact" :for="'spur_displaced_left_' + spur.spur_nr">stânga</label>
         <div class="col-xs-12">
           <input name="spur_displaced_left" :id="'spur_displaced_left_' + spur.spur_nr" v-model="spur.spur_displaced_left" class="form-control" type="text">
         </div>

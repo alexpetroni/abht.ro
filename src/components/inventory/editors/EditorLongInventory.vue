@@ -128,10 +128,14 @@ export default{
 
   created(){
     if(this.editState == EditState.EDIT){ // edit existing inventory
-      for(let inv of this.construction.inventories){
-        if( inv.year == this.year ){
-          this.inventory = inv
-          break
+      if(this.construction.current_inventory.year == this.year){
+        this.inventory = this.construction.current_inventory
+      }else{
+        for(let inv of this.construction.inventories_archive){
+          if( inv.year == this.year ){
+            this.inventory = inv
+            break
+          }
         }
       }
 

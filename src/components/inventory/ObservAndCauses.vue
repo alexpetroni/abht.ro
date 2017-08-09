@@ -11,7 +11,7 @@
             <td colspan="2"  class="vert-center">Specificaţii</td>
             <td  class="vert-center">Uzură</td>
             <td  class="vert-center">Viituri</td>
-            <td  class="vert-center">Intreţineri</td>
+            <td  class="vert-center">Întreţineri</td>
             <td  class="vert-center">Materiale</td>
             <td  class="vert-center">Tehnologie</td>
             <td  class="vert-center">Nesusţinere<br>aval</td>
@@ -246,7 +246,7 @@
       <div class="row">
         <!-- Comments  -->
         <div class="col-xs-12" v-html="inventory.comments">
-          
+
         </div>
       </div>
 

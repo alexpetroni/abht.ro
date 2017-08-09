@@ -468,11 +468,22 @@ router.route('/constructions/:id/constructiondata')
         return next(new Error("No construction with this id"))
       }
 
-      construction.cd.dam = data.dam
+      console.log('construction to update', construction)
 
-      if(construction.cd.has_final_spur){
-        construction.cd.final_spur = data.final_spur
+      if(data.type == 'trans'){
+        construction.cd.dam = data.dam
+        if(construction.cd.has_final_spur){
+          construction.cd.final_spur = data.final_spur
+        }
+      }else{
+        construction.cd.sectors = data.sectors
+        construction.cd.total_length = data.total_length
+        if(construction.cd.has_final_spur){
+          construction.cd.final_spur = data.final_spur
+        }
       }
+
+
 
       construction.save(function(err, newConstruction){
         if(err) return next(err)
