@@ -89,26 +89,25 @@ export default{
   computed: {
     last_inventory_year: function(){
       let year = ''
-      if(this.inventory){
-        year = this.inventory.year
+      if(this.construction.current_inventory && this.construction.current_inventory.year){
+        year = this.construction.current_inventory.year
       }
       return year
     },
 
     last_inventory_ys: function(){
       let ys = ''
-      if(this.inventory){
-        ys = this.inventory.ys
+      if(this.construction.current_inventory && this.construction.current_inventory.ys){
+        ys = this.construction.current_inventory.ys
       }
       return ys
     },
 
     inventoryYearsLinks: function(){
-      return '';
       let linksList = []
       let declaredInventoris = Array.isArray( this.construction.gd.inventory_years ) ? this.construction.gd.inventory_years : []
-      let recordedInventories = [] // inventoris with recorded data
-      this.construction.inventories.forEach( inv => recordedInventories.push(inv.year) )
+      let recordedInventories = [ this.construction.current_inventory.year ] // inventoris with recorded data
+      this.construction.inventories_archive.forEach( inv => recordedInventories.push(inv.year) )
       let inventories = recordedInventories.concat( declaredInventoris)
 
       // remove duplicates

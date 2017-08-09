@@ -246,6 +246,8 @@ const editorMixin = {
       if(!yearRecorded){
         this.markupCurrentStepAsValid()
         this.registerNewInventoryForConstruction()
+      }else{
+        alert("Constructia are deja un inventar pentru anul "+this.inventory.year)
       }
     },
 
@@ -335,19 +337,22 @@ console.log(data)
       })
       .catch( error => console.log(error) )
     },
-    
+
 
     registerNewInventoryForConstruction(){
 
       console.log('inside registerNewInventoryForConstruction')
-      let ys = this.calculateYs(this.construction, this.inventory)
-      this.inventory.ys = ys
 
       const req = { url: 'constructions/' + this.construction._id + '/inventory', data: this.jsonCopy(this.inventory)  }
       axios._post( req )
     .then( res => {
-      this.$router.push({name: 'construction', params: {id: res.data._id}})
-      this.invalidateConstructionsList()
+      if(res.data.error){
+        alert(res.data.error)
+      }else{
+        this.$router.push({name: 'construction', params: {id: res.data._id}})
+        this.invalidateConstructionsList()
+      }
+
     })
     .catch(err => console.log(err))
     },

@@ -44,7 +44,11 @@ export default{
     ...mapActions(['setupErrorMsg']),
 
     getConstructionInventory(year){
-      return this.construction.inventories.find( inv => inv.year == year )
+      if(this.construction.current_inventory.year == year){
+        return this.construction.current_inventory
+      }
+      
+      return this.construction.inventories_archive.find( inv => inv.year == year )
     }
   },
 

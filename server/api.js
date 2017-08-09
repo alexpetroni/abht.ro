@@ -168,7 +168,7 @@ router.route('/cadastrals/:parentId')
 
 router.route('/constructions')
 
-.post((req, res, next) => {
+.post((req, res, next) => {  // ===================  ADD NEW CONSTRUCTION WITH INVENTORY ===================
 
   let data = req.body
   data.kind = req.body.type
@@ -219,7 +219,7 @@ router.route('/constructions')
 
 })
 
-.get((req, res, next) => {
+.get((req, res, next) => {  // ===================  GET CONSTRUCTIONS LIST ===================
   console.log('req.query: ', req.query)
 
   let q = req.query
@@ -386,7 +386,7 @@ router.route('/constructions')
 
 router.route('/constructions/:id')
 
-.get((req, res, next) => {
+.get((req, res, next) => {  // ===================  GET CONSTRUCTION ===================
   const id = req.params.id
   if(ObjectId.isValid(id)){
     db.Construction.getFullConstruction(id, function(err, construction){
@@ -401,7 +401,7 @@ router.route('/constructions/:id')
 
 router.route('/constructions/:id/generaldata')
 
-.put((req, res, next) => {
+.put((req, res, next) => {  // ===================  UPDATE CONSTRUCTION GENERAL DATA ===================
   const id = req.params.id
   if(ObjectId.isValid(id)){
     let data = req.body
@@ -454,7 +454,7 @@ router.route('/constructions/:id/generaldata')
 
 router.route('/constructions/:id/constructiondata')
 
-.put((req, res, next) => {
+.put((req, res, next) => {  // ===================  UPDATE CONSTRUCTION DATA ===================
   const id = req.params.id
   if(ObjectId.isValid(id)){
     let data = req.body
@@ -502,7 +502,7 @@ router.route('/constructions/:id/constructiondata')
 
 router.route('/constructions/:id/inventory/:year')
 
-.put((req, res, next) => {
+.put((req, res, next) => { // ===================  UPDATE INVENTORY ===================
   const id = req.params.id
   const year = req.params.year
 
@@ -545,6 +545,56 @@ router.route('/constructions/:id/inventory/:year')
 
 })
 
+
+
+router.route('/constructions/:id/inventory')
+
+.post((req, res, next) => { // ===================  ADD NEW INVENTORY TO CONSTRUCTION ===================
+  const id = req.params.id
+
+  if(ObjectId.isValid(id)){
+    let data = req.body
+
+    console.log(' inventory ' , data)
+
+    db.Construction.findById( id , function(err, construction){
+      if(err) return next(err)
+
+      if(!construction){
+        return next(new Error("No construction with this id"))
+      }
+
+      // check if an inventory with same year already exists
+      let existsIndex = construction.inventories_archive.findIndex(e => { return e.year == data.year } )
+
+      if(existsIndex != -1 || construction.current_inventory.year == data.year){
+        return res.send({error: "Exista deja un inventar pentru anul "+ data.year })
+      }
+
+
+      let invYs = ys.calculateYs(construction, data)
+      data.ys = invYs
+
+      if(data.year < construction.current_inventory.year){
+        construction.inventories_archive.push(data)
+      }else{
+        construction.inventories_archive.push(construction.current_inventory)
+        construction.current_inventory = data
+      }
+
+      construction.save(function(err, newConstruction){
+        if(err) return next(err)
+
+        db.Construction.getFullConstruction(id, function(err, updatedConstr){
+          res.send(updatedConstr)
+        })
+      })
+    })
+  }else{
+    next(new Error("Invalid construction id"))
+  }
+
+})
 
 
 router.route('/upload-images')
