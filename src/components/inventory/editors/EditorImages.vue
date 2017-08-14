@@ -82,6 +82,8 @@ export default{
     onImageUpload(){
       var inventoriesImages = document.getElementById("inventoriesImages")
 
+      if(!inventoriesImages.files.length) return
+
       const formData = new FormData()
 
       for(let f of inventoriesImages.files){
@@ -138,11 +140,11 @@ export default{
 
     deleteImg(index){
       if(confirm("Dorești să ștergi imaginea?")) {
-        const imgToDelete = this.jsonCopy(this.images[index])
+        const imgToDelete = this.jsonCopy(this.inventory.images[index])
         this.deleteImage(imgToDelete)
 
         if(this.editState == EditState.NEW){
-          this.images.splice(index, 1)
+          this.inventory.images.splice(index, 1)
         }
       }
     },
@@ -151,14 +153,11 @@ export default{
   },
 
   computed: {
-    images: function(){
-      return this.inventory.images
-    },
 
     thumbnails: function(){
       let thumbArr = []
-      this.images.forEach(i => {
-        thumbArr.push(config.uploadDir + '/' + i.resize.small.relPath + '/' + i.resize.small.fileName)
+      this.inventory.images.forEach(i => {
+        thumbArr.push(config.uploadDir + '/' + i.relPath + '/' + i.small)
       })
       return thumbArr
     },
@@ -188,7 +187,6 @@ export default{
   padding:20px;
   display: block;
   text-align: center;
-  height: 170px;
   overflow: hidden;
   position:relative;
 }

@@ -261,10 +261,25 @@ console.log(data)
         console.log(req)
         axios._delete(req)
         .then(response => {
-          let imgIndex = this.inventory.images.findIndex(img => img._id == data._id )
-          if(imgIndex != -1){
-            this.inventory.images.splice(imgIndex, 1)
+          console.log('delete response ', response)
+          let construction = response.data
+
+          let images = []
+
+          // update images in edited construction
+          this.construction.inventories_archive = construction.inventories_archive
+          this.construction.current_inventory = construction.current_inventory
+
+
+          let updatedInventory = construction.inventories_archive.find( inv => inv.year == this.inventory.year)
+          if(updatedInventory){
+            images = updatedInventory.images
+          }else if(construction.current_inventory.year == this.inventory.year){
+            images = construction.current_inventory.images
           }
+
+          this.inventory.images = images
+
         //  console.log(error.response.data);
         })
         .catch(function (error) {
@@ -302,6 +317,8 @@ console.log(data)
     onAppendImagesSubmit(jsonData){
       let data = JSON.parse(jsonData)
 
+      console.log('onAppendImagesSubmit ', data)
+
       if(this.editState == EditState.EDIT){ // edit existent inventory
         const url = 'constructions/'+ this.construction._id + '/inventory/' + this.inventory.year +'/images'
         const req = { url: url, data: { images: data, type: this.construction.type } }
@@ -310,11 +327,24 @@ console.log(data)
         .then(response => {
           console.log(' editor response after append ');
           console.log(response);
-          //this.$emit('constructionUpdated', response.data)
-          let updatedInventory = response.data.inventories.find( inv => inv.year == this.inventory.year)
+
+          let construction = response.data
+
+          let images = []
+
+          // update images in edited construction
+          this.construction.inventories_archive = construction.inventories_archive
+          this.construction.current_inventory = construction.current_inventory
+
+
+          let updatedInventory = construction.inventories_archive.find( inv => inv.year == this.inventory.year)
           if(updatedInventory){
-            this.inventory.images = updatedInventory.images
+            images = updatedInventory.images
+          }else if(construction.current_inventory.year == this.inventory.year){
+            images = construction.current_inventory.images
           }
+
+          this.inventory.images = images
         })
         .catch(function (error) {
           console.log(error);
@@ -361,13 +391,13 @@ console.log(data)
 
 
     checkIfInventoryYearAlreadyExist(construction, year, alertMsg = true){
-      if(! construction.inventories || construction.inventories.length == 0){
+      if(! construction.inventories_archive || construction.inventories_archive.length == 0){
         return false
       }
 
-      let index = construction.inventories.findIndex(inv => { return inv.year == year } )
-      console.log('index ' + index )
-      if(index != -1){
+      let index = construction.inventories_archive.findIndex(inv => { return inv.year == year } )
+
+      if(index != -1 || construction.current_inventory.year == year){
         if(alertMsg){
           alert("Un inventar cu anul " + year + " exista deja. Te rugam modifica anul.")
         }

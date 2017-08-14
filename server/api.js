@@ -9,6 +9,8 @@ const mv = require('mv')
 const sharp = require('sharp')
 const multer = require('multer')
 
+const mime = require('mime')
+
 const async = require('async')
 
 const config = require('./../abht.config.js')
@@ -21,26 +23,6 @@ const ObjectId = mongoose.Types.ObjectId
 
 const uploadDirPath = path.join(__dirname, `./../${config.uploadDir}`)
 const tmpUploadPath = uploadDirPath + '/tmp'
-
-var storage = multer.diskStorage({
-  destination: function (req, file, cb) {
-    cb(null, tmpUploadPath)
-  }
-})
-
-var upload = multer({
-  storage: storage,
-  fileFilter: function (req, file, callback) {
-    var ext = path.extname(file.originalname).toLowerCase();
-    if(ext !== '.png' && ext !== '.jpg' && ext !== '.gif' && ext !== '.jpeg') {
-      return callback(new Error('Pentru upload sunt permise doar imagini!'))
-    }
-    callback(null, true)
-  }
-}).array('inventoriesImages')
-
-
-
 
 
 // ===================== INSTALL =========================
@@ -177,11 +159,9 @@ router.route('/constructions')
   let cadastralCodeArr = data.gd._cadastral_code_items_arr
   let adminLocation = data.gd.adminlocation
 
-    delete data['_id']
-    delete data['gd']['cadastral_code']
-    delete data['gd']['adminlocation']
-
-  console.log(data)
+  delete data['_id']
+  delete data['gd']['cadastral_code']
+  delete data['gd']['adminlocation']
 
   let cons = db.Construction.create(data, function (err, c) {
     if (err) return next(err)
@@ -202,7 +182,7 @@ router.route('/constructions')
       if(!results[0].error){
         c.gd._adminlocation = ObjectId(results[0].value)
       }
-      console.log('cadastral result', results[1])
+
       if(!results[1].error){
         c.gd.cadastral_code = ObjectId(results[1].value)
       }
@@ -220,7 +200,7 @@ router.route('/constructions')
 })
 
 .get((req, res, next) => {  // ===================  GET CONSTRUCTIONS LIST ===================
-  console.log('req.query: ', req.query)
+
 
   let q = req.query
   let filters = {}
@@ -328,9 +308,9 @@ router.route('/constructions')
       if(err) return next(err)
 
       let t2 =present()
-      console.log('perfomance   async.parallel ' + (t2-t1))
+      // console.log('perfomance   async.parallel ' + (t2-t1))
 
-      console.log('results ', results)
+
       if(!results[0].error && results[0].value != null){
         Object.assign(filters, results[0].value)
       }
@@ -338,9 +318,6 @@ router.route('/constructions')
       if(!results[1].error && results[1].value != null){
         Object.assign(filters, results[1].value)
       }
-
-      console.log('filters')
-      console.log(filters)
 
 
       let itemsPerPage = parseInt( q.itemsPerPage ) ? parseInt( q.itemsPerPage ) : 50
@@ -359,33 +336,32 @@ router.route('/constructions')
             .limit(itemsPerPage)
             .exec(cb) }),
 
-          async.reflect( function(cb){
-            db.Construction.where(filters).count(cb)
+            async.reflect( function(cb){
+              db.Construction.where(filters).count(cb)
             })
-        ],
-        function(err, results){
-          if(err) return next(err)
+          ],
+          function(err, results){
+            if(err) return next(err)
 
-          let response = { items: [], total: 0, page: page, itemsPerPage: itemsPerPage }
+            let response = { items: [], total: 0, page: page, itemsPerPage: itemsPerPage }
 
-          if(!results[0].error){
-            response.items = results[0].value
-          }
+            if(!results[0].error){
+              response.items = results[0].value
+            }
 
-          if(!results[0].error){
-            response.total = results[1].value
-          }
+            if(!results[0].error){
+              response.total = results[1].value
+            }
 
-          res.send(response)
+            res.send(response)
+          })
+
         })
-
-      })
 })
 
 
 
 router.route('/constructions/:id')
-
 .get((req, res, next) => {  // ===================  GET CONSTRUCTION ===================
   const id = req.params.id
   if(ObjectId.isValid(id)){
@@ -405,8 +381,6 @@ router.route('/constructions/:id/generaldata')
   const id = req.params.id
   if(ObjectId.isValid(id)){
     let data = req.body
-
-    console.log(data)
 
     db.Construction.findById( id , function(err, construction){
       if(err) return next(err)
@@ -430,7 +404,7 @@ router.route('/constructions/:id/generaldata')
         if(!results[0].error){
           construction.gd._adminlocation = ObjectId(results[0].value)
         }
-        console.log('cadastral result', results[1])
+
         if(!results[1].error){
           construction.gd.cadastral_code = ObjectId(results[1].value)
         }
@@ -459,7 +433,7 @@ router.route('/constructions/:id/constructiondata')
   if(ObjectId.isValid(id)){
     let data = req.body
 
-    console.log(data)
+
 
     db.Construction.findById( id , function(err, construction){
       if(err) return next(err)
@@ -467,8 +441,6 @@ router.route('/constructions/:id/constructiondata')
       if(!construction){
         return next(new Error("No construction with this id"))
       }
-
-      console.log('construction to update', construction)
 
       if(data.type == 'trans'){
         construction.cd.dam = data.dam
@@ -500,6 +472,7 @@ router.route('/constructions/:id/constructiondata')
 })
 
 
+
 router.route('/constructions/:id/inventory/:year')
 
 .put((req, res, next) => { // ===================  UPDATE INVENTORY ===================
@@ -508,8 +481,6 @@ router.route('/constructions/:id/inventory/:year')
 
   if(ObjectId.isValid(id)){
     let data = req.body
-
-    console.log(' inventory ' , data)
 
     db.Construction.findById( id , function(err, construction){
       if(err) return next(err)
@@ -546,6 +517,88 @@ router.route('/constructions/:id/inventory/:year')
 })
 
 
+router.route('/constructions/:id/inventory/:year/images')
+
+.put((req, res, next) => {  // ===================  ADD NEW IMAGES TO AN EXISTING INVENTORY ===================
+  const id = req.params.id
+  const year = req.params.year
+  const images = req.body.images
+
+  getConstructionWithInventory(id, year, function(err, construction){
+    if(err) return next(err)
+
+    let inventory = null
+
+    if(construction.current_inventory.year == year){
+      inventory = construction.current_inventory
+    }else{
+      inventory = construction.inventories_archive.find( inv => { return inv.year == year })
+    }
+
+    if(inventory){
+      inventory.images.push(...images)
+      construction.save(function (err, c){
+        if(err)  return next(err)
+
+        db.Construction.getFullConstruction(id, function(err, updatedConstr){
+          res.send(updatedConstr)
+        })
+      })
+    }else{
+      next(new Error("Constructia nu are inventar pentru anul "+year))
+    }
+
+  })
+
+})
+
+.delete((req, res, next) => {
+  const id = req.params.id
+  const year = req.params.year
+  const image = req.body
+
+
+  getConstructionWithInventory(id, year, function(err, construction){
+    if(err) return next(err)
+
+    let inventory = null
+
+    if(construction.current_inventory.year == year){
+      inventory = construction.current_inventory
+    }else{
+      inventory = construction.inventories_archive.find( inv => { return inv.year == year })
+    }
+
+
+    if(inventory){
+      let invIndex = inventory.images.findIndex( e =>  e._id == image._id )
+
+      if(invIndex !== -1){
+        inventory.images.splice(invIndex, 1)
+      }
+
+
+      construction.save(function (err, c){
+        if(err)  return next(err)
+
+        deleteImageFiles(image, function(err, deleteResult){
+          if(err) return next(err)
+
+          db.Construction.getFullConstruction(id, function(err, updatedConstr){
+            res.send(updatedConstr)
+          })
+        })
+
+      })
+    }else{
+      next(new Error("Constructia nu are inventar pentru anul "+year))
+    }
+
+
+  })
+})
+
+
 
 router.route('/constructions/:id/inventory')
 
@@ -554,8 +607,6 @@ router.route('/constructions/:id/inventory')
 
   if(ObjectId.isValid(id)){
     let data = req.body
-
-    console.log(' inventory ' , data)
 
     db.Construction.findById( id , function(err, construction){
       if(err) return next(err)
@@ -597,10 +648,90 @@ router.route('/constructions/:id/inventory')
 })
 
 
+
+
+
+
 router.route('/upload-images')
 
-.post((req, res, next) => {
-    res.send('xx')
+.post((req, res, next) => {  // =================== UPLOADING IMAGES FOR AN INVENTORY (NEW OR EXISTENT) ===================
+
+  let relPathInsideUploadDir = getRelPathInsideUploadDir()
+
+
+
+
+  // check if tmp folder exists for initial upload
+  if(!fs.existsSync(tmpUploadPath)){
+    mkdirp.sync(tmpUploadPath, 0744);
+  }
+
+  // check if current year/month folder exists
+  let imgUploadPath = uploadDirPath + '/' + relPathInsideUploadDir
+  if(!fs.existsSync(imgUploadPath)){
+    mkdirp.sync(imgUploadPath, 0744);
+  }
+
+
+  let storage = multer.diskStorage({
+    destination: function (req, file, cb) {
+      cb(null, tmpUploadPath)
+    }
+  })
+
+
+  let upload = multer({
+    storage: storage,
+    fileFilter: function (req, file, callback) {
+      let accetpedFormats = [ 'jpeg', 'png', 'tiff']
+      var ext = mime.extension(file.mimetype)
+
+      if(accetpedFormats.indexOf(ext) === -1) {
+        return callback(new Error('Pentru upload sunt permise doar imagini (jpeg, png, tiff).'))
+      }
+      callback(null, true)
+    }
+  }).array('inventoriesImages')
+
+
+  upload(req, res, function(err){
+    if(err) return next(err)
+
+    async.map(req.files,
+      function(file, cb){
+        let imgName = file.filename + '.' + mime.extension(file.mimetype)
+
+        let imgFullPathWithName =  imgUploadPath + '/' + imgName
+
+        // move img files and rename
+        mv(file.path, imgFullPathWithName, function(err){
+          if(err) return next(err)
+
+          let imgData = {
+            relPath: relPathInsideUploadDir,
+            original: imgName
+          }
+
+          // resize uploade image according to config file
+          resizeImage(imgFullPathWithName, config.images.resize, function(err, res){
+            if(err) return next(err)
+
+            Object.assign(imgData, res)
+
+            cb(null, imgData)
+          })
+        })
+      },
+      function(err, results){
+        if(err) return next(err)
+
+        res.send(results)
+      }
+    )
+  })
+
+
+
 })
 
 
@@ -621,37 +752,64 @@ function getRelPathInsideUploadDir(){
 }
 
 
-function getImageResizeListFiles(imgObj, uploadDirPath){
-  let imagesArr = []
+// resize img file according with config specifications in the same directory
+function resizeImage(imgFullPathWithName, resizeConf, callback){
 
-  if(imgObj === undefined || uploadDirPath === undefined){
-    return imagesArr
-  }
+  let directory = path.dirname(imgFullPathWithName)
+  let extName = path.extname(imgFullPathWithName) // contain the dot, .jpeg
+  let fileBasename = path.basename(imgFullPathWithName, extName)
 
-  if(imgObj.relPath && imgObj.fileName){
-    imagesArr.push(uploadDirPath + '/' + imgObj.relPath + '/' + imgObj.fileName)
-  }
+  // resize img file according with config specifications
+  async.map(resizeConf,
+    async.reflect(function(imgConf, cb){
 
-  if(imgObj.resize){
-    let resize = imgObj.resize
-    Object.keys(resize).forEach( k => {
-      if(resize[k]['relPath'] && resize[k]['fileName'] ){
-        imagesArr.push(uploadDirPath + '/' + resize[k]['relPath'] + '/' + resize[k]['fileName'])
+      let size = imgConf.name
+      let newFileName = fileBasename + '_' + size  + extName
+
+      try {
+        sharp(imgFullPathWithName)
+        .resize(imgConf.size[0], imgConf.size[1])
+        .max()
+        .withoutEnlargement()
+        .toFile(directory + '/' + newFileName)
+        .then(function(resizeImgData){
+          cb(null,{size: size, fileName:  newFileName} )
+        })
+      } catch (e) {
+        cb(e)
       }
-    })
-  }
+    }),
 
-  return imagesArr
+    function(err, res){
+
+      let resObj = {}
+      res.forEach(img => {
+        if(img.value){
+          resObj[img.value.size] = img.value.fileName
+        }
+      })
+      callback(null, resObj)
+    }
+  )
 }
 
 
+function deleteImageFiles(imgObj, callback){
 
-function deleteImageFiles(filesArr, callback){
-  async.map(filesArr,
+  let imageFilesArr = []
+  let imgPath = uploadDirPath + '/' + imgObj.relPath
+
+  Object.keys(imgObj).forEach(e => {
+    if(e != 'relPath' && e != '_id'){
+      imageFilesArr.push(imgPath + '/' + imgObj[e] )
+    }
+  })
+
+  async.map(imageFilesArr,
     function(f, cb){
       fs.stat(f, function(err){
         if(!err) {
-          fs.unlink(f, function(err){  if(! err) cb() })
+          fs.unlink(f, function(err){  cb() })
         }else{
           cb()
         }
@@ -659,6 +817,9 @@ function deleteImageFiles(filesArr, callback){
     },
     callback)
   }
+
+
+
 
 
   function parseQueryValue(target, val, type){
@@ -739,7 +900,7 @@ function deleteImageFiles(filesArr, callback){
         let citiesIdsArr = []
         cities.map(c => citiesIdsArr.push(ObjectId(c._id)))
         let t2 =present()
-        console.log('perfomance parseQueryAdminlocation ' + (t2-t1))
+        // console.log('perfomance parseQueryAdminlocation ' + (t2-t1))
         cb(null, { 'gd._adminlocation': { $in: citiesIdsArr } } )
       })
     }
@@ -759,10 +920,9 @@ function deleteImageFiles(filesArr, callback){
 
       idsArr.push(deepest_cadastral_code)
 
-      console.log('childrenIds' , childrenIdsObj)
-      console.log('idsArr' , idsArr)
+
       let t2 =present()
-      console.log('perfomance parseQueryCadastralCode ' + (t2-t1))
+      // console.log('perfomance parseQueryCadastralCode ' + (t2-t1))
       cb(null, { 'gd.cadastral_code': { $in: idsArr } })
     })
 
@@ -852,14 +1012,13 @@ function deleteImageFiles(filesArr, callback){
             if(err) return  callback(err)
 
             if(cad){
-              console.log('cadastral ' +name + ' exists')
+
               parentId = cad._id
               ancestors = cad.ancestors
               breadcrumb = cad.breadcrumb
 
               cb(null, cad._id)
             }else{
-              console.log('create cadastral ' + name )
               let newCad = new db.Cadastral({
                 name: name,
                 slug: name,
@@ -895,6 +1054,34 @@ function deleteImageFiles(filesArr, callback){
     callback(new Error("Array expected for cadastral codes"), null)
   }
 }
+
+
+function getConstructionWithInventory(constructionId, inventoryYear, callback){
+  if(!ObjectId.isValid(constructionId)){
+    return callback(new Error("Invalid construction id getConstructionWithInventory()"))
+  }
+
+  db.Construction.findById(constructionId, function(err, construction){
+    if(err){
+      return callback(err)
+    }
+
+    if(!construction){
+      return callback(new Error("No construction with this id"))
+    }
+
+    // check if an inventory with same year already exists
+    let existsIndex = construction.inventories_archive.findIndex(e => { return e.year == inventoryYear } )
+
+    if(existsIndex == -1 && construction.current_inventory.year != inventoryYear){
+      return callback(new Error("Constructia cu id-ul " + constructionId + " nu are inventar pentru anul "+ data.year))
+    }
+
+    callback(null, construction)
+  })
+
+}
+
 
 
 module.exports = router

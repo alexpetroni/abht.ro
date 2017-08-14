@@ -1,5 +1,6 @@
 <template>
   <div>
+  <h4>Imagini</h4>
   <div class="image-gallery-wrapper">
   <template
     v-for="(image, index) in thumbnails"
@@ -46,11 +47,11 @@ export default{
     thumbnails: function(){
       let thumbArr = []
       this.inventory.images.forEach(i => {
-        thumbArr.push({src: config.uploadDir + '/' + i.resize.thumb.relPath + '/' + i.resize.thumb.fileName } )
+        thumbArr.push({src: config.uploadDir + '/' + i.relPath + '/' + i.thumb } )
       })
 
       if(thumbArr.length){ // make the first image medium
-        thumbArr[0] = {src: config.uploadDir + '/' + this.inventory.images[0].resize.medium.relPath + '/' +this.inventory.images[0].resize.medium.fileName }
+        thumbArr[0] = {src: config.uploadDir + '/' + this.inventory.images[0].relPath + '/' +this.inventory.images[0].medium }
       }
 
       return thumbArr
@@ -60,8 +61,8 @@ export default{
       let imgArr = []
       this.inventory.images.forEach(i => {
         imgArr.push({
-          thumb: config.uploadDir + '/' + i.resize.thumb.relPath + '/' + i.resize.thumb.fileName,
-          src: config.uploadDir + '/' + i.relPath + '/' + i.fileName,
+          thumb: config.uploadDir + '/' + i.relPath + '/' + i.thumb,
+          src: config.uploadDir + '/' + i.relPath + '/' + i.large,
           // caption: 'caption to display. receive <html> <b>tag</b>', // Optional
         })
       })
@@ -84,15 +85,19 @@ export default{
 </script>
 
 <style>
+.image-gallery-wrapper{
+  margin-right: -1em;
+}
 
 .inventory-image{
   cursor: pointer;
-  margin-right: 1em;
-  padding-bottom: 1em;
+  margin-right: 0.75em;
+  padding-bottom: 0.75em;
 }
 
 .inventory-image:first-child{
   display: block;
+  max-width: 100%;
 }
 
 

@@ -161,20 +161,14 @@ const sectorCausesSchema = new Schema({
   disfunctionalities: [ String ]
 }, { _id: false })
 
-const imgSchema = new Schema({
-  fileName: String,
-  relPath: String,
-}, { _id: false } )
 
 const inventoryImageSchema = new Schema({
-  fileName: String,
   relPath: String,
-  resize: {
-    thumb: imgSchema,
-    small: imgSchema,
-    medium: imgSchema,
-    large: imgSchema
-  }
+  original: String,
+  thumb: String,
+  small: String,
+  medium: String,
+  large: String
 } )
 
 const inventorySchema = new Schema({
