@@ -2,7 +2,12 @@
   <div>
     <div v-if = "construction && inventory">
 
-      <editor-menu :construction="construction" :inventory="inventory"></editor-menu>
+      <editor-menu
+      :construction="construction"
+      :inventory="inventory"
+      @deleteConstruction="onDeleteConstruction"
+      >
+      </editor-menu>
 
       <component :is="constructionPresentationType" :construction="construction" :inventory="inventory"></component>
     </div>
@@ -41,14 +46,29 @@ export default{
   },
 
   methods: {
-    ...mapActions(['setupErrorMsg']),
+    ...mapActions(['invalidateConstructionsList', 'setupErrorMsg']),
 
     getConstructionInventory(year){
       if(this.construction.current_inventory.year == year){
         return this.construction.current_inventory
       }
-      
+
       return this.construction.inventories_archive.find( inv => inv.year == year )
+    },
+
+    onDeleteConstruction(){
+      if(!confirm("Doresti sa stergi constructia si inventarele?")) return
+
+      let url = 'constructions/'+this.construction._id
+      let req = { url: url }
+
+      axios._delete(req)
+      .then( res => {
+        console.log(res)
+        this.invalidateConstructionsList()
+        this.$router.push({name: 'constructions-list'})
+      })
+      .catch( error => console.log(error) )
     }
   },
 

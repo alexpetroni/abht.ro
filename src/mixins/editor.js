@@ -237,7 +237,7 @@ const editorMixin = {
 
     // this is only when a new inventory is added for an existing construction
     onSaveNewInventorySubmit(jsonData){
-      console.log('inside onSaveNewInventorySubmit ')
+      console.log('inside onSaveNewInventorySubmit ', jsonData)
       let data = JSON.parse(jsonData)
       this.inventory.images = data
 
@@ -404,7 +404,10 @@ console.log(data)
         return true
       }
       return false
-    }
+    },
+
+
+
 
 
   }

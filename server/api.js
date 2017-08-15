@@ -373,6 +373,29 @@ router.route('/constructions/:id')
   }
 })
 
+.delete((req, res, next) => {  // ===================  DELETE CONSTRUCTION ===================
+  const id = req.params.id
+  if(ObjectId.isValid(id)){
+    db.Construction.getFullConstruction(id, function(err, construction){
+      let constructionImages = construction.current_inventory.images
+
+      construction.inventories_archive.forEach(inv => {
+        constructionImages.push(...inv.images)
+
+        let constructionImagesLean = JSON.parse(JSON.stringify(constructionImages))
+        deleteConstructionInventoryImages(constructionImagesLean, function(err, res){
+          // don't care, don't wait for it
+        })
+      })
+
+
+      res.send(id)
+    })
+  }else{
+    next(new Error("Invalid construction id"))
+  }
+})
+
 
 
 router.route('/constructions/:id/generaldata')
@@ -516,6 +539,63 @@ router.route('/constructions/:id/inventory/:year')
 
 })
 
+.delete( (req, res, next) => {  // ===================  DELETE INVENTORY ===================
+  const id = req.params.id
+  const year = req.params.year
+
+  getConstructionWithInventory(id, year, function(err, construction){
+    if(err) return next(err)
+
+    let inventoryImages = []
+
+    // if it is an archive inventory, delete it
+    let invIndex = construction.inventories_archive.findIndex(inv => inv.year == year)
+    if(invIndex !== -1){
+
+      inventoryImages = construction.inventories_archive[invIndex].images
+
+      construction.inventories_archive.splice(invIndex, 1)
+
+    }else if(construction.current_inventory.year == year){
+      if(construction.inventories_archive.length == 0){
+          return next(new Error("O constructie trebuie sa aiba cel putin un inventar."))
+      }
+
+      // search for the most recent inventory to replace the current inventory
+      let mostRecentArchiveIndex = construction.inventories_archive.reduce((inventoryIndex, inventory, index, arr) => {
+        return inventory.year > inventoryIndex ? index : inventoryIndex
+      }, 0)
+
+      inventoryImages = construction.current_inventory.images
+
+      // swap current_inventory with most recent inventory
+      construction.current_inventory = construction.inventories_archive[mostRecentArchiveIndex]
+      // remove from archive what was the most recent inventory
+      construction.inventories_archive.splice(mostRecentArchiveIndex, 1)
+
+    }else{
+      return next(new Error("Nu exista inventar pentru anul "+year))
+    }
+
+
+    construction.save(function (err, newConstruction){
+      if(err) return next(err)
+
+
+      if(inventoryImages.length){
+        // delete inventory images
+        let invImagesLean = JSON.parse(JSON.stringify(inventoryImages)) // dump mongoose "magic"
+        deleteConstructionInventoryImages(invImagesLean, function(err, res){ })
+      }
+
+      db.Construction.getFullConstruction(id, function(err, updatedConstr){
+        res.send(updatedConstr)
+      })
+    })
+
+  })
+})
+
 
 router.route('/constructions/:id/inventory/:year/images')
 
@@ -581,7 +661,8 @@ router.route('/constructions/:id/inventory/:year/images')
       construction.save(function (err, c){
         if(err)  return next(err)
 
-        deleteImageFiles(image, function(err, deleteResult){
+        // delete files (original and resized)
+        deleteInventoryImage(image, function(err, deleteResult){
           if(err) return next(err)
 
           db.Construction.getFullConstruction(id, function(err, updatedConstr){
@@ -593,8 +674,6 @@ router.route('/constructions/:id/inventory/:year/images')
     }else{
       next(new Error("Constructia nu are inventar pentru anul "+year))
     }
-
-
   })
 })
 
@@ -794,31 +873,79 @@ function resizeImage(imgFullPathWithName, resizeConf, callback){
 }
 
 
-function deleteImageFiles(imgObj, callback){
+// delete images from upload directory
+// images are specified as an array of files with path relative to the upload dierectory
+// return number of files deleted successfuly
+function deleteImages(imgRelPathArr, callback){
+  if(! Array.isArray(imgRelPathArr)) return callback(new Error("Array of files expected in deleteImages"))
+
+  let imgAbsPathArry = imgRelPathArr.map(relPath => uploadDirPath + '/' + relPath )
+
+  async.map(
+    imgAbsPathArry,
+    async.reflect(
+      function(f, cb){
+        fs.stat(f, function(err, stats){
+          if(err) return cb(err)
+
+          fs.unlink(f, cb)
+        })
+      }
+    ),
+
+    function(err, results){
+      if(err) return callback(err)
+
+      let successDeleted = 0
+
+      results.forEach(e => {
+        if(e.value){
+          successDeleted++
+        }
+      })
+
+      callback(null, successDeleted)
+    }
+  )
+}
+
+
+/*
+* Delete one image from an inventory that are specified as an inventory imgObj ex: { relPath: , original: ....}
+*/
+function deleteInventoryImage(imgObj, callback){
 
   let imageFilesArr = []
-  let imgPath = uploadDirPath + '/' + imgObj.relPath
+  let imgPath = imgObj.relPath
 
-  Object.keys(imgObj).forEach(e => {
+  // check if it is a imgObj
+  if( imgObj.original === undefined || imgObj.relPath === undefined || imgObj._id === undefined){
+    return callback(new Error("Inventory imgObject expected"))
+  }
+
+  let keys = Object.keys(imgObj)
+
+  keys.forEach(e => {
     if(e != 'relPath' && e != '_id'){
       imageFilesArr.push(imgPath + '/' + imgObj[e] )
     }
   })
 
-  async.map(imageFilesArr,
-    function(f, cb){
-      fs.stat(f, function(err){
-        if(!err) {
-          fs.unlink(f, function(err){  cb() })
-        }else{
-          cb()
-        }
+  deleteImages(imageFilesArr, callback)
+}
+
+
+
+
+function deleteConstructionInventoryImages(imagesArr, callback){
+    if(! Array.isArray(imagesArr)) return callback(new Error("Array of images Object expected in deleteConstructionInventoryImages"))
+
+    async.map(imagesArr,
+      deleteInventoryImage,
+      function(err, res){
+        callback(err, res)
       })
-    },
-    callback)
-  }
-
-
+}
 
 
 

@@ -19,11 +19,12 @@
                 <input id="inventoriesImages"
                 name="inventoriesImages"
                 type="file"
-                style="display: none;"
+                style="display:none;"
+                @change="filesSelected($event)"
                 multiple>
               </span>
             </label>
-            <input type="text" class="form-control" readonly>
+            <input id="filesNames" type="text" class="form-control" readonly :value="selectedFilesNames">
           </div>
           <input type='submit' value='Upload!' class="form-control btn btn-primary" />
         </div>
@@ -75,10 +76,26 @@ export default{
 
   data() {
     return {
+      selectedFilesNames: ''
+
     }
   },
 
   methods: {
+    filesSelected(event){
+      let inventoriesImages = event.target
+
+      if(!inventoriesImages.files.length) return
+
+      let filesNames = []
+
+      for(let f of inventoriesImages.files){
+        filesNames.push(f.name)
+      }
+
+      this.selectedFilesNames = filesNames.join(", ")
+    },
+
     onImageUpload(){
       var inventoriesImages = document.getElementById("inventoriesImages")
 
@@ -106,6 +123,7 @@ export default{
           this.inventory.images.push(...res.data)
         }
 
+        this.selectedFilesNames = ''
       })
       .catch( error => {
         if (error.response) {
@@ -127,7 +145,7 @@ export default{
     },
 
     saveInventory(){
-      this.$emit('saveInventory', JSON.stringify(this.images));
+      this.$emit('saveInventory', JSON.stringify(this.inventory.images));
     },
 
     deleteImage(imgData){

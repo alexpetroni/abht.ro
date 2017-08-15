@@ -7,7 +7,11 @@
         name: 'construction',
         params:{ id: construction._id }
       }"
-      >Vizualizare constructie</router-link></div>
+      >Vizualizare constructie</router-link>
+      <div>
+        <a @click="deleteCurrentInventory" v-if = "construction.inventories_archive.length > 0">Sterge inventar</a>
+      </div>
+    </div>
     <h3>{{ title }}</h3>
     <component
     :is = "inventoryEditType"
@@ -57,7 +61,23 @@ export default{
   },
 
   methods: {
-    ...mapActions(['setupErrorMsg']),
+    ...mapActions(['invalidateConstructionsList', 'setupErrorMsg']),
+
+    deleteCurrentInventory(){
+
+      if(!confirm("Doresti sa stergi inventarul pentru anul "+this.year+ "?")) return
+
+      let url = 'constructions/'+this.construction._id+'/inventory/' + this.year
+      let req = { url: url }
+
+      axios._delete(req)
+      .then( res => {
+        console.log(res)
+        this.invalidateConstructionsList()
+        this.$router.push({name: 'construction', params: {id: res.data._id}})
+      })
+      .catch( error => console.log(error) )
+    },
   },
 
   computed: {
