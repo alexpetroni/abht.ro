@@ -4,146 +4,146 @@ const ObjectId = Schema.Types.ObjectId
 
 const damInventorySchema = new Schema({
  // mainBody damages
- dec_left: Number,
- dec_right: Number,
- af_height: Number,
- af_percent: Number,
- h_crak_dev_nr: Number,
- h_crak_dev_l: Number,
- v_crak_dev_nr: Number,
- v_crak_dev_l: Number,
- h_crak_undev_nr: Number,
- h_crak_undev_l: Number,
- v_crak_undev_nr: Number,
- v_crak_undev_l: Number,
- detach_dev_percent: Number,
- detach_undev_left_percent: Number,
- detach_undev_right_percent: Number,
- erosion_height: Number,
- erosion_percent: Number,
+ dec_left: { type: Number, default: 0},
+ dec_right: { type: Number, default: 0},
+ af_height: { type: Number, default: 0},
+ af_percent: { type: Number, default: 0},
+ h_crak_dev_nr: { type: Number, default: 0},
+ h_crak_dev_l: { type: Number, default: 0},
+ v_crak_dev_nr: { type: Number, default: 0},
+ v_crak_dev_l: { type: Number, default: 0},
+ h_crak_undev_nr: { type: Number, default: 0},
+ h_crak_undev_l: { type: Number, default: 0},
+ v_crak_undev_nr: { type: Number, default: 0},
+ v_crak_undev_l: { type: Number, default: 0},
+ detach_dev_percent: { type: Number, default: 0},
+ detach_undev_left_percent: { type: Number, default: 0},
+ detach_undev_right_percent: { type: Number, default: 0},
+ erosion_height: { type: Number, default: 0},
+ erosion_percent: { type: Number, default: 0},
 
  // apron damages
- apron_crack_nr: Number,
- apron_crack_percent: Number,
- apron_af_height: Number,
- apron_af_percent: Number,
- apron_detach_percent: Number,
- apron_teeth_detach_nr: Number,
- apron_detach_counter_dam_percent: Number,
- apron_erosion_height: Number,
- apron_erosion_percent: Number,
+ apron_crack_nr: { type: Number, default: 0},
+ apron_crack_percent: { type: Number, default: 0},
+ apron_af_height: { type: Number, default: 0},
+ apron_af_percent: { type: Number, default: 0},
+ apron_detach_percent: { type: Number, default: 0},
+ apron_teeth_detach_nr: { type: Number, default: 0},
+ apron_detach_counter_dam_percent: { type: Number, default: 0},
+ apron_erosion_height: { type: Number, default: 0},
+ apron_erosion_percent: { type: Number, default: 0},
 
  // sidewall damages
- sidewall_left_horiz_craks_nr: Number,
- sidewall_left_horiz_length: Number,
- sidewall_left_vert_craks_nr: Number,
- sidewall_left_vert_length: Number,
- sidewall_left_displaced_percent: Number,
- sidewall_left_abrasion_deep: Number,
- sidewall_left_abrasion_percent: Number,
+ sidewall_left_horiz_craks_nr: { type: Number, default: 0},
+ sidewall_left_horiz_length: { type: Number, default: 0},
+ sidewall_left_vert_craks_nr: { type: Number, default: 0},
+ sidewall_left_vert_length: { type: Number, default: 0},
+ sidewall_left_displaced_percent: { type: Number, default: 0},
+ sidewall_left_abrasion_deep: { type: Number, default: 0},
+ sidewall_left_abrasion_percent: { type: Number, default: 0},
 
 
- sidewall_right_horiz_craks_nr: Number,
- sidewall_right_horiz_length: Number,
- sidewall_right_vert_craks_nr: Number,
- sidewall_right_vert_length: Number,
- sidewall_right_displaced_percent: Number,
- sidewall_right_abrasion_deep: Number,
- sidewall_right_abrasion_percent: Number,
+ sidewall_right_horiz_craks_nr: { type: Number, default: 0},
+ sidewall_right_horiz_length: { type: Number, default: 0},
+ sidewall_right_vert_craks_nr: { type: Number, default: 0},
+ sidewall_right_vert_length: { type: Number, default: 0},
+ sidewall_right_displaced_percent: { type: Number, default: 0},
+ sidewall_right_abrasion_deep: { type: Number, default: 0},
+ sidewall_right_abrasion_percent: { type: Number, default: 0},
 
 
  // disfunctionalities
- disf_colmat_deversor_percent: Number,
- disf_colmat_apron_su_percent: Number,
- disf_colmat_apron_srad_percent: Number,
- disf_hat: Number,
+ disf_colmat_deversor_percent: { type: Number, default: 0},
+ disf_colmat_apron_su_percent: { type: Number, default: 0},
+ disf_colmat_apron_srad_percent: { type: Number, default: 0},
+ disf_hat: { type: Number, default: 0},
  disf_gal_type: String,
- disf_veget_amonte: Number,
- disf_veget_aval: Number,
- disf_section_dim_perecent: Number
+ disf_veget_amonte: { type: Number, default: 0},
+ disf_veget_aval: { type: Number, default: 0},
+ disf_section_dim_perecent: { type: Number, default: 0}
 }, { _id: false })
 
 const spurInventorySchema = new Schema({
-  spur_nr: Number,
-  spur_horiz_craks_nr:  Number,
-  spur_horiz_craks_lenght: Number,
-  spur_vert_craks_nr: Number,
-  spur_vert_craks_lenght: Number,
-  spur_displaced_left: Number,
-  spur_displaced_right: Number,
-  spur_displaced_center: Number,
-  spur_abrasion_percent: Number,
-  spur_abrasion_deep: Number
+  spur_nr: { type: Number },
+  spur_horiz_craks_nr:  { type: Number, default: 0},
+  spur_horiz_craks_lenght: { type: Number, default: 0},
+  spur_vert_craks_nr: { type: Number, default: 0},
+  spur_vert_craks_lenght: { type: Number, default: 0},
+  spur_displaced_left: { type: Number, default: 0},
+  spur_displaced_right: { type: Number, default: 0},
+  spur_displaced_center: { type: Number, default: 0},
+  spur_abrasion_percent: { type: Number, default: 0},
+  spur_abrasion_deep: { type: Number, default: 0}
 }, { _id: false })
 
 const sectorInventorySchema = new Schema({
-    sector_nr: Number,
+    sector_nr: { type: Number },
     // apron damages
-    apron_craks_nr: Number,
-    apron_damage_percent: Number,
-    apron_displaced: Number,
-    apron_abrasion_deep: Number,
-    apron_abrasion_percent: Number,
+    apron_craks_nr: { type: Number, default: 0},
+    apron_damage_percent: { type: Number, default: 0},
+    apron_displaced: { type: Number, default: 0},
+    apron_abrasion_deep: { type: Number, default: 0},
+    apron_abrasion_percent: { type: Number, default: 0},
 
     // sidewalls damages
-    sidewall_left_horiz_craks_nr: Number,
-    sidewall_left_horiz_length: Number,
-    sidewall_left_vert_craks_nr: Number,
-    sidewall_left_vert_length: Number,
-    sidewall_left_displaced: Number,
-    sidewall_left_abrasion_deep: Number,
-    sidewall_left_abrasion_percent: Number,
+    sidewall_left_horiz_craks_nr: { type: Number, default: 0},
+    sidewall_left_horiz_length: { type: Number, default: 0},
+    sidewall_left_vert_craks_nr: { type: Number, default: 0},
+    sidewall_left_vert_length: { type: Number, default: 0},
+    sidewall_left_displaced: { type: Number, default: 0},
+    sidewall_left_abrasion_deep: { type: Number, default: 0},
+    sidewall_left_abrasion_percent: { type: Number, default: 0},
 
-    sidewall_right_horiz_craks_nr: Number,
-    sidewall_right_horiz_length: Number,
-    sidewall_right_vert_craks_nr: Number,
-    sidewall_right_vert_length: Number,
-    sidewall_right_displaced: Number,
-    sidewall_right_abrasion_deep: Number,
-    sidewall_right_abrasion_percent: Number,
+    sidewall_right_horiz_craks_nr: { type: Number, default: 0},
+    sidewall_right_horiz_length: { type: Number, default: 0},
+    sidewall_right_vert_craks_nr: { type: Number, default: 0},
+    sidewall_right_vert_length: { type: Number, default: 0},
+    sidewall_right_displaced: { type: Number, default: 0},
+    sidewall_right_abrasion_deep: { type: Number, default: 0},
+    sidewall_right_abrasion_percent: { type: Number, default: 0},
 
     // spur damages
     spurs: [ spurInventorySchema ],
 
-    disf_colmat_su_percent: Number,
-    disf_colmat_srad_percent: Number,
-    disf_section_dim_perecent: Number
+    disf_colmat_su_percent: { type: Number, default: 0},
+    disf_colmat_srad_percent: { type: Number, default: 0},
+    disf_section_dim_perecent: { type: Number, default: 0}
 }, { _id: false })
 
 
 
 
 const damFinalSpurInventorySchema = new Schema({
-  final_spur_decastr_left: Number,
-  final_spur_decastr_right: Number,
-  final_spur_horiz_crack_nr: Number,
-  final_spur_horiz_crack_length: Number,
-  final_spur_vert_crack_nr: Number,
-  final_spur_vert_crack_length: Number,
-  final_spur_detach_left_percent: Number,
-  final_spur_detach_right_percent: Number,
-  final_spur_detach_center_percent: Number,
-  final_spur_erosion_height: Number,
-  final_spur_erosion_percent: Number
+  final_spur_decastr_left: { type: Number, default: 0},
+  final_spur_decastr_right: { type: Number, default: 0},
+  final_spur_horiz_crack_nr: { type: Number, default: 0},
+  final_spur_horiz_crack_length: { type: Number, default: 0},
+  final_spur_vert_crack_nr: { type: Number, default: 0},
+  final_spur_vert_crack_length: { type: Number, default: 0},
+  final_spur_detach_left_percent: { type: Number, default: 0},
+  final_spur_detach_right_percent: { type: Number, default: 0},
+  final_spur_detach_center_percent: { type: Number, default: 0},
+  final_spur_erosion_height: { type: Number, default: 0},
+  final_spur_erosion_percent: { type: Number, default: 0}
 }, { _id: false })
 
 const sectorFinalSpurInventorySchema = new Schema({
-  final_spur_decastr_left: Number,
-  final_spur_decastr_right: Number,
-  final_spur_afuieri_height: Number,
-  final_spur_afuieri_percent: Number,
+  final_spur_decastr_left: { type: Number, default: 0},
+  final_spur_decastr_right: { type: Number, default: 0},
+  final_spur_afuieri_height: { type: Number, default: 0},
+  final_spur_afuieri_percent: { type: Number, default: 0},
 
-  final_spur_horiz_craks_nr:  Number,
-  final_spur_horiz_craks_lenght: Number,
-  final_spur_vert_craks_nr: Number,
-  final_spur_vert_craks_lenght: Number,
+  final_spur_horiz_craks_nr:  { type: Number, default: 0},
+  final_spur_horiz_craks_lenght: { type: Number, default: 0},
+  final_spur_vert_craks_nr: { type: Number, default: 0},
+  final_spur_vert_craks_lenght: { type: Number, default: 0},
 
-  final_spur_displaced_left: Number,
-  final_spur_displaced_right: Number,
-  final_spur_displaced_center: Number,
+  final_spur_displaced_left: { type: Number, default: 0},
+  final_spur_displaced_right: { type: Number, default: 0},
+  final_spur_displaced_center: { type: Number, default: 0},
 
-  final_spur_abrasion_deep: Number,
-  final_spur_abrasion_percent: Number
+  final_spur_abrasion_deep: { type: Number, default: 0},
+  final_spur_abrasion_percent: { type: Number, default: 0}
 }, { _id: false })
 
 const damCausesSchema = new Schema({
