@@ -11,7 +11,7 @@
           <th>Cod cadastral # Cod lucrare</th>
           <th>Bazin</th>
           <th>Tip</th>
-          <th>An inventariere</th>
+          <th>Anul ultimei inventarieri</th>
           <th>Ys</th>
         </tr>
       </thead>
@@ -58,7 +58,7 @@ export default{
   },
 
   methods: {
-    ...mapActions(['prepareConstructionsList']),
+    ...mapActions(['prepareConstructionsList', 'currentConstructionsSelectionListPage']),
 
     updateCurrentPage: function(page){
       console.log('page ', page)
@@ -71,7 +71,7 @@ export default{
   },
 
   computed:{
-    ...mapGetters(['listUpToDate', 'constructionsList']),
+    ...mapGetters(['listUpToDate', 'constructionsList', 'constrFilters']),
   }
   ,
 
@@ -95,6 +95,14 @@ export default{
 
   created () {
     console.log('this.$route.query ' , this.$route.query)
+
+    // if should retain the same selection criterias and change only the page
+    if(this.$route.query.currentSelectionPage){
+      console.log('constrFilters' , this.constrFilters)
+
+      return this.currentConstructionsSelectionListPage(this.$route.query.currentSelectionPage)
+    }
+
     if(! this.$route.query.page){
       this.$route.query.page = 1
     }

@@ -388,8 +388,12 @@ router.route('/constructions/:id')
         })
       })
 
+      construction.remove(function(err, del){
+        if(err) return next(err)
+        res.send(id)
+      })
 
-      res.send(id)
+
     })
   }else{
     next(new Error("Invalid construction id"))

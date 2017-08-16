@@ -57,7 +57,7 @@ export default{
     },
 
     onDeleteConstruction(){
-      if(!confirm("Doresti sa stergi constructia si inventarele?")) return
+      if(!confirm("Doresti sa stergi constructia impreuna cu toate inventarele ei?")) return
 
       let url = 'constructions/'+this.construction._id
       let req = { url: url }
@@ -66,7 +66,7 @@ export default{
       .then( res => {
         console.log(res)
         this.invalidateConstructionsList()
-        this.$router.push({name: 'constructions-list'})
+        this.$router.push({name: 'constructions-list', query:{currentSelectionPage:1} })
       })
       .catch( error => console.log(error) )
     }

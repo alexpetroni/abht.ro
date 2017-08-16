@@ -246,8 +246,6 @@ const editorMixin = {
       if(!yearRecorded){
         this.markupCurrentStepAsValid()
         this.registerNewInventoryForConstruction()
-      }else{
-        alert("Constructia are deja un inventar pentru anul "+this.inventory.year)
       }
     },
 
@@ -391,10 +389,6 @@ console.log(data)
 
 
     checkIfInventoryYearAlreadyExist(construction, year, alertMsg = true){
-      if(! construction.inventories_archive || construction.inventories_archive.length == 0){
-        return false
-      }
-
       let index = construction.inventories_archive.findIndex(inv => { return inv.year == year } )
 
       if(index != -1 || construction.current_inventory.year == year){

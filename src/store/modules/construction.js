@@ -65,7 +65,20 @@ const actions = {
   },
 
 
+  currentConstructionsSelectionListPage({state, commit, dispatch}, page){
+    if(isNaN(page) || page < 1){
+      page = 1
+    }
+
+    let updatedQuery = JSON.parse(JSON.stringify(state.constrFilters))
+    updatedQuery.page = page
+    commit(types.UPDATE_SELECTION_CRITERIA, updatedQuery)
+    dispatch('fetchConstructionsList')
+  },
+
+
   fetchConstructionsList({ state, commit }){
+    commit(types.EMPTY_CONSTRUCTIONS_LIST)
     let req = { url:'constructions', data: state.constrFilters }
     axios._get(req)
     .then( response => {
@@ -74,7 +87,7 @@ const actions = {
     .catch(err => console.log(err))
   },
 
-  invalidateConstructionsList({ commit }){
+  invalidateConstructionsList({ commit } ){
     commit(types.MARK_CONSTRUCTIONS_LIST_OBSOLETE)
   },
 
@@ -105,6 +118,10 @@ const mutations = {
     if(state.listUpToDate){
       state.listUpToDate = false
     }
+  },
+
+  [types.EMPTY_CONSTRUCTIONS_LIST](state){
+    state.constrList = []
   },
 
 }
