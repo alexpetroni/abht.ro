@@ -20,6 +20,15 @@ const state = {
 
   countiesList: [],
   cadastralListLevel_0: [],
+
+
+
+  ysDistributionCondition: { updated: false, data: [] },
+  ysDistributionAge:{ updated: false, data: [] },
+  ysDistributionDecade: { updated: false, data: [] },
+  ysDistributionYe: { updated: false, data: [] },
+  ysDistributionMaterials: { updated: false, data: [] }
+
 }
 
 
@@ -49,6 +58,11 @@ const actions = {
   },
 
 
+  updateConstructionsSelectionFilters({state, commit}, query){
+    commit(types.UPDATE_SELECTION_CRITERIA, query)
+  },
+
+
   prepareConstructionsList({ state, commit, dispatch }, query ){
     console.log('prepareConstructionsList ', query)
     console.log(' state.constrFilters ', state.constrFilters )
@@ -65,18 +79,6 @@ const actions = {
   },
 
 
-  currentConstructionsSelectionListPage({state, commit, dispatch}, page){
-    if(isNaN(page) || page < 1){
-      page = 1
-    }
-
-    let updatedQuery = JSON.parse(JSON.stringify(state.constrFilters))
-    updatedQuery.page = page
-    commit(types.UPDATE_SELECTION_CRITERIA, updatedQuery)
-    dispatch('fetchConstructionsList')
-  },
-
-
   fetchConstructionsList({ state, commit }){
     commit(types.EMPTY_CONSTRUCTIONS_LIST)
     let req = { url:'constructions', data: state.constrFilters }
@@ -90,6 +92,15 @@ const actions = {
   invalidateConstructionsList({ commit } ){
     commit(types.MARK_CONSTRUCTIONS_LIST_OBSOLETE)
   },
+
+
+
+  // ==================== Charts ====================
+
+  fetchYsDistributionConditionData({state, commit }){
+    console.log('fetchYsDistributionConditionData')
+  },
+
 
 
 }
@@ -110,14 +121,28 @@ const mutations = {
   },
 
   [types.UPDATE_SELECTION_CRITERIA](state, query){
+    console.log('updated ', query)
     state.constrFilters = query
+
     state.listUpToDate = false
+
+    state.ysDistributionCondition = { updated: false, data: [] },
+    state.ysDistributionAge = { updated: false, data: [] },
+    state.ysDistributionDecade = { updated: false, data: [] },
+    state.ysDistributionYe = { updated: false, data: [] },
+    state.ysDistributionMaterials = { updated: false, data: [] }
   },
 
   [types.MARK_CONSTRUCTIONS_LIST_OBSOLETE](state){
     if(state.listUpToDate){
       state.listUpToDate = false
     }
+
+    state.ysDistributionCondition = { updated: false, data: [] },
+    state.ysDistributionAge = { updated: false, data: [] },
+    state.ysDistributionDecade = { updated: false, data: [] },
+    state.ysDistributionYe = { updated: false, data: [] },
+    state.ysDistributionMaterials = { updated: false, data: [] }
   },
 
   [types.EMPTY_CONSTRUCTIONS_LIST](state){

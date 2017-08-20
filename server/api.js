@@ -203,160 +203,46 @@ router.route('/constructions')
 
 
   let q = req.query
-  let filters = {}
 
-  let deepest_cadastral_code = null
+  parseQueryToFilters(q, function(err, filters){
+    if(err) return next(err)
 
-  for(let i = 0; i < 6; i++){
-    if(q['cc_l_'+i]){
-      deepest_cadastral_code = q['cc_l_'+i]
-    }
-  }
+    let itemsPerPage = parseInt( q.itemsPerPage ) ? parseInt( q.itemsPerPage ) : 50
 
+    let page = parseInt( q.page ) ? parseInt( q.page ) : 1
 
-  // construction type
-  parseQueryValue.apply(filters, [ 'type' , q.type] )
+    let t3 =present()
 
-  // year execution
-  parseQueryRange.apply(filters, ['gd.construction_year', q.construction_year_from, q.construction_year_to])
+    async.parallel(
+      [
+        async.reflect(function(cb){
+          db.Construction.find(filters)
+          .select("type  gd.construction_code gd.basin_name gd.cadastral_code current_inventory")
+          .populate("gd.cadastral_code")
+          .skip( (page-1) * itemsPerPage)
+          .limit(itemsPerPage)
+          .exec(cb) }),
 
-  // year inventory
-  parseQueryRange.apply(filters, ['current_inventory.year', q.inventory_year_from, q.inventory_year_to])
-
-  // ys
-  parseQueryRange.apply(filters, ['current_inventory.ys', q.ys_from, q.ys_to])
-
-  // adminlocation
-
-
-
-  //  LongitudinalConstruction
-  if(q.type == 'long'){
-    // has_final_spur
-    parseQueryValue.apply(filters, ['cd.has_final_spur', q.has_final_spur, 'bool'])
-
-
-
-    // construction material sector apron
-    parseQueryValue.apply(filters, ['cd.sectors.mat_sect_apron', q.mat_sect_apron])
-    // construction material sector lateral walls
-    parseQueryValue.apply(filters, ['cd.sectors.mat_sect_walls', q.mat_sect_walls])
-    // construction material sector spurs
-    parseQueryValue.apply(filters, ['cd.sectors.spurs.mat_sect_spur', q.mat_sect_spur])
-
-    // total_length
-    parseQueryRange.apply(filters, ['cd.total_length', q.total_length_from, q.total_length_to])
-    // Ls
-    parseQueryRange.apply(filters, ['cd.sectors.sector_length', q.Ls_from, q.Ls_to])
-    // Hs
-    parseQueryRange.apply(filters, ['cd.sectors.sector_deep', q.Hs_from, q.Hs_to])
-    // bs
-    parseQueryRange.apply(filters, ['cd.sectors.apron_width', q.bs_from, q.bs_to])
-
-  }
-
-  //  TransversalConstruction
-  if(q.type == 'trans'){
-    // has_final_spur
-    parseQueryValue.apply(filters, ['cd.has_final_spur', q.has_final_spur, 'bool'])
-    // has_final_spur
-    parseQueryValue.apply(filters, ['cd.has_confuseur', q.has_confuseur, 'bool'])
-    // has_final_spur
-    parseQueryValue.apply(filters, ['cd.has_apron', q.has_apron, 'bool'])
-
-
-    // Ye
-    parseQueryRange.apply(filters, ['cd.dam.ye', q.ye_from, q.ye_to])
-    // H
-    parseQueryRange.apply(filters, ['cd.dam.h', q.h_from, q.h_to])
-    // Lr
-    parseQueryRange.apply(filters, ['cd.dam.lr', q.lr_from, q.lr_to])
-
-    //transversal_type
-    parseQueryValue.apply(filters, ['cd.dam.transversal_type', q.transversal_type])
-    // disip_type
-    parseQueryValue.apply(filters, ['cd.dam.disip_type', q.disip_type])
-
-    // construction material mainBody
-    parseQueryValue.apply(filters, ['cd.dam.mat_main_body', q.mat_main_body])
-    // construction material wings
-    parseQueryValue.apply(filters, ['cd.dam.mat_wings', q.mat_wings])
-    // construction material apron
-    parseQueryValue.apply(filters, ['cd.dam.mat_apron', q.mat_apron])
-
-    // construction material counter dam
-    parseQueryValue.apply(filters, ['cd.dam.mat_counter_dam', q.mat_counter_dam])
-    // construction material side walls
-    parseQueryValue.apply(filters, ['cd.dam.mat_side_walls', q.mat_side_walls])
-    // construction material final spur
-    parseQueryValue.apply(filters, ['cd.final_spur.mat_final_spur', q.mat_final_spur])
-  }
-
-  let t1 =present()
-
-  async.parallel(
-    [
-      async.reflect(function(cb) {
-        parseQueryCadastralCode(deepest_cadastral_code, cb)
-      }),
-
-      async.reflect(function(cb) {
-        parseQueryAdminlocation(q.county, q.city, cb)
-      })
-    ],
-    function(err, results){
-      if(err) return next(err)
-
-      let t2 =present()
-      // console.log('perfomance   async.parallel ' + (t2-t1))
-
-
-      if(!results[0].error && results[0].value != null){
-        Object.assign(filters, results[0].value)
-      }
-
-      if(!results[1].error && results[1].value != null){
-        Object.assign(filters, results[1].value)
-      }
-
-
-      let itemsPerPage = parseInt( q.itemsPerPage ) ? parseInt( q.itemsPerPage ) : 50
-
-      let page = parseInt( q.page ) ? parseInt( q.page ) : 1
-
-      let t3 =present()
-
-      async.parallel(
-        [
-          async.reflect(function(cb){
-            db.Construction.find(filters)
-            .select("type  gd.construction_code gd.basin_name gd.cadastral_code current_inventory")
-            .populate("gd.cadastral_code")
-            .skip( (page-1) * itemsPerPage)
-            .limit(itemsPerPage)
-            .exec(cb) }),
-
-            async.reflect( function(cb){
-              db.Construction.where(filters).count(cb)
-            })
-          ],
-          function(err, results){
-            if(err) return next(err)
-
-            let response = { items: [], total: 0, page: page, itemsPerPage: itemsPerPage }
-
-            if(!results[0].error){
-              response.items = results[0].value
-            }
-
-            if(!results[0].error){
-              response.total = results[1].value
-            }
-
-            res.send(response)
+          async.reflect( function(cb){
+            db.Construction.where(filters).count(cb)
           })
+        ],
+        function(err, results){
+          if(err) return next(err)
 
+          let response = { items: [], total: 0, page: page, itemsPerPage: itemsPerPage }
+
+          if(!results[0].error){
+            response.items = results[0].value
+          }
+
+          if(!results[0].error){
+            response.total = results[1].value
+          }
+
+          res.send(response)
         })
+  })
 })
 
 
@@ -819,9 +705,15 @@ router.route('/upload-images')
 
 
 
+// ===================== CHARTS =========================
+
+
+
 // ===============================================================================
 //                          Helper functions
 // ===============================================================================
+
+
 
 
 function present(){
@@ -1213,6 +1105,127 @@ function getConstructionWithInventory(constructionId, inventoryYear, callback){
 
 }
 
+// Parse the query object to mongoose filters
+function parseQueryToFilters(q, callback){
+
+    let filters = {}
+
+    let deepest_cadastral_code = null
+
+    for(let i = 0; i < 6; i++){
+      if(q['cc_l_'+i]){
+        deepest_cadastral_code = q['cc_l_'+i]
+      }
+    }
+
+
+    // construction type
+    parseQueryValue.apply(filters, [ 'type' , q.type] )
+
+    // year execution
+    parseQueryRange.apply(filters, ['gd.construction_year', q.construction_year_from, q.construction_year_to])
+
+    // year inventory
+    parseQueryRange.apply(filters, ['current_inventory.year', q.inventory_year_from, q.inventory_year_to])
+
+    // ys
+    parseQueryRange.apply(filters, ['current_inventory.ys', q.ys_from, q.ys_to])
+
+    // adminlocation
+
+
+
+    //  LongitudinalConstruction
+    if(q.type == 'long'){
+      // has_final_spur
+      parseQueryValue.apply(filters, ['cd.has_final_spur', q.has_final_spur, 'bool'])
+
+
+
+      // construction material sector apron
+      parseQueryValue.apply(filters, ['cd.sectors.mat_sect_apron', q.mat_sect_apron])
+      // construction material sector lateral walls
+      parseQueryValue.apply(filters, ['cd.sectors.mat_sect_walls', q.mat_sect_walls])
+      // construction material sector spurs
+      parseQueryValue.apply(filters, ['cd.sectors.spurs.mat_sect_spur', q.mat_sect_spur])
+
+      // total_length
+      parseQueryRange.apply(filters, ['cd.total_length', q.total_length_from, q.total_length_to])
+      // Ls
+      parseQueryRange.apply(filters, ['cd.sectors.sector_length', q.Ls_from, q.Ls_to])
+      // Hs
+      parseQueryRange.apply(filters, ['cd.sectors.sector_deep', q.Hs_from, q.Hs_to])
+      // bs
+      parseQueryRange.apply(filters, ['cd.sectors.apron_width', q.bs_from, q.bs_to])
+
+    }
+
+    //  TransversalConstruction
+    if(q.type == 'trans'){
+      // has_final_spur
+      parseQueryValue.apply(filters, ['cd.has_final_spur', q.has_final_spur, 'bool'])
+      // has_final_spur
+      parseQueryValue.apply(filters, ['cd.has_confuseur', q.has_confuseur, 'bool'])
+      // has_final_spur
+      parseQueryValue.apply(filters, ['cd.has_apron', q.has_apron, 'bool'])
+
+
+      // Ye
+      parseQueryRange.apply(filters, ['cd.dam.ye', q.ye_from, q.ye_to])
+      // H
+      parseQueryRange.apply(filters, ['cd.dam.h', q.h_from, q.h_to])
+      // Lr
+      parseQueryRange.apply(filters, ['cd.dam.lr', q.lr_from, q.lr_to])
+
+      //transversal_type
+      parseQueryValue.apply(filters, ['cd.dam.transversal_type', q.transversal_type])
+      // disip_type
+      parseQueryValue.apply(filters, ['cd.dam.disip_type', q.disip_type])
+
+      // construction material mainBody
+      parseQueryValue.apply(filters, ['cd.dam.mat_main_body', q.mat_main_body])
+      // construction material wings
+      parseQueryValue.apply(filters, ['cd.dam.mat_wings', q.mat_wings])
+      // construction material apron
+      parseQueryValue.apply(filters, ['cd.dam.mat_apron', q.mat_apron])
+
+      // construction material counter dam
+      parseQueryValue.apply(filters, ['cd.dam.mat_counter_dam', q.mat_counter_dam])
+      // construction material side walls
+      parseQueryValue.apply(filters, ['cd.dam.mat_side_walls', q.mat_side_walls])
+      // construction material final spur
+      parseQueryValue.apply(filters, ['cd.final_spur.mat_final_spur', q.mat_final_spur])
+    }
+
+
+    async.parallel(
+      [
+        async.reflect(function(cb) {
+          parseQueryCadastralCode(deepest_cadastral_code, cb)
+        }),
+
+        async.reflect(function(cb) {
+          parseQueryAdminlocation(q.county, q.city, cb)
+        })
+      ],
+      function(err, results){
+        if(err) return callback(err)
+
+        let t2 =present()
+        // console.log('perfomance   async.parallel ' + (t2-t1))
+
+
+        if(!results[0].error && results[0].value != null){
+          Object.assign(filters, results[0].value)
+        }
+
+        if(!results[1].error && results[1].value != null){
+          Object.assign(filters, results[1].value)
+        }
+
+        callback(null, filters)
+      })
+}
 
 
 module.exports = router

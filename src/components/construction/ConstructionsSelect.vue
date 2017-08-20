@@ -431,7 +431,7 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
+import { mapGetters, mapActions } from 'vuex'
 
 import * as axios from './../../api'
 
@@ -558,10 +558,14 @@ export default{
   },
 
   methods: {
+    ...mapActions(['updateConstructionsSelectionFilters']),
+
     onSubmit(){
       console.log( ' query before json ' , this.query)
       let query = this.jsonCopy(this.query)
       query.page = 1
+      this.updateConstructionsSelectionFilters(query)
+
       console.log(query)
       this.$router.push({ name: 'constructions-list', query: query })
     },
@@ -712,7 +716,7 @@ export default{
     let filtersCopy =  this.jsonCopy(this.constrFilters)
 
     let multiCriterias = [...this.transMultiCriterias, ...this.longMultiCriterias]
-    
+
     multiCriterias.forEach(e => {
       if(filtersCopy[e] && !Array.isArray(filtersCopy[e])){
         filtersCopy[e] = [filtersCopy[e] ]

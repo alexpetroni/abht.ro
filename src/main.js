@@ -7,6 +7,8 @@ import * as VueGoogleMaps from 'vue2-google-maps'
 import router from './router'
 import store from './store'
 
+
+
 Vue.use(VueLazyload)
 
 Vue.use(VueGoogleMaps, {

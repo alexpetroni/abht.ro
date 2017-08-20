@@ -87,30 +87,13 @@ export default{
     },
 
     '$route.query': function(val){
-        this.status = 'loading'
+      this.status = 'loading'
       console.log('this.$route.query ', this.$route.query)
       this.prepareConstructionsList(this.$route.query)
     }
   },
 
   created () {
-    console.log('this.$route.query ' , this.$route.query)
-
-    // if should retain the same selection criterias and change only the page
-    if(this.$route.query.currentSelectionPage){
-      console.log('constrFilters' , this.constrFilters)
-
-      return this.currentConstructionsSelectionListPage(this.$route.query.currentSelectionPage)
-    }
-
-    if(! this.$route.query.page){
-      this.$route.query.page = 1
-    }
-
-    if(! this.$route.query.itemsPerPage){
-      this.$route.query.itemsPerPage = 50
-    }
-
     this.prepareConstructionsList(this.$route.query)
   }
 

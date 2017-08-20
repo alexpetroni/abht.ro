@@ -10,6 +10,7 @@
           <span class="icon-bar"></span>
         </button>
         <router-link :to="{name: 'home'}"><span class="navbar-brand">ABHT</span></router-link>
+        <button @click="toggleSideMenu">++</button>
       </div>
 
       <!-- Collect the nav links, forms, and other content for toggling -->
@@ -61,6 +62,7 @@
 </template>
 
 <script>
+
 export default {
   data(){
     return {
@@ -69,6 +71,9 @@ export default {
   },
 
   methods:{
+    toggleSideMenu(){
+      this.$emit('toggle')
+    }
 
   },
 
