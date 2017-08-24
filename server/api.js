@@ -707,7 +707,154 @@ router.route('/upload-images')
 
 // ===================== CHARTS =========================
 
+router.route('/charts/ys-distribution-condition')
+.get((req, res, next) => {   // =================== GET Ys DISTRIBUTION BASED ON CONDITION ===================
 
+    let q = req.query
+
+    parseQueryToFilters(q, function(err, filters){
+      if(err) return next(err)
+
+      console.log('filters ', filters)
+
+      db.Construction.aggregate([
+              { $match: filters },
+
+              { $project:
+                {
+                  current_inventory: 1,
+
+                  condition: {
+                    $switch: {
+                      branches: [
+                         { case: { $and: [ { $gte: ["$current_inventory.ys", 0  ] }, { $lte: ["$current_inventory.ys", 20 ] } ] },  then: '1_interval_0_20' } ,
+                         { case: { $and: [ { $gt: ["$current_inventory.ys", 20 ] }, { $lte: ["$current_inventory.ys", 40 ] } ] }, then: '2_interval_20_40' },
+                         { case: { $and: [ { $gt: ["$current_inventory.ys", 40 ] }, { $lte: ["$current_inventory.ys", 60 ] } ] }, then: '3_interval_40_60'},
+                         { case: { $and: [ { $gt: ["$current_inventory.ys", 60 ] }, { $lte: ["$current_inventory.ys", 80 ] } ] }, then: '4_interval_60_80'},
+                         { case: { $and: [ { $gt: ["$current_inventory.ys", 80 ] }, { $lte: ["$current_inventory.ys", 100 ] } ] }, then: '5_interval_80_100'},
+                      ],
+                      default: '6_no_group_found'
+                    }
+                  }
+                }
+              },
+
+              {
+                $group: {
+                  _id: "$condition",
+                  count: { $sum: 1 },
+                  avgYs: { $avg: "$current_inventory.ys"}
+                }
+              },
+
+              {
+                $sort: {
+                  _id: 1
+                }
+
+              }
+
+
+            ],
+
+          function(err, results){
+            if(err) return next(err)
+            res.send(results)
+          })
+    })
+  })
+
+
+
+  router.route('/charts/ys-distribution-decade')
+  .get((req, res, next) => {   // =================== GET Ys DISTRIBUTION BASED ON CONSRUCTION YEAR DECADE ===================
+
+      let q = req.query
+
+      parseQueryToFilters(q, function(err, filters){
+        if(err) return next(err)
+
+        console.log('filters ', filters)
+
+        db.Construction.aggregate([
+                { $match: filters },
+
+                { $project:
+                  {
+                    current_inventory: 1,
+                    gd: 1,
+                    decade: { $multiply: [ { $floor :{ $divide: ["$gd.construction_year", 10]}}, 10] }
+                  }
+                },
+
+                {
+                  $group: {
+                    _id: "$decade",
+                    count: { $sum: 1 },
+                    avgYs: { $avg: "$current_inventory.ys"}
+                  }
+                },
+
+                {
+                  $sort: {
+                    _id: -1
+                  }
+                }
+
+              ],
+
+            function(err, results){
+              if(err) return next(err)
+              res.send(results)
+            })
+      })
+    })
+
+
+    router.route('/charts/ys-distribution-basin')
+    .get((req, res, next) => {   // =================== GET Ys DISTRIBUTION BASED ON CONSRUCTION YEAR DECADE ===================
+
+        let q = req.query
+
+        parseQueryToFilters(q, function(err, filters){
+          if(err) return next(err)
+
+          console.log('filters ', filters)
+
+          db.Construction.aggregate([
+                  { $match: filters },
+
+                  { $project:
+                    {
+                      type: 1,
+                      current_inventory: 1,
+                      gd: 1
+                    }
+                  },
+
+                  {
+                    $group: {
+                      _id: "$gd.cadastral_code",
+                      count: { $sum: 1 },
+                      countTrans: { $sum: { $cond: [ { $eq: ["$type", "trans"] },  1,  0 ] }  } ,
+                      avgYs: { $avg: "$current_inventory.ys" }
+                    }
+                  }
+
+                ],
+
+              function(err, results){
+                if(err) return next(err)
+                console.log('results ', results)
+                db.Cadastral.populate(results, { path: "_id" }}, function(err, populateRes){
+                  if(err) return next(err)
+
+                  res.send(populateRes)
+                })
+
+              })
+        })
+      })
 
 // ===============================================================================
 //                          Helper functions

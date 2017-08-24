@@ -26,6 +26,7 @@ const state = {
   ysDistributionCondition: { updated: false, data: [] },
   ysDistributionAge:{ updated: false, data: [] },
   ysDistributionDecade: { updated: false, data: [] },
+  ysDistributionBasin: { updated: false, data: [] },
   ysDistributionYe: { updated: false, data: [] },
   ysDistributionMaterials: { updated: false, data: [] }
 
@@ -40,6 +41,14 @@ const getters = {
 
   countiesList: state => state.countiesList,
   cadastralListLevel_0: state => state.cadastralListLevel_0,
+
+
+  ysDistributionCondition: state => state.ysDistributionCondition,
+  ysDistributionAge: state => state.ysDistributionAge,
+  ysDistributionDecade: state => state.ysDistributionDecade,
+  ysDistributionBasin: state => state.ysDistributionBasin,
+  ysDistributionYe: state => state.ysDistributionYe,
+  ysDistributionMaterials: state => state.ysDistributionMaterials
 }
 
 
@@ -99,9 +108,41 @@ const actions = {
 
   fetchYsDistributionConditionData({state, commit }){
     console.log('fetchYsDistributionConditionData')
+
+    let req = { url: '/charts/ys-distribution-condition', data: state.constrFilters }
+    axios._get(req)
+    .then(response => {
+      commit(types.UPDATE_CHART_YS_DISTRIBUTION_CONDITION, response.data)
+      console.log('response  fetchYsDistributionConditionData', response.data)
+    })
+    .catch(err => console.log(err))
   },
 
 
+  fetchYsDistributionDecadeData({state, commit }){
+    console.log('fetchYsDistributionDecadeData')
+
+    let req = { url: '/charts/ys-distribution-decade', data: state.constrFilters }
+    axios._get(req)
+    .then(response => {
+      commit(types.UPDATE_CHART_YS_DISTRIBUTION_DECADE, response.data)
+      console.log('response  fetchYsDistributionDecadeData', response.data)
+    })
+    .catch(err => console.log(err))
+  },
+
+
+  fetchYsDistributionBasinData({state, commit }){
+    console.log('fetchYsDistributionBasinData')
+
+    let req = { url: '/charts/ys-distribution-basin', data: state.constrFilters }
+    axios._get(req)
+    .then(response => {
+      commit(types.UPDATE_CHART_YS_DISTRIBUTION_BASIN, response.data)
+      console.log('response  fetchYsDistributionBasinData', response.data)
+    })
+    .catch(err => console.log(err))
+  },
 
 }
 
@@ -129,6 +170,7 @@ const mutations = {
     state.ysDistributionCondition = { updated: false, data: [] },
     state.ysDistributionAge = { updated: false, data: [] },
     state.ysDistributionDecade = { updated: false, data: [] },
+    state.ysDistributionBasin = { updated: false, data: [] },
     state.ysDistributionYe = { updated: false, data: [] },
     state.ysDistributionMaterials = { updated: false, data: [] }
   },
@@ -141,12 +183,27 @@ const mutations = {
     state.ysDistributionCondition = { updated: false, data: [] },
     state.ysDistributionAge = { updated: false, data: [] },
     state.ysDistributionDecade = { updated: false, data: [] },
+    state.ysDistributionBasin = { updated: false, data: [] },
     state.ysDistributionYe = { updated: false, data: [] },
     state.ysDistributionMaterials = { updated: false, data: [] }
   },
 
   [types.EMPTY_CONSTRUCTIONS_LIST](state){
     state.constrList = []
+  },
+
+
+
+  [types.UPDATE_CHART_YS_DISTRIBUTION_CONDITION](state, data){
+    state.ysDistributionCondition = { updated: true, data }
+  },
+
+  [types.UPDATE_CHART_YS_DISTRIBUTION_DECADE](state, data){
+    state.ysDistributionDecade = { updated: true, data }
+  },
+
+  [types.UPDATE_CHART_YS_DISTRIBUTION_BASIN](state, data){
+    state.ysDistributionBasin = { updated: true, data }
   },
 
 }

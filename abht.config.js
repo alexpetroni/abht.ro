@@ -10,6 +10,21 @@ var config = {
       { name: 'medium', size: [600, null] },
       { name: 'large', size: [1024, null] },
     ]
+  },
+
+  chart: {
+
+     colors: {
+      red:  '255, 99, 132' ,
+      blue: '54, 162, 235',
+      yellow: '255, 206, 86',
+      green:  '75, 192, 192',
+      purple: '153, 102, 255',
+      orange: '255, 159, 64',
+    },
+
+    bgTranspareny: 0.5,
+    borderTransparency: 1
   }
 }
 

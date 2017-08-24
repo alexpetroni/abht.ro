@@ -15,6 +15,7 @@ import Construction from './../components/construction/Construction.vue'
 import ChartDistributionYsCondition from './../components/charts/ChartDistributionYsCondition.vue'
 import ChartYsDistributionAge from './../components/charts/ChartYsDistributionAge.vue'
 import ChartYsDistributionDecade from './../components/charts/ChartYsDistributionDecade.vue'
+import ChartYsDistributionBasin from './../components/charts/ChartYsDistributionBasin.vue'
 import ChartYsDistributionMaterials from './../components/charts/ChartYsDistributionMaterials.vue'
 import ChartYsDistributionYe from './../components/charts/ChartYsDistributionYe.vue'
 
@@ -50,6 +51,7 @@ export default new Router({
       { path: '/charts/ys-distribution-condition' , component: ChartDistributionYsCondition, name: 'ys-distribution-condition'},
       { path: '/charts/ys-distribution-age' , component: ChartYsDistributionAge, name: 'ys-distribution-age'},
       { path: '/charts/ys-distribution-decade' , component: ChartYsDistributionDecade, name: 'ys-distribution-decade'},
+      { path: '/charts/ys-distribution-basin' , component: ChartYsDistributionBasin, name: 'ys-distribution-basin'},
       { path: '/charts/ys-distribution-ye' , component: ChartYsDistributionYe, name: 'ys-distribution-ye'},
       { path: '/charts/ys-distribution-materials' , component: ChartYsDistributionMaterials, name: 'ys-distribution-materials'},
 
