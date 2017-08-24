@@ -9,7 +9,12 @@
     <div v-if="!ysDistributionCondition.updated">
       Fetch data
     </div>
-    <div v-show="ysDistributionCondition.updated">
+
+    <div v-if="ysDistributionCondition.updated && !ysDistributionCondition.data.length">
+      <no-data-chart></no-data-chart>
+    </div>
+
+    <div v-show="ysDistributionCondition.updated && ysDistributionCondition.data.length">
     <div class="row">
       <div class="col-sm-12 col-md-4">
         <canvas id="distributionChart" ref="distributionChart" ></canvas>
@@ -48,6 +53,8 @@ import chartMixin from './../../mixins/chart'
 import { mapGetters, mapActions } from 'vuex'
 
 import config from './../../../abht.config.js'
+
+import NoDataChart from './NoDataChart.vue'
 
 export default{
   props: [],
@@ -153,7 +160,7 @@ export default{
   },
 
   components: {
-
+    NoDataChart
   },
 
   watch: {

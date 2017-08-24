@@ -26,7 +26,7 @@ const state = {
   ysDistributionCondition: { updated: false, data: [] },
   ysDistributionAge:{ updated: false, data: [] },
   ysDistributionDecade: { updated: false, data: [] },
-  ysDistributionBasin: { updated: false, data: [] },
+  ysDistributionBasin: { updated: false, data: [] ,totalConstructions: 0 },
   ysDistributionYe: { updated: false, data: [] },
   ysDistributionMaterials: { updated: false, data: [] }
 
@@ -119,6 +119,18 @@ const actions = {
   },
 
 
+  fetchYsDistributionAgeData({state, commit }){
+    console.log('fetchYsDistributionAgeData')
+
+    let req = { url: '/charts/ys-distribution-age', data: state.constrFilters }
+    axios._get(req)
+    .then(response => {
+      commit(types.UPDATE_CHART_YS_DISTRIBUTION_AGE, response.data)
+      console.log('response  fetchYsDistributionAgeData', response.data)
+    })
+    .catch(err => console.log(err))
+  },
+
   fetchYsDistributionDecadeData({state, commit }){
     console.log('fetchYsDistributionDecadeData')
 
@@ -140,6 +152,32 @@ const actions = {
     .then(response => {
       commit(types.UPDATE_CHART_YS_DISTRIBUTION_BASIN, response.data)
       console.log('response  fetchYsDistributionBasinData', response.data)
+    })
+    .catch(err => console.log(err))
+  },
+
+
+  fetchYsDistributionYeData({state, commit }){
+    console.log('fetchYsDistributionYeData')
+
+    let req = { url: '/charts/ys-distribution-ye', data: state.constrFilters }
+    axios._get(req)
+    .then(response => {
+      commit(types.UPDATE_CHART_YS_DISTRIBUTION_YE, response.data)
+      console.log('response  fetchYsDistributionYeData', response.data)
+    })
+    .catch(err => console.log(err))
+  },
+
+
+  fetchYsDistributionMaterialsData({state, commit }){
+    console.log('fetchYsDistributionMaterialsData')
+
+    let req = { url: '/charts/ys-distribution-materials', data: state.constrFilters }
+    axios._get(req)
+    .then(response => {
+      commit(types.UPDATE_CHART_YS_DISTRIBUTION_MATERIALS, response.data)
+      console.log('response  fetchYsDistributionMaterialsData', response.data)
     })
     .catch(err => console.log(err))
   },
@@ -198,13 +236,27 @@ const mutations = {
     state.ysDistributionCondition = { updated: true, data }
   },
 
+  [types.UPDATE_CHART_YS_DISTRIBUTION_AGE](state, data){
+    state.ysDistributionAge = { updated: true, data }
+  },
+
   [types.UPDATE_CHART_YS_DISTRIBUTION_DECADE](state, data){
     state.ysDistributionDecade = { updated: true, data }
   },
 
   [types.UPDATE_CHART_YS_DISTRIBUTION_BASIN](state, data){
-    state.ysDistributionBasin = { updated: true, data }
+    state.ysDistributionBasin = { updated: true, data:data.constructionsArr, totalConstructions: data.totalConstructions }
   },
+
+  [types.UPDATE_CHART_YS_DISTRIBUTION_YE](state, data){
+    state.ysDistributionYe = { updated: true, data }
+  },
+
+  [types.UPDATE_CHART_YS_DISTRIBUTION_MATERIALS](state, data){
+    state.ysDistributionMaterials = { updated: true, data }
+  },
+
+
 
 }
 

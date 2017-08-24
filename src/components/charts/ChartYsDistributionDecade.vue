@@ -10,7 +10,13 @@
     <div v-if="!ysDistributionDecade.updated">
       Fetch data
     </div>
-    <div v-show="ysDistributionDecade.updated">
+
+    <div v-if="ysDistributionDecade.updated && !ysDistributionDecade.data.length">
+      <no-data-chart></no-data-chart>
+    </div>
+
+    <div v-show="ysDistributionDecade.updated && ysDistributionDecade.data.length">
+
     <div class="row">
       <div class="col-sm-12">
         <canvas id="distributionChart" ref="distributionChart" ></canvas>
@@ -26,7 +32,7 @@
           </tr>
         </thead>
         <tbody>
-          <template v-for="item in chartData">
+          <template v-for="item in tableData">
           <tr v-if="item.count">
             <td>{{ item.label }}</td>
             <td>{{ item.avgYs }}</td>
@@ -43,12 +49,15 @@
 </template>
 
 <script>
+import chartMixin from './../../mixins/chart'
 
 import { mapGetters, mapActions } from 'vuex'
 
+import NoDataChart from './NoDataChart.vue'
+
 export default{
   props: [],
-
+  mixins: [ chartMixin ],
   data() {
     return {
 
@@ -64,7 +73,7 @@ export default{
 
 
       let dataSet = {
-          label: '',
+          label: '# medie Ys',
           data: [],
           backgroundColor: [],
           borderColor: []
@@ -72,9 +81,16 @@ export default{
 
         let labels = []
 
+        let bgColor = this.getChartBackgroundColor('blue')
+        let borderColor = this.getChartBorderColor('blue')
+
+        console.log('borderColor ', borderColor)
+
       this.chartData.forEach(e => {
         labels.push(e.label)
         dataSet.data.push(e.avgYs)
+        dataSet.backgroundColor.push( bgColor )
+        dataSet.borderColor.push( borderColor )
       })
 
       let chartData = {
@@ -88,7 +104,16 @@ export default{
               options: {
                 legend: {
                   position: 'bottom'
-                }
+                },
+
+                scales: {
+                      yAxes: [{
+                          ticks: {
+                              beginAtZero: true,
+                              max : 100,
+                          }
+                      }]
+                  }
               }
           });
     }
@@ -116,10 +141,11 @@ export default{
         }
       } )
 
-      let maxDecade = Math.max(...decadesArr)
-      let minDecade = Math.min(...decadesArr)
 
-      console.log('minDecade ' , minDecade , ' maxDecade ', maxDecade )
+      let minDecade = Math.min(...decadesArr)
+      let maxDecade = Math.max(...decadesArr)
+
+
 
       for(let dec = minDecade; dec <= maxDecade; dec += 10){
         let avgYs = 0
@@ -136,11 +162,16 @@ export default{
       }
 
       return cd
+    },
+
+    tableData(){
+      let td = this.chartData.slice()
+      return td.reverse()
     }
   },
 
   components: {
-
+    NoDataChart
   },
 
   watch: {

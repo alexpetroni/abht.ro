@@ -9,7 +9,7 @@ const chartMixin = {
       let bgTrans = config.chart && config.chart.bgTranspareny ? config.chart.bgTranspareny : 0.2
 
       let bgColor = colorsArr[color] ?  `rgba( ${colorsArr[color]}, ${bgTrans} )` : 'rgba(255, 255, 255, 1)'
-
+    console.log('bgColor' , bgColor)
       return bgColor
     },
 
