@@ -554,6 +554,9 @@ export default{
         {title: "Pinten terminal", materials: 'mat_final_spur' },
       ],
 
+
+      initializedSelectionForm: false
+
     }
   },
 
@@ -606,7 +609,12 @@ export default{
     },
 
 
-    fetchCadastralForLevel(level, parentId){
+    updateCadastralSelectLevel(level, cadOptionsArr){
+      this.cadastralCodesArr.splice(level, 1,  cadOptionsArr)
+    },
+
+
+    fetchCadastralForLevel(level, parentId, cb){
       if(parentId){
         let req = {url: '/cadastrals/'+ parentId }
         axios._get(req)
@@ -616,14 +624,16 @@ export default{
             cadOptionsArr = this.getCadastralOptionsList(res.data)
           }
 
-          this.cadastralCodesArr.splice(level, 1,  cadOptionsArr)
+          cb(null, cadOptionsArr)
+
         })
-        .catch( error => console.log(error) )
+        .catch( error =>  cb(error) )
       }
     },
 
 
     cadastralSelectChanged(level){
+      if(!this.initializedSelectionForm) return
       console.log('level ' + level + ' changed:  ' + this.query['cc_l_'+level])
       let parentId = this.query['cc_l_'+level]
 
@@ -633,10 +643,69 @@ export default{
           this.query['cc_l_'+i] = undefined
         }
 
-      //  console.log('this.query.cadastral_code ', this.query['cc_l_'+i])
+        this.fetchCadastralForLevel(level+1, parentId, (err, res) => {
+          if(err) return console.log(err)
 
-        this.fetchCadastralForLevel(level+1, parentId)
+          this.updateCadastralSelectLevel(level+1, res)
+        })
       }
+    },
+
+    // used on created component; fetch and restore the selection
+    restoreCadastralCodesSelect(){
+
+      // level 0 selection options
+      this.cadastralCodesArr.splice(0, 1, this.getCadastralOptionsList(this.cadastralListLevel_0) )
+
+      let selectionsArr = []
+
+      for(let i = 0; i < 6; i++){
+        if(this.query['cc_l_'+i]){
+          selectionsArr.push(this.query['cc_l_'+i])
+        }else{
+          break
+        }
+      }
+
+      // if nothing has to be done
+      if(selectionsArr.length == 0){
+        this.initializedSelectionForm = true
+        return
+      }
+
+      this.waterfallSelectionsCadastrals(selectionsArr, 0, (err, res) => {
+        if(err) return console.log(err)
+
+        console.log('res waterfallSelectionsCadastrals', res)
+        if(res < selectionsArr.length - 1){ // if some of the items were not finded
+          for(let i = res; i < 6; i++){
+            this.query['cc_l_'+i] = undefined
+          }
+        }
+
+        this.initializedSelectionForm = true
+        console.log('gata')
+
+      })
+    },
+
+
+    waterfallSelectionsCadastrals(selectionsArr, currentLevel, cb ){
+      if(!selectionsArr[currentLevel]) return cb(new Error("Aiurea"))
+      let itemExists = this.cadastralCodesArr[currentLevel].find(e => e._id == selectionsArr[currentLevel])
+      if(!itemExists) cb(null, currentLevel)
+
+      this.fetchCadastralForLevel(currentLevel+1, selectionsArr[currentLevel], (err, res) => {
+        if(err) return cb(err)
+
+        this.updateCadastralSelectLevel(currentLevel+1, res)
+
+        if(currentLevel + 1  < selectionsArr.length){
+          this.waterfallSelectionsCadastrals(selectionsArr, currentLevel+1, cb)
+        }else{
+          cb(null, currentLevel)
+        }
+      })
     }
 
   },
@@ -724,16 +793,8 @@ export default{
     })
 
     Object.assign(this.query, filtersCopy)
-    this.cadastralCodesArr.splice(0, 1, this.getCadastralOptionsList(this.cadastralListLevel_0) )
-    console.log('created query ', this.query)
 
-    for(let i = 0; i < 6; i++){
-      if(this.query['cc_l_'+i] && this.query['cc_l_'+i] != null){
-        this.fetchCadastralForLevel(i+1, this.query['cc_l_'+i])
-      }else{
-        break
-      }
-    }
+    this.restoreCadastralCodesSelect()
   },
 
 }
