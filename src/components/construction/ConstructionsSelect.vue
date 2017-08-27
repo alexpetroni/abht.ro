@@ -53,7 +53,7 @@
             <div class="col-xs-12 col-sm-3 col-md-2">
               <div class="form-group">
                 <label>Radier</label>
-                <select v-model="query.has_apron"  class="form-control">
+                <select v-model="query.has_apron"  class="form-control" @change="apronSelChanged">
                   <option v-for="el in presenceArr" :value="el.val">{{el.txt}}</option>
                 </select>
               </div>
@@ -63,7 +63,7 @@
             <div class="col-xs-12 col-sm-3 col-md-2">
               <div class="form-group">
                 <label>Confuzor</label>
-                <select id="inventory_year_to" v-model="query.has_confuseur"  class="form-control">
+                <select id="inventory_year_to" v-model="query.has_confuseur"  class="form-control" :disabled="constrWithoutApron">
                   <option v-for="el in presenceArr" :value="el.val">{{el.txt}}</option>
                 </select>
               </div>
@@ -74,7 +74,7 @@
             <div class="col-xs-12 col-sm-3 col-md-2">
               <div class="form-group">
                 <label>Pinten terminal</label>
-                <select id="inventory_year_to" v-model="query.has_final_spur"  class="form-control">
+                <select id="inventory_year_to" v-model="query.has_final_spur"  class="form-control" :disabled="constrWithoutApron">
                   <option v-for="el in presenceArr" :value="el.val">{{el.txt}}</option>
                 </select>
               </div>
@@ -555,6 +555,8 @@ export default{
       ],
 
 
+      constrWithoutApron: false,
+
       initializedSelectionForm: false
 
     }
@@ -603,6 +605,15 @@ export default{
       this.query = Object.assign({}, this.query, cq)
     },
 
+    apronSelChanged(val){
+      if(this.query.has_apron == false){
+        this.query.has_confuseur = undefined
+        this.query.has_final_spur = undefined
+        this.constrWithoutApron = true
+      }else{
+        this.constrWithoutApron = false
+      }
+    },
 
     getCadastralOptionsList(arr){
       return [{ _id: undefined, name: "Selecteaza"}, ...arr ]

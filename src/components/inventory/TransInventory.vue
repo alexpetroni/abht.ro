@@ -159,7 +159,7 @@
     </table>
 
 
-    <template v-if="construction.has_final_spur">
+    <template v-if="construction.cd.has_final_spur">
       <h4>Avarii pinten terminal</h4>
       <table  class="table table-bordered abht-table text-center">
         <thead>

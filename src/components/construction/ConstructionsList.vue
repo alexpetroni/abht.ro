@@ -3,8 +3,13 @@
 
     <template v-if="listUpToDate">
       <div v-if="constructionsList.total">
-    <div class="col-12-sm" ><b>Constructii gasite: {{ constructionsList.total }}</b></div>
 
+    <div class="col-sm-6" ><b>Construcţii găsite: {{ constructionsList.total }}</b></div>
+    <div class="col-sm-6 text-right">
+      <a v-if="isConstructionTypeSelected" target="_blank" href="#" @click.prevent="downloadList($event)">Download listă construcţii</a>
+    </div>
+
+<div class="col-sm-12" >
     <table class="table" v-if="constructionsList.total">
       <thead>
         <tr>
@@ -19,6 +24,7 @@
         <constructions-list-item v-for="construction in constructionsList.items" :construction="construction" :key="construction._id"></constructions-list-item>
       </tbody>
     </table>
+  </div>
 
 
     <constructions-list-paginator
@@ -26,6 +32,7 @@
     :page = "constructionsList.page"
     :itemsPerPage = "constructionsList.itemsPerPage"
     @update="updateCurrentPage"></constructions-list-paginator>
+
   </div>
   <div v-else>
     <div class="text-center"><br /><br /><h3>Nu a fost gasita nici o lucrare</h3></div>
@@ -42,6 +49,8 @@
 <script>
 
 import generalMixin from './../../mixins/general'
+
+const config = require('./../../../abht.config.js')
 
 import { mapActions, mapGetters } from 'vuex'
 
@@ -67,11 +76,23 @@ export default{
       //delete newQuery.cadastral_code
       console.log(' newQuery ', newQuery)
       this.$router.replace({query: newQuery})
+    },
+
+    downloadList(){
+      let query = this.jsonCopy(this.$route.query)
+      let url = config.apiUrl + '/download/constructions-list'
+      let params = Object.keys(query) .map( k => encodeURIComponent(k) + '=' + encodeURIComponent(query[k])).join('&')
+      console.log(params)
+      window.open(url+ '?' + params)
     }
   },
 
   computed:{
     ...mapGetters(['listUpToDate', 'constructionsList', 'constrFilters']),
+
+    isConstructionTypeSelected(){
+      return this.$route.query.type
+    }
   }
   ,
 

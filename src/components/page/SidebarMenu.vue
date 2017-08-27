@@ -2,7 +2,7 @@
   <div id="sidebar-wrapper">
               <ul class="sidebar-nav nav-pills nav-stacked" id="menu">
 
-                <router-link :to="{name: 'constructions-select'}" tag="li" active-class="active" exact><a ><span class="fa-stack fa-lg pull-left"><i class="fa fa-filter  fa-stack-1x "></i></span>Selectie lucrări <span class="sr-only">(current)</span></a></router-link>
+                <router-link :to="{name: 'constructions-select'}" tag="li" active-class="active" exact><a ><span class="fa-stack fa-lg pull-left"><i class="fa fa-filter  fa-stack-1x "></i></span>Selecţie lucrări <span class="sr-only">(current)</span></a></router-link>
 
                 <router-link :to="{name: 'constructions-list', query: currentConstructionsSelectionListPage }" tag="li" active-class="active"><a ><span class="fa-stack fa-lg pull-left"><i class="fa fa-list fa-stack-1x "></i></span>Listă lucrări <span class="sr-only">(current)</span></a></router-link>
 

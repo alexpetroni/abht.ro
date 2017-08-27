@@ -9,6 +9,8 @@ const mv = require('mv')
 const sharp = require('sharp')
 const multer = require('multer')
 
+const json2csv = require('json2csv')
+
 const mime = require('mime')
 
 const async = require('async')
@@ -1021,6 +1023,167 @@ router.route('/charts/ys-distribution-condition')
             })
           })
 
+
+
+// ===================== DOWNLOAD CONSTRUCTIONS LIST =========================
+
+router.route('/download/constructions-list')
+.get((req, res, next) => {
+
+  let q = req.query
+
+  let fields = []
+  let data = []
+
+
+  // if no construction type specified
+  if(!q.type) {
+    fields.push("Eroare")
+    data.push( "Nu a fost specificat tipul de constructiei: transversala sau canal de evacuare.")
+
+    return json2csv({ data: data, fields: fields }, function(err, csv) {
+      res.setHeader('Content-disposition', 'attachment; filename=data.csv');
+      res.set('Content-Type', 'text/csv');
+      res.status(200).send(csv);
+    });
+  }
+
+  // if everything is OK, construct first two rows
+
+  let constrType = q.type == 'trans' ? 'Transversala' : "Longitudinala"
+
+  fields.push( 'type')
+
+  let secondRowWithTitles = { 'type': 'Tip'}
+
+  let constrGeneralDataFields = getConstructionGeneralDataFields()
+  let damFields = getTransversalConstructionDataFields()
+
+  let inventoryFields = getInventoryFields()
+
+  let damInventoryFields = getDamInventoryFields()
+  let damInventoryFinalSpurFields = getDamInventoryFinalSpurFields()
+
+
+  let longConstrFields = getLongConstrFields()
+  let sectorFields = getSectorFields()
+  let sectorSpurFields = getSectorSpurFields()
+
+  let sectInvFields = getSectorInventoryFields()
+  let sectSpurInvFields = getSectorSpurInventoryFields()
+
+  let longFinalSpurFields = getLongFinalSpurFields()
+  let longFinalSpurInvFields = getLongFinalSpurInventoryFields()
+
+  constrGeneralDataFields.forEach(e => {
+    fields.push(e.field)
+    secondRowWithTitles[e.field] = e.name
+  })
+
+
+
+  if(q.type == 'trans'){
+
+    let transversalFields = [ ...damFields, ...inventoryFields, ...damInventoryFields, ...damInventoryFinalSpurFields ]
+
+    transversalFields.forEach(e => {
+      fields.push(e.field)
+      secondRowWithTitles[e.field] = e.name
+    })
+  }else{
+    let longFields = [ ...longConstrFields, ...sectorFields, ...sectorSpurFields, ...longFinalSpurFields, ...sectInvFields, ...sectSpurInvFields, ...longFinalSpurInvFields ]
+
+    longFields.forEach(e => {
+      fields.push(e.field)
+      secondRowWithTitles[e.field] = e.name
+    })
+
+  }
+
+
+  data.push(secondRowWithTitles)
+
+  parseQueryToFilters(q, function(err, filters){
+    if(err) return next(err)
+
+      db.Construction.find(filters)
+      .populate('gd.cadastral_code')
+      .exec(function(err, constrList){
+          if(err) return next(err)
+
+          async.eachLimit(
+            constrList,
+            10,
+            function(construction, cb){
+              construction.setAdminlocation(function(err, cc){
+                if(err) return cb(err)
+
+                let constrObj = cc.toObject()
+                let item =  { 'type': constrType }
+
+                item = prepareDownloadParseGeneralDataFields(constrObj, item)
+
+
+
+                if(q.type == 'trans'){
+                  item = prepareDownloadParseTransversalDataFields(constrObj, item)
+
+                  item = prepareDownloadParseInvDataFields(constrObj, item)
+
+                  item = prepareDownloadParseInvDamDataFields(constrObj, item)
+
+                  item = prepareDownloadParseInvDamFinalSpurDataFields(constrObj, item)
+
+                  data.push(item) // because on transversal one construction == one row
+
+                }else{
+                  item = prepareDownloadParseLongConstrDataFields(constrObj, item) // general long constr data
+
+                  item = prepareDownloadParseLongitudinalFinalSpurDataFields(constrObj, item) // final spur
+
+                  item = prepareDownloadParseLongitudinalInvFinalSpurDataFields(constrObj, item) // final spur inventory
+
+                  let sectorRows = prepareDownloadSectorsDataFields(constrObj)
+                  let sectorInvRows = prepareDownloadSectorsInventoryDataFields(constrObj)
+
+                  // merge sector data with inventory data
+                  let sectData = []
+
+                  sectorRows.forEach( (e, index) => {
+                    sectData.push( Object.assign(e, sectorInvRows[index]) )
+                  })
+
+                  let firstSectRow = sectData.splice(0, 1)
+
+                  item = Object.assign(item, firstSectRow[0])
+
+                  data.push(item, ...sectData)
+                }
+
+
+
+                cb(null, 2)
+              })
+            },
+
+            function(err){
+            if(err) return next(err)
+            console.log('each limit finsihed')
+            //console.log('data ', data)
+              console.log('data length', data.length)
+
+            json2csv({ data: data, fields: fields }, function(err, csv) {
+              res.setHeader('Content-disposition', 'attachment; filename=data.csv');
+              res.set('Content-Type', 'text/csv');
+              res.status(200).send(csv);
+            });
+          })
+      })
+
+  })
+
+});
+
 // ===============================================================================
 //                          Helper functions
 // ===============================================================================
@@ -1537,6 +1700,474 @@ function parseQueryToFilters(q, callback){
 
         callback(null, filters)
       })
+}
+
+// ================================ DOWNLOAD ================================
+
+
+// ============ Fields ============
+function getConstructionGeneralDataFields(){
+  return [
+    {field: "cadastral_code", name: "Cod Cadastral" },
+    {field: "construction_code", name: "Cod Lucrare"},
+    {field: "basin_name", name: "Nume bazin" },
+    {field: "geolocation.lat", name: "Latitudine" },
+    {field: "geolocation.long", name: "Longitudine" },
+
+    {field: "county", name: "Judet" },
+    {field: "city", name: "Localitate" },
+
+    {field: "construction_year", name: "An constructie" },
+
+    {field: "reparation_years", name: "Ani reparatii" },
+    {field: "inventory_years", name: "Ani inventariere" },
+
+
+
+    {field: "owner", name: "Proprietar" },
+
+    {field: "protected_area", name: "Arie protejata" },
+    {field: "protected_area_name", name: "Nume arie protejata" },
+
+  ]
+}
+
+function getTransversalConstructionDataFields(){
+  return [
+    {field: "has_apron", name: "Are radier" },
+    {field: "has_confuseur", name: "Are confuzor"},
+    {field: "has_final_spur", name: "Are pinten terminal" },
+
+
+    {field: "transversal_type", name: "Tip lucrare" },
+    {field: "ye", name: "Ye" },
+    {field: "h", name: "H" },
+    {field: "a", name: "a" },
+    {field: "b", name: "B" },
+
+    // apron
+    {field: "lr", name: "Lr" },
+    {field: "br", name: "Br" },
+    {field: "disip_type", name: "Tip disipator" },
+    {field: "hz", name: "Hz" },
+    {field: "apron_teeth_no", name: "Numar total dinti radier" },
+
+  // confuseur
+    {field: "lc", name: "Lc" },
+    {field: "bc", name: "Bc" },
+
+
+    // construction materials
+    {field: "mat_main_body", name: "Mat corp" },
+    {field: "mat_wings", name: "Mat aripi" },
+    {field: "mat_apron", name: "Mat radier" },
+    {field: "mat_counter_dam", name: "Mat contrabaraj" },
+    {field: "mat_side_walls", name: "Mat ziduri laterale" },
+
+    // final spur
+    {field: "mat_final_spur", name: "Mat pinten terminal" },
+    {field: "spur_length", name: "Lungime pinten terminal" }
+
+  ]
+}
+
+function getInventoryFields(){
+  return [
+    { field: "year", name: "Anul ultimei inv." },
+    { field: "ys", name: "Ys" },
+  ]
+}
+
+function getDamInventoryFields(){
+return [
+  // mainBody damages
+  { field: "dec_left", name: "Dec. stg" },
+  { field: "dec_right", name: "Dec. dr" },
+  { field: "af_height", name: "Afuieri H(m)" },
+  { field: "af_percent", name: "Afuieri %" },
+  { field: "h_crak_dev_nr", name: "Fis. oriz. nr. z. deversata" },
+  { field: "h_crak_dev_l", name: "Fis. oriz. lungime z. deversata" },
+  { field: "v_crak_dev_nr", name: "Fis. ver. nr. z. deversata" },
+  { field: "v_crak_dev_l", name: "Fis. vert. lungime z. deversata" },
+  { field: "h_crak_undev_nr", name: "Fis. oriz. nr. z. ne-deversata" },
+  { field: "h_crak_undev_l", name: "Fis. oriz. lungime z. ne-deversata" },
+  { field: "v_crak_undev_nr", name: "Fis. vert. nr. z. ne-deversata" },
+  { field: "v_crak_undev_l", name: "Fis. vert. lungime z. ne-deversata" },
+  { field: "detach_dev_percent", name: "Desprinderi zonă deversată %" },
+  { field: "detach_undev_left_percent", name: "Desprinderi z, nedeversată stanga %" },
+  { field: "detach_undev_right_percent", name: "Desprinderi z, nedeversată dreapta %" },
+  { field: "erosion_height", name: "Eroziuni adancime (cm)" },
+  { field: "erosion_percent", name: "Eroziuni % " },
+
+  // apron damages
+  { field: "apron_crack_nr", name: "Rad. fis. nr" },
+  { field: "apron_crack_percent", name: "Rad. fis. %" },
+  { field: "apron_af_height", name: "Rad. af. inalt(m)" },
+  { field: "apron_af_percent", name: "Rad. af. %" },
+  { field: "apron_detach_percent", name: "Rad despr. %" },
+  { field: "apron_teeth_detach_nr", name: "Rad. dinti despr." },
+  { field: "apron_detach_counter_dam_percent", name: "Rad. contr. despr. %" },
+  { field: "apron_erosion_height", name: "Rad. eroziune adancime" },
+  { field: "apron_erosion_percent", name: "Rad. eroz. %" },
+
+  // sidewall damages
+  { field: "sidewall_left_horiz_craks_nr", name: "Zid cond stg. fis. oriz. nr." },
+  { field: "sidewall_left_horiz_length", name: "Zid cond stg. fis. oriz. lungime" },
+  { field: "sidewall_left_vert_craks_nr", name: "Zid cond stg. fis. vert. nr." },
+  { field: "sidewall_left_vert_length", name: "Zid cond stg. fis. ver. lungime" },
+  { field: "sidewall_left_displaced_percent", name: "Zid cond stg. despr. %" },
+  { field: "sidewall_left_abrasion_deep", name: "Zid cond stg. eroz. (m)" },
+  { field: "sidewall_left_abrasion_percent", name: "Zid cond stg. eroz. %" },
+
+
+  { field: "sidewall_right_horiz_craks_nr", name: "Zid cond dr. fis. oriz. nr." },
+  { field: "sidewall_right_horiz_length", name: "Zid cond dr. fis. oriz. lungime" },
+  { field: "sidewall_right_vert_craks_nr", name: "Zid cond dr. fis. vert. nr." },
+  { field: "sidewall_right_vert_length", name: "Zid cond dr. fis. ver. lungime" },
+  { field: "sidewall_right_displaced_percent", name: "Zid cond dr. despr. %" },
+  { field: "sidewall_right_abrasion_deep", name: "Zid cond dr. eroz. (m)" },
+  { field: "sidewall_right_abrasion_percent", name: "Zid cond dr. eroz. %" },
+
+
+  // disfunctionalities
+  { field: "disf_colmat_deversor_percent", name: "Disf. colmat. deversor" },
+  { field: "disf_colmat_apron_su_percent", name: "Disf. colmat. rad %SU" },
+  { field: "disf_colmat_apron_srad_percent", name: "Disf. colmat. rad %Srad" },
+  { field: "disf_hat", name: "Înălțime aterisament" },
+  { field: "disf_gal_type", name: "Granulometrie aluviuni" },
+  { field: "disf_veget_amonte", name: "Vegetație lemn amont" },
+  { field: "disf_veget_aval", name: "Vegetație lemn aval" },
+  { field: "disf_section_dim_perecent", name: "Reducere secțiune %" },
+]
+}
+
+function getDamInventoryFinalSpurFields(){
+  return [
+    {field: "final_spur_decastr_left", name: "Pinten terminal dec. stg" },
+    {field: "final_spur_decastr_right", name: "Pinten terminal dec. dr" },
+    {field: "final_spur_horiz_crack_nr", name: "Pinten terminal fis. oriz nr" },
+    {field: "final_spur_horiz_crack_length", name: "Pinten terminal fis. oriz lungime" },
+    {field: "final_spur_vert_crack_nr", name: "Pinten terminal fis. vert nr" },
+    {field: "final_spur_vert_crack_length", name: "Pinten terminal fis. vert lungime" },
+    {field: "final_spur_detach_left_percent", name: "Pinten terminal despr. stg" },
+    {field: "final_spur_detach_right_percent", name: "Pinten terminal despr. dr" },
+    {field: "final_spur_detach_center_percent", name: "Pinten terminal despr. centru" },
+    {field: "final_spur_erosion_height", name: "Pinten terminal eroziune adancime" },
+    {field: "final_spur_erosion_percent", name: "Pinten terminal eroziune %" },
+
+  ]
+}
+
+
+function getLongConstrFields(){
+  return [
+      {field: "sectors", name: "Numar sectoare" },
+      {field: "total_length", name: "Lungime totala" },
+      {field: "has_final_spur", name: "Are pinten terminal" }
+  ]
+}
+
+
+function getSectorFields(){
+return [
+  {field: "sector_nr", name: "Nr. sector" },
+  {field: "nr_of_stairs", name: "Nr. trepte" },
+  {field: "sector_length", name: "Lungime" },
+  {field: "sector_deep", name: "Adancime" },
+  {field: "fruit_guard_wall", name: "Fruct zid garda" },
+  {field: "mat_sect_apron", name: "Mat rad sector" },
+  {field: "mat_sect_walls", name: "Mat ziduri sect" },
+]
+}
+
+function getSectorSpurFields(){
+  return [
+    {field: "spur_nr", name: "Nr. pinten" },
+    {field: "mat_sect_spur", name: "Mat. pinten" },
+    {field: "spur_sidewall_height", name: "Inaltime pinten" },
+    {field: "spur_stair_height", name: "Inaltime treapta" },
+    {field: "spur_length", name: "Lungime pinten" },
+  ]
+}
+
+
+function getSectorInventoryFields(){
+return [
+  // apron damages
+  {field: "apron_craks_nr", name: "Rad. fis. nr." },
+  {field: "apron_damage_percent", name: "Rad. fis. %" },
+  {field: "apron_displaced", name: "Rad. desprindere %" },
+  {field: "apron_abrasion_deep", name: "Eroz. adancime" },
+  {field: "apron_abrasion_percent", name: "Eroz. %" },
+
+  // sidewalls damages
+  {field: "sidewall_left_horiz_craks_nr", name: "Zid cond. stg. fis. oriz. nr." },
+  {field: "sidewall_left_horiz_length", name: "Zid cond. stg. fis. oriz. lungime" },
+  {field: "sidewall_left_vert_craks_nr", name: "Zid cond. stg. fis. vert. nr." },
+  {field: "sidewall_left_vert_length", name: "Zid cond. stg. fis. vert. lungime." },
+  {field: "sidewall_left_displaced", name: "Zid cond. stg. despr." },
+  {field: "sidewall_left_abrasion_deep", name: "Zid cond. stg. eroz. adancime" },
+  {field: "sidewall_left_abrasion_percent", name: "Zid cond. stg. eroz. %" },
+
+  {field: "sidewall_right_horiz_craks_nr", name: "Zid cond. dr. fis. oriz. nr." },
+  {field: "sidewall_right_horiz_length", name: "Zid cond. dr. fis. oriz. lungime" },
+  {field: "sidewall_right_vert_craks_nr", name: "Zid cond. dr. fis. vert. nr." },
+  {field: "sidewall_right_vert_length", name: "Zid cond. dr. fis. vert. lungime" },
+  {field: "sidewall_right_displaced", name: "Zid cond. dr. despr." },
+  {field: "sidewall_right_abrasion_deep", name: "Zid cond. dr. eroz. adancime" },
+  {field: "sidewall_right_abrasion_percent", name: "Zid cond. dr. eroz. %" },
+
+
+
+  {field: "disf_colmat_su_percent", name: "Disf. colmat. rad %SU" },
+  {field: "disf_colmat_srad_percent", name: "Disf. colmat. rad %Srad" },
+  {field: "disf_section_dim_perecent", name: "Reducere secţ. aval" }
+]
+}
+
+
+function getSectorSpurInventoryFields(){
+  return [
+    {field: "spur_nr", name: "Nr. pinten"},
+    {field: "spur_horiz_craks_nr", name: "Pinten fis. oriz. nr."},
+    {field: "spur_horiz_craks_lenght", name: "Pinten fis. oris. lungime"},
+    {field: "spur_vert_craks_nr", name: "Pinten fis. vert. nr."},
+    {field: "spur_vert_craks_lenght", name: "Pinten fis. vert. lungime"},
+    {field: "spur_displaced_left", name: "Pinten despr. stg."},
+    {field: "spur_displaced_right", name: "Pinten despr. dr."},
+    {field: "spur_displaced_center", name: "Pinten despr. centru"},
+    {field: "spur_abrasion_percent", name: "Pinten eroz. %"},
+    {field: "spur_abrasion_deep", name: "Pinten eroz. adancime"},
+  ]
+}
+
+function getLongFinalSpurFields(){
+  return [
+    {field: "mat_final_spur", name: "Mat pinten terminal" },
+    {field: "spur_length", name: "Lungime pinten terminal" },
+    {field: "sidewall_height", name: "Inaltime zid cond. pinten terminal " }
+  ]
+}
+
+function getLongFinalSpurInventoryFields(){
+  return [
+    {field: "final_spur_decastr_left", name: "Pinten terminal decastr. stg." },
+    {field: "final_spur_decastr_right", name: "Pinten terminal decastr. dr." },
+    {field: "final_spur_afuieri_height", name: "Pinten terminal afuieri inaltime" },
+    {field: "final_spur_afuieri_percent", name: "Pinten terminal afuieri %" },
+
+    {field: "final_spur_horiz_craks_nr", name: "Pinten terminal fis. oriz. nr." },
+    {field: "final_spur_horiz_craks_lenght", name: "Pinten terminal fis. oriz. lungime" },
+    {field: "final_spur_vert_craks_nr", name: "Pinten terminal fis. vert. nr." },
+    {field: "final_spur_vert_craks_lenght", name: "Pinten terminal fis. vert. lungime" },
+
+    {field: "final_spur_displaced_left", name: "Pinten terminal desprinderi stg. %" },
+    {field: "final_spur_displaced_right", name: "Pinten terminal desprinderi dr. %" },
+    {field: "final_spur_displaced_center", name: "Pinten terminal desprinderi centru %" },
+
+    {field: "final_spur_abrasion_deep", name: "Pinten terminal eroziuni adancime" },
+    {field: "final_spur_abrasion_percent", name: "Pinten terminal eroziuni %" },
+  ]
+}
+
+
+function xx(){
+      let x = {field: "", name: "" }
+}
+
+// ============ parsing result fields ============
+function prepareDownloadParseGeneralDataFields(construction, item){
+  let fields = getConstructionGeneralDataFields()
+
+  fields.forEach( e => {
+
+   if( e.field == 'reparation_years' || e.field == 'inventory_years' ){ // this are arrays
+     item[e.field] = construction.gd[e.field] && Array.isArray(construction.gd[e.field]) ? construction.gd[e.field].join(', ' ) : ''
+   }else if(e.field == 'cadastral_code'){
+     item[e.field] = construction.gd[e.field] && construction.gd[e.field].breadcrumb ? construction.gd[e.field].breadcrumb : ''
+   }else if(e.field == 'geolocation.lat'){
+     item[e.field] = construction.gd.geolocation && construction.gd.geolocation.lat ? parseFloat(construction.gd.geolocation.lat).toFixed(8) : ''
+   }else if(e.field == 'geolocation.long'){
+     item[e.field] = construction.gd.geolocation && construction.gd.geolocation.long ? parseFloat(construction.gd.geolocation.long).toFixed(8) : ''
+   }else if(e.field == 'county'){
+     item[e.field] = construction.gd['adminlocation'] && construction.gd.adminlocation.county ? construction.gd.adminlocation.county : ''
+   }else if( e.field == 'city'){
+     item[e.field] = construction.gd.adminlocation && construction.gd.adminlocation.city ? construction.gd.adminlocation.city : ''
+   }else{
+     item[e.field] = construction.gd[e.field]
+   }
+
+  })
+  return item
+}
+
+
+function prepareDownloadParseTransversalDataFields(construction, item){
+  let fields = getTransversalConstructionDataFields()
+
+  fields.forEach(e => {
+    if( e.field == 'has_apron' || e.field == 'has_confuseur' || e.field == 'has_final_spur'){ // this are booleans
+      item[e.field] = construction.cd[e.field] ? construction.cd[e.field] : false
+    }else{
+      item[e.field] = construction.cd.dam[e.field]
+    }
+
+  })
+
+  return item
+}
+
+
+function prepareDownloadParseInvDataFields(construction, item){
+  let fields = getInventoryFields()
+
+  fields.forEach(e => {
+    item[e.field] = construction.current_inventory[e.field]
+  })
+
+  return item
+}
+
+function prepareDownloadParseInvDamDataFields(construction, item){
+  let fields = getDamInventoryFields()
+
+  fields.forEach(e => {
+    item[e.field] = construction.current_inventory.dam[e.field]
+  })
+
+  return item
+}
+
+function prepareDownloadParseInvDamFinalSpurDataFields(construction, item){
+  let fields = getDamInventoryFinalSpurFields()
+
+  fields.forEach(e => {
+    item[e.field] = construction.current_inventory.final_spur ? construction.current_inventory.final_spur[e.field] : ''
+  })
+
+  return item
+}
+
+
+
+// ================== Longitudinal constr ============
+
+function prepareDownloadParseLongConstrDataFields(construction, item){
+  let fields = getLongConstrFields()
+
+  fields.forEach(e => {
+    if(e.field == 'sectors'){
+      item[e.field] = construction.cd.sectors.length
+    }else{
+      item[e.field] = construction.cd[e.field]
+    }
+
+  })
+
+  return item
+}
+
+
+function prepareDownloadSectorsDataFields(construction){
+  let sectorRows = []
+
+  let sectFields = getSectorFields()
+  let spurFields = getSectorSpurFields()
+
+  construction.cd.sectors.forEach(s => {
+    let sect = {}
+
+    // add only sectors fields
+    sectFields.forEach(e => {
+      sect[e.field] = s[e.field]
+    })
+
+    // add sector spurs
+    let spurArr = []
+
+    if(s.spurs && Array.isArray(s.spurs)){
+      s.spurs.forEach(sectSpur => {
+        let spurItem = {}
+        spurFields.forEach(e => {
+          spurItem[e.field] = sectSpur[e.field]
+        })
+        spurArr.push(spurItem)
+      })
+
+      // add on the same row the first spur with the parent sector
+      if(spurArr.length){
+        let firstSpur = spurArr.splice(0, 1)
+        sect = Object.assign(sect, firstSpur[0])
+      }
+    }
+
+    sectorRows.push(sect, ...spurArr)
+
+  })
+
+  return sectorRows
+}
+
+
+function prepareDownloadSectorsInventoryDataFields(construction){
+  let sectorRows = []
+
+  let sectFields = getSectorInventoryFields()
+  let spurFields = getSectorSpurInventoryFields()
+
+  construction.current_inventory.sectors.forEach(s => {
+    let sect = {}
+
+    // add only sectors fields
+    sectFields.forEach(e => {
+      sect[e.field] = s[e.field]
+    })
+
+    // add sector spurs
+    let spurArr = []
+
+    if(s.spurs && Array.isArray(s.spurs)){
+      s.spurs.forEach(sectSpur => {
+        let spurItem = {}
+        spurFields.forEach(e => {
+          spurItem[e.field] = sectSpur[e.field]
+        })
+        spurArr.push(spurItem)
+      })
+
+      // add on the same row the first spur with the parent sector
+      if(spurArr.length){
+        let firstSpur = spurArr.splice(0, 1)
+        sect = Object.assign(sect, firstSpur[0])
+      }
+    }
+
+    sectorRows.push(sect, ...spurArr)
+  })
+
+  return sectorRows
+}
+
+
+function prepareDownloadParseLongitudinalFinalSpurDataFields(construction, item){
+  let fields = getLongFinalSpurFields()
+
+  fields.forEach(e => {
+    item[e.field] = construction.current_inventory.final_spur ? construction.current_inventory.final_spur[e.field] : ''
+  })
+
+  return item
+}
+
+
+function prepareDownloadParseLongitudinalInvFinalSpurDataFields(construction, item){
+  let fields = getLongFinalSpurInventoryFields()
+
+  fields.forEach(e => {
+    item[e.field] = construction.current_inventory.final_spur ? construction.current_inventory.final_spur[e.field] : ''
+  })
+
+  return item
 }
 
 
