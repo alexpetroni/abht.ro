@@ -154,7 +154,12 @@ const editorMixin = {
 
       }else{ // add inventory
         console.log(  ' add new ')
-        let yearRecorded = this.checkIfInventoryYearAlreadyExist(this.construction, this.inventory.year)
+        let yearRecorded = false
+        // check if is a new construction or is an inventory addition to an existent construction
+        if(this.construction.current_inventory && this.construction.inventories_archive){
+            yearRecorded = this.checkIfInventoryYearAlreadyExist(this.construction, this.inventory.year)
+        }
+
         console.log('yearRecorded')
         console.log(yearRecorded)
         if(!yearRecorded){

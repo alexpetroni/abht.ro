@@ -318,12 +318,11 @@ export default{
   methods: {
     onSubmit(){
       this.$validate().then(success => {
-        if(true || success){
+        if(success){
           let data = {
             dam: this.editedDam,
             final_spur: this.editedFinalSpur
           }
-          console.log('editorDam emit ', data)
           this.$emit('submit', JSON.stringify(data));
         }else{
           this.showInvalidFormMessage()
@@ -341,7 +340,7 @@ export default{
 
   computed: {
     isValid: function(){
-      // return this.editedDam.ye.trim().length;
+
       return true
     }
   },
@@ -352,19 +351,19 @@ export default{
 
   validators: {
     'editedDam.ye': function(value) {
-      return Validator.value(value).required().regex(/^[+]?\d+([.]\d+)?$/, 'Numar pozitiv.')
+      return this.validatePositiveNumber(value)
     },
 
     'editedDam.h': function(value) {
-      return Validator.value(value).required().regex(/^[+]?\d+([.]\d+)?$/, 'Numar pozitiv.')
+      return this.validatePositiveNumber(value)
     },
 
     'editedDam.a': function(value) {
-      return Validator.value(value).required().regex(/^[+]?\d+([.]\d+)?$/, 'Numar pozitiv.')
+      return this.validatePositiveNumber(value)
     },
 
     'editedDam.b': function(value) {
-      return Validator.value(value).required().regex(/^[+]?\d+([.]\d+)?$/, 'Numar pozitiv.')
+      return this.validatePositiveNumber(value)
     },
 
     'editedDam.transversal_type': function(value) {
@@ -375,12 +374,12 @@ export default{
 
     'editedDam.lr': function(value) {
       if(!this.construction.cd.has_apron) return
-      return Validator.value(value).required().regex(/^[+]?\d+([.]\d+)?$/, 'Numar pozitiv.')
+      return this.validatePositiveNumber(value)
     },
 
     'editedDam.br': function(value) {
       if(!this.construction.cd.has_apron) return
-      return Validator.value(value).required().regex(/^[+]?\d+([.]\d+)?$/, 'Numar pozitiv.')
+      return this.validatePositiveNumber(value)
     },
 
     'editedDam.disip_type': function(value) {
@@ -390,7 +389,7 @@ export default{
 
     'editedDam.hz': function(value) {
       if(!this.construction.cd.has_apron) return
-      return Validator.value(value).required().regex(/^[+]?\d+([.]\d+)?$/, 'Numar pozitiv.')
+      return this.validatePositiveNumber(value)
     },
 
     'editedDam.apron_teeth_no': function(value) {
@@ -401,18 +400,18 @@ export default{
 
     'editedDam.lc': function(value) {
       if(!this.construction.cd.has_confuseur) return
-      return Validator.value(value).required().regex(/^[+]?\d+([.]\d+)?$/, 'Numar pozitiv.')
+      return this.validatePositiveNumber(value)
     },
 
     'editedDam.bc': function(value) {
       if(!this.construction.cd.has_confuseur) return
-      return Validator.value(value).required().regex(/^[+]?\d+([.]\d+)?$/, 'Numar pozitiv.')
+      return this.validatePositiveNumber(value)
     },
 
 
     'editedFinalSpur.spur_length': function(value) {
       if(!this.construction.cd.has_final_spur) return
-      return Validator.value(value).required().regex(/^[+]?\d+([.]\d+)?$/, 'Numar pozitiv.')
+      return this.validatePositiveNumber(value)
     },
 
 

@@ -10,6 +10,7 @@
           </div>
           <div class="col-xs-6 col-sm-3 col-md-2">
             <input id="year" type="text" v-model="editedItem.year" class="form-control">
+            <div class="form-err-message">{{ validation.firstError('editedItem.year') }}</div>
           </div>
         </div>
 
@@ -286,7 +287,7 @@
 
 
         <div class="col-sm-12 text-center">
-          <button type="submit" class="btn btn-primary" :disabled="!isValid">Submit</button>
+          <button type="submit" class="btn btn-primary" >Submit</button>
           <button type="button" class="btn btn-warning" @click="onCancel">Cancel</button>
         </div>
 
@@ -390,7 +391,7 @@ export default{
   methods: {
     onSubmit(){
       this.$validate().then(success => {
-        if(true || success){
+        if(success){
           let data = { inventory: this.editedItem }
           console.log('editorDamInventory emit ', data)
           this.$emit('submit', JSON.stringify(data));
@@ -408,9 +409,6 @@ export default{
   },
 
   computed: {
-    isValid: function(){
-      return this.editedItem.year;
-    },
 
     isNew(){
       return this.editState == EditState.NEW
@@ -427,6 +425,11 @@ export default{
   },
 
   validators: {
+
+    'editedItem.year': function(value) {
+      return this.validateYear(value)
+    },
+
     'editedItem.dam.dec_left': function(value) {
       return this.validatePositiveNumber(value)
     },

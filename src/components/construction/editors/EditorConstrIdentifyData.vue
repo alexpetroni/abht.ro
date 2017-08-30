@@ -29,7 +29,7 @@
           <div class="row"  v-if="isNew">
             <div class="form-group col-xs-12 col-sm-6 col-md-3">
               <label for="sectorsNr">Numar sectoare</label>
-              <input id="sectorsNr" type="input" v-model="sectors_nr" class="form-control">
+              <input id="sectorsNr" type="input" v-model="sectors_nr" class="form-control" >
             </div>
             <div class="form-group col-xs-12 col-sm-6 col-md-3">
               <label for="hasApron">Are pinten terminal?</label>
@@ -53,7 +53,7 @@
               <div class="row">
                 <label class="col-xs-12" for="basinName">Denumire bazin</label>
                 <div class="col-xs-12">
-                  <input type="text" name="basinName" id="basinName" v-model="editedItem.gd.basin_name" class="form-control">
+                  <input type="text" name="basinName" id="basinName" v-model="editedItem.gd.basin_name" class="form-control" :class="{'has-error': validation.hasError('editedItem.gd.basin_name')}">
                   <div class="form-err-message">{{ validation.firstError('editedItem.gd.basin_name') }}</div>
                 </div>
               </div>
@@ -64,6 +64,7 @@
                 <label class="col-xs-12" for="constructionCode">Cod lucrare</label>
                 <div class="col-xs-12">
                   <input type="text" name="constructionCode" id="constructionCode" v-model="editedItem.gd.construction_code" class="form-control">
+                  <div class="form-err-message">{{ validation.firstError('editedItem.gd.construction_code') }}</div>
                 </div>
               </div>
             </div>
@@ -77,6 +78,7 @@
                   <select v-model="editedItem.gd._cadastral_code_items_arr[0]" class="form-control">
                     <option v-for="cod in cadastralLevel_0_Options" :value="cod._id">{{cod.name}}</option>
                   </select>
+
                 </div>
 
                 <template v-for="n in 5">
@@ -85,6 +87,9 @@
                   </div>
                 </template>
 
+                <div class="col-xs-12">
+                <div class="form-err-message">{{ validation.firstError('editedItem.gd._cadastral_code_items_arr') }}</div>
+              </div>
               </div>
             </div>
 
@@ -100,26 +105,27 @@
 
           <div class="row">
 
-            <div class="form-group col-xs-12 col-sm-6 col-md-3">
-              <div class="row">
-                <label class="col-xs-12" for="longitude">Longitudine</label>
-                <div class="col-xs-12">
-                  <input type="text" name="longitude" id="longitude" v-model="editedItem.gd.geolocation.long" class="form-control">
-                </div>
-              </div>
-            </div>
-
 
             <div class="form-group col-xs-12 col-sm-6 col-md-3">
               <div class="row">
                 <label class="col-xs-12" for="latitude">Latitudine</label>
                 <div class="col-xs-12">
                   <input type="text" name="latitude" id="latitude" v-model="editedItem.gd.geolocation.lat" class="form-control">
+                  <div class="form-err-message">{{ validation.firstError('editedItem.gd.geolocation.lat') }}</div>
                 </div>
               </div>
             </div>
 
 
+            <div class="form-group col-xs-12 col-sm-6 col-md-3">
+              <div class="row">
+                <label class="col-xs-12" for="longitude">Longitudine</label>
+                <div class="col-xs-12">
+                  <input type="text" name="longitude" id="longitude" v-model="editedItem.gd.geolocation.long" class="form-control">
+                  <div class="form-err-message">{{ validation.firstError('editedItem.gd.geolocation.long') }}</div>
+                </div>
+              </div>
+            </div>
 
 
             <div class="form-group col-xs-6 col-sm-6 col-md-3">
@@ -127,6 +133,7 @@
                 <label class="col-xs-12" for="constructionYear">An construcție</label>
                 <div class="col-xs-12">
                   <input type="text" name="constructionYear" id="constructionYear" v-model="editedItem.gd.construction_year" class="form-control">
+                  <div class="form-err-message">{{ validation.firstError('editedItem.gd.construction_year') }}</div>
                 </div>
               </div>
             </div>
@@ -137,6 +144,7 @@
                 <label class="col-xs-12" for="inventoryYears">Ani inventariere</label>
                 <div class="col-xs-12">
                   <input type="text" name="inventoryYears" id="inventoryYears" v-model.lazy="inventoryYears" class="form-control">
+                  <div class="form-err-message"></div>
                 </div>
               </div>
             </div>
@@ -147,6 +155,7 @@
                 <label class="col-xs-12" for="reparationYears">Ani reparație</label>
                 <div class="col-xs-12">
                   <input type="text" name="reparationYears" id="reparationYears" v-model.lazy="reparationYears" class="form-control">
+                    <div class="form-err-message"></div>
                 </div>
               </div>
             </div>
@@ -159,6 +168,7 @@
                   <select v-model="editedItem.gd.adminlocation.county_id"  class="form-control">
                     <option v-for="el in countiesListOptions(countiesList)" :value="el._id">{{el.name}}</option>
                   </select>
+                  <div class="form-err-message">{{ validation.firstError('editedItem.gd.adminlocation.county_id') }}</div>
                 </div>
               </div>
             </div>
@@ -169,6 +179,8 @@
                 <label class="col-xs-12" for="city">Localitate</label>
                 <div class="col-xs-12">
                   <input type="text" name="city" id="city" v-model="editedItem.gd.adminlocation.city" class="form-control">
+                  <div class="form-err-message">{{ validation.firstError('editedItem.gd.adminlocation.city') }}</div>
+
                 </div>
               </div>
             </div>
@@ -179,6 +191,8 @@
                 <label class="col-xs-12" for="owner">Proprietar</label>
                 <div class="col-xs-12">
                   <input type="text" name="owner" id="owner" v-model="editedItem.gd.owner" class="form-control">
+                  <div class="form-err-message"></div>
+
                 </div>
               </div>
             </div>
@@ -209,7 +223,7 @@
 </transition>
 
         <div class="col-sm-12 text-center">
-          <button type="submit" class="btn btn-primary" :disabled="!isValid">Submit</button>
+          <button type="submit" class="btn btn-primary" >Submit</button>
           <button type="button" class="btn btn-warning" @click="onCancel">Cancel</button>
         </div>
 
@@ -248,7 +262,7 @@ export default{
       console.log('onSubmit')
       this.$validate().then(success => {
 
-        if(success){
+        if(true || success){
             console.log('onSubmit success')
           let arr = []
 
@@ -271,7 +285,6 @@ export default{
           console.log('emit ', data)
           this.$emit('submit', JSON.stringify(data));
         }else{
-          console.log('showInvalidFormMessage()')
           this.showInvalidFormMessage()
         }
       })
@@ -325,7 +338,7 @@ export default{
     // cadastral codes arr
 
     cadastralLevel_0_Options: function(){
-      return [{ name: "Selecteaza" , _id: undefined }, ...this.cadastralListLevel_0 ]
+      return [{ name: "Selecteaza" , _id: '' }, ...this.cadastralListLevel_0 ]
     },
 
 
@@ -422,7 +435,7 @@ export default{
       subtitle += " pinten terminal."
 
       return subtitle
-    }
+    },
 
   },
 
@@ -430,6 +443,37 @@ export default{
     'editedItem.gd.basin_name': function(value) {
       return Validator.value(value).required()
     },
+
+    'editedItem.gd.construction_code': function(value) {
+      return this.validateRequired(value)
+    },
+
+    'editedItem.gd._cadastral_code_items_arr': function(value) {
+
+      return Validator.value(value[0]).required()
+    },
+
+    'editedItem.gd.geolocation.lat': function(value) {
+      return this.validateLatitudeLongitude(value)
+    },
+
+    'editedItem.gd.geolocation.long': function(value) {
+      return this.validateLatitudeLongitude(value)
+    },
+
+    'editedItem.gd.adminlocation.county_id': function(value) {
+      return this.validateRequired(value)
+    },
+
+    'editedItem.gd.adminlocation.city': function(value) {
+      return this.validateRequired(value)
+    },
+
+    'editedItem.gd.construction_year': function(value) {
+      return this.validateRequired(value)
+    },
+
+
 
     'editedItem.gd.protected_area_name, editedItem.gd.protected_area': function(areaName, isProtected) {
       if(!isProtected){

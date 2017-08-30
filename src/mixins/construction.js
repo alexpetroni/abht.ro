@@ -157,8 +157,8 @@ function getNewConstructionData(type){
     _id: '',
     type: type ? type : '',
     gd: { // general_data
-      cadastral_code: { name: undefined, _id: undefined, parent: undefined, ancestors: [], breadcrumb: ''},
-      _cadastral_code_items_arr: [undefined, undefined, undefined, undefined, undefined, undefined],
+      cadastral_code: { name: '', _id: '', parent: '', ancestors: [], breadcrumb: ''},
+      _cadastral_code_items_arr: ['', '', '', '', '', ''],
       construction_code: '',
       basin_name: '',
       geolocation: {lat: '', long: ''},
@@ -195,7 +195,7 @@ const constructionMixin = {
       }
 
       if(firstElement !== false){
-          list.push({name: "Selecteaza", slug: undefined, description: ''})
+          list.push({name: "Selecteaza", slug: '', description: '', _id: ''})
       }
 
       list.push(...countiesArr)
@@ -225,7 +225,7 @@ const constructionMixin = {
         }
 
         if(firstElement !== false){
-            list.push({name: "Selecteaza", slug: undefined, description: ''})
+            list.push({name: "Selecteaza", slug: '', description: '', _id: ''})
         }
 
         cons_materials[type].forEach(name => list.push ({
@@ -428,7 +428,7 @@ const constructionMixin = {
     getNewSectorSpur(nr){
       return {
         spur_nr: nr ? nr : 1,
-        spur_mat_construction: '',
+        mat_sect_spur: '',
         spur_sidewall_height: '',
         spur_stair_height: '',
         spur_length: '',

@@ -14,6 +14,7 @@
             <select id="final_spur_mat_construction" v-model="finalSpur.mat_final_spur"  class="form-control">
               <option v-for="mat in constructionMaterialsListOptions('mat_final_spur')" :value="mat.slug">{{ mat.name }}</option>
             </select>
+            <div class="form-err-message">{{ validation.firstError('finalSpur.mat_final_spur') }}</div>
           </div>
 
         </div>

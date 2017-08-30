@@ -9,7 +9,7 @@
       }"
       >Vizualizare constructie</router-link>
       <div>
-        <a @click="deleteCurrentInventory" v-if = "construction.inventories_archive.length > 0">Sterge inventar</a>
+        <a @click.prevent="deleteCurrentInventory" href="#" v-if = "construction.inventories_archive.length > 0">Sterge inventar</a>
       </div>
     </div>
     <h3>{{ title }}</h3>

@@ -1,19 +1,21 @@
 <template>
   <div id="app">
     <app-main-menu @toggle="toggleSideMenu"></app-main-menu>
-    <div id="wrapper" :class="{'toggle-2': !sidebarShowLarge}">
-      <!-- Sidebar -->
-      <app-sidebar-menu></app-sidebar-menu>
-      <!-- Page Content -->
-      <div id="page-content-wrapper">
-        <div class="container-fluid xyz">
-          <router-view></router-view>
-        </div>
-      </div>
-    </div>
+    <div class="row">
 
-    <app-footer></app-footer>
-  </div>
+        <!-- Sidebar -->
+        <div class="col-sm-2">
+          <app-sidebar-menu></app-sidebar-menu>
+        </div>
+        <!-- Page Content -->
+        <div class="col-sm-10">
+            <router-view></router-view>
+        </div>
+
+      </div>
+
+          <app-footer></app-footer>
+    </div>
 </template>
 
 <script>
@@ -53,5 +55,11 @@ export default {
 </script>
 
 <style>
+
+.form-err-message{
+  color: red;
+  font-size: .8em;
+  height: 1em;
+}
 
 </style>

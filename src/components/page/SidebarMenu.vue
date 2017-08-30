@@ -46,9 +46,7 @@ export default {
   },
 
   methods:{
-    toggleMenu(){
-      alert('toggle')
-    },
+
   },
 
   computed: {
@@ -67,18 +65,6 @@ export default {
   },
 
   directives: {
-    toggleMenu: {
-      bind(el, binding, vnode){
-        el.addEventListener("click", function(){
-          el.classList.toggle('open')
-        })
-
-        el.addEventListener("mouseleave", function(){
-          el.classList.remove('open')
-        })
-
-      }
-    }
   },
 
 
@@ -87,5 +73,7 @@ export default {
 
 
 <style>
+
+
 
 </style>

@@ -142,7 +142,7 @@
             <div class="form-group">
               <label for="construction_year_from">An execuţie</label>
               <select id="construction_year_from" v-model="query.construction_year_from"  class="form-control">
-                <option v-for="el in yearsArr({txt:'Intre anul'})" :value="el.val">{{el.txt}}</option>
+                <option v-for="el in yearsArr({txt:'Intre anul', val: ''})" :value="el.val">{{el.txt}}</option>
               </select>
             </div>
           </div>
@@ -151,7 +151,7 @@
             <div class="form-group">
               <label for="construction_year_to" class="hidden-xs">&nbsp;</label>
               <select id="construction_year_to" v-model="query.construction_year_to"  class="form-control">
-                <option v-for="el in yearsArr({txt:'Si anul'})" :value="el.val">{{el.txt}}</option>
+                <option v-for="el in yearsArr({txt:'Si anul', val: ''})" :value="el.val">{{el.txt}}</option>
               </select>
             </div>
           </div>
@@ -162,7 +162,7 @@
             <div class="form-group">
               <label for="inventory_year_from">An inventariere</label>
               <select id="inventory_year_from" v-model="query.inventory_year_from"  class="form-control">
-                <option v-for="el in yearsArr({txt:'Intre anul'})" :value="el.val">{{el.txt}}</option>
+                <option v-for="el in yearsArr({txt:'Intre anul', val: ''})" :value="el.val">{{el.txt}}</option>
               </select>
             </div>
           </div>
@@ -171,7 +171,7 @@
             <div class="form-group">
               <label for="inventory_year_to"  class="hidden-xs">&nbsp;</label>
               <select id="inventory_year_to" v-model="query.inventory_year_to"  class="form-control">
-                <option v-for="el in yearsArr({txt:'Si anul'})" :value="el.val">{{el.txt}}</option>
+                <option v-for="el in yearsArr({txt:'Si anul', val: ''})" :value="el.val">{{el.txt}}</option>
               </select>
             </div>
           </div>
@@ -447,29 +447,29 @@ export default{
   data() {
     return {
       query: {
-        type: undefined,
+        type: '',
 
-        ys_from: undefined,
-        ys_to: undefined,
+        ys_from: '',
+        ys_to: '',
 
         // cadastral codes
-        cc_l_0: undefined,
-        cc_l_1: undefined,
-        cc_l_2: undefined,
-        cc_l_3: undefined,
-        cc_l_4: undefined,
-        cc_l_5: undefined ,
+        cc_l_0: '',
+        cc_l_1: '',
+        cc_l_2: '',
+        cc_l_3: '',
+        cc_l_4: '',
+        cc_l_5: '' ,
 
-        inventory_year_from: undefined,
-        inventory_year_to: undefined,
+        inventory_year_from: '',
+        inventory_year_to: '',
 
-        construction_year_from: undefined,
-        construction_year_to: undefined,
+        construction_year_from: '',
+        construction_year_to: '',
 
-        protected_area: undefined,
+        protected_area: '',
 
-        county: undefined,
-        city: undefined,
+        county: '',
+        city: '',
 
 
       },
@@ -537,7 +537,7 @@ export default{
 
       ],
 
-      constrTypesArr: [{val: undefined, text: "Selectează"}, {val: 'long', text: "Longitudinală"}, {val: 'trans', text: "Transversală"}],
+      constrTypesArr: [{val: '', text: "Selectează"}, {val: 'long', text: "Longitudinală"}, {val: 'trans', text: "Transversală"}],
 
       longSelectionMaterials: [
         {title: "Radier sector", materials: 'mat_sect_apron' },
@@ -566,12 +566,12 @@ export default{
     ...mapActions(['updateConstructionsSelectionFilters']),
 
     onSubmit(){
-      console.log( ' query before json ' , this.query)
+      // copy all non-empty
       let query = this.jsonCopy(this.query)
+      Object.keys(query).forEach(key => { if( query[key] == '' || query[key] === undefined ) { delete query[key] } })
       query.page = 1
       this.updateConstructionsSelectionFilters(query)
 
-      console.log(query)
       this.$router.push({ name: 'constructions-list', query: query })
     },
 
@@ -592,13 +592,13 @@ export default{
 
     clearQuery(type){
       let cq = {}
-      if(type == undefined || type == 'long'){
-        this.longQtyCriterias.forEach(c => cq[c] = undefined )
+      if(type == '' || type == 'long'){
+        this.longQtyCriterias.forEach(c => cq[c] = '' )
         this.longMultiCriterias.forEach(c => cq[c] = [])
       }
 
-      if(type == undefined || type == 'trans'){
-        this.transQtyCriterias.forEach(c => cq[c] = undefined )
+      if(type == '' || type == 'trans'){
+        this.transQtyCriterias.forEach(c => cq[c] = '' )
         this.transMultiCriterias.forEach(c => cq[c] = [])
       }
 
@@ -607,8 +607,8 @@ export default{
 
     apronSelChanged(val){
       if(this.query.has_apron == false){
-        this.query.has_confuseur = undefined
-        this.query.has_final_spur = undefined
+        this.query.has_confuseur = ''
+        this.query.has_final_spur = ''
         this.constrWithoutApron = true
       }else{
         this.constrWithoutApron = false
@@ -616,7 +616,7 @@ export default{
     },
 
     getCadastralOptionsList(arr){
-      return [{ _id: undefined, name: "Selecteaza"}, ...arr ]
+      return [{ _id: '', name: "Selecteaza"}, ...arr ]
     },
 
 
@@ -645,13 +645,13 @@ export default{
 
     cadastralSelectChanged(level){
       if(!this.initializedSelectionForm) return
-      console.log('level ' + level + ' changed:  ' + this.query['cc_l_'+level])
+
       let parentId = this.query['cc_l_'+level]
 
       if(level < 5){
         for(let i = 5; i > level; i--){
           this.cadastralCodesArr.splice(i, 1,  [])
-          this.query['cc_l_'+i] = undefined
+          this.query['cc_l_'+i] = ''
         }
 
         this.fetchCadastralForLevel(level+1, parentId, (err, res) => {
@@ -690,7 +690,7 @@ export default{
         console.log('res waterfallSelectionsCadastrals', res)
         if(res < selectionsArr.length - 1){ // if some of the items were not finded
           for(let i = res; i < 6; i++){
-            this.query['cc_l_'+i] = undefined
+            this.query['cc_l_'+i] = ''
           }
         }
 
@@ -726,7 +726,7 @@ export default{
 
     presenceArr: function(){
       return [
-        {txt: 'Selectează', val: undefined},
+        {txt: 'Selectează', val: ''},
         {txt: 'Da', val: true},
         {txt: 'Nu', val: false},
       ]
@@ -752,12 +752,12 @@ export default{
     citiesSelectionArr: function(){
       if(this.citiesArr == 0){
         if(this.query.county){
-          return [{name: 'Nu exista localitati', val: undefined}]
+          return [{name: 'Nu exista localitati', val: ''}]
         }else{
           return []
         }
       }
-      return [{name: 'Selectează', val: undefined}, ...this.citiesArr]
+      return [{name: 'Selectează', val: ''}, ...this.citiesArr]
     },
 
   },
@@ -776,9 +776,9 @@ export default{
         axios._get(req)
         .then( res => {
           this.citiesArr = res.data
-          // on creation, city should be kept, otherwise set it to undefined
+          // on creation, city should be kept, otherwise set it to ''
           if(!this.citiesArr.find(e => {return e._id == this.query.city})){
-            this.query.city = undefined
+            this.query.city = ''
           }
         })
         .catch( error => console.log(error) )

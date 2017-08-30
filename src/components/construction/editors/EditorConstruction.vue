@@ -42,15 +42,12 @@ export default{
 
   methods: {
     constructionUpdated(data){
-      console.log(' constructionUpdated(data) ')
-      console.log(data)
       this.setConstructionFromData(data)
     },
 
     setConstructionFromData(data){
       data.gd._cadastral_code_items_arr = this.parseCadastralCodeToArr(data.gd.cadastral_code)
       this.construction = data
-      console.log('setConstructionFromData ', this.construction)
     },
 
     parseCadastralCodeToArr(cadastral_code){
@@ -97,15 +94,11 @@ export default{
   },
 
   created(){
-    console.log(' id '+ this.id )
     if(this.id){
       const req = { url: '/constructions/' + this.id }
       axios._get( req )
     .then( res => {
-      console.log(res)
       this.setConstructionFromData(res.data)
-      console.log('incarcat')
-      console.log(this.construction)
     })
     .catch(err => console.log(err))
     }
