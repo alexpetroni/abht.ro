@@ -114,7 +114,7 @@ export default{
 
   computed: {
     title(){
-      let title = 'Adaugare canal de evacuare '
+      let title = 'Adăugare canal de evacuare '
 
       title += " cu " + this.construction.cd.sectors.length ;
 
@@ -127,7 +127,7 @@ export default{
       if(this.construction.has_final_spur){
         title += " cu "
       }else{
-        title += " fara"
+        title += " fără"
       }
 
       title += " pinten terminal"

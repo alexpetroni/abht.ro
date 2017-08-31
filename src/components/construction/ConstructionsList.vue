@@ -6,7 +6,7 @@
 
     <div class="col-sm-6" ><b>Construcţii găsite: {{ constructionsList.total }}</b></div>
     <div class="col-sm-6 text-right">
-      <a v-if="isConstructionTypeSelected" target="_blank" href="#" @click.prevent="downloadList($event)">Download listă construcţii</a>
+      <button  v-if="isConstructionTypeSelected" target="_blank" href="#" @click.prevent="downloadList($event)" class="btn btn-primary">Download listă construcţii</button>
     </div>
 
 <div class="col-sm-12" >

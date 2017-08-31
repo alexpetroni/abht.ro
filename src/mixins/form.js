@@ -40,7 +40,7 @@ const formMixin = {
     },
 
     validatePercent(value){
-      return Validator.value(value).required().between(0, 100)
+      return Validator.value(value).required().between(0, 100, 'Introduceti numar intre 0 si 100')
     },
 
     validate1To5(value){
@@ -48,7 +48,7 @@ const formMixin = {
     },
 
     validateYear(value){
-      return Validator.value(value).required().regex(/^(19|20)\d{2}$/, 'Introduceti an valid')
+      return Validator.value(value).required().regex(/^(19|20)\d{2}$/, 'Introduceti un an valid')
     }
 
   }

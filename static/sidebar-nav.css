@@ -6,11 +6,16 @@
 
  /* Toggle Styles */
 
- #sidebar-wrapper{
+ #sidebar-container{
    background: #222d32;
    margin-top: -20px;
    padding-top: 20px;
    height: 100%;
+   min-height: 700px;
+ }
+
+ #sidebar-wrapper{
+
  }
 
 /* Sidebar Styles */

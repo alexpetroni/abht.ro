@@ -393,7 +393,6 @@ export default{
       this.$validate().then(success => {
         if(success){
           let data = { inventory: this.editedItem }
-          console.log('editorDamInventory emit ', data)
           this.$emit('submit', JSON.stringify(data));
         }else{
           this.showInvalidFormMessage()

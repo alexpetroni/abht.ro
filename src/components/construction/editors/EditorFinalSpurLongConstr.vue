@@ -27,6 +27,7 @@
           <label class="col-xs-12 compact" for="final_spur_sidewall_height">Inaltime zid cond. Hz(m)</label>
           <div class="col-xs-12">
             <input type="text" id="final_spur_sidewall_height" v-model="finalSpur.sidewall_height" class="form-control">
+            <div class="form-err-message">{{ validation.firstError('finalSpur.spur_length') }}</div>
           </div>
 
         </div>
@@ -40,6 +41,7 @@
           <label class="col-xs-12 compact" for="final_spur_length">Lungime pinten Bp(m)</label>
           <div class="col-xs-12">
             <input type="text" name="final_spur_length" id="final_spur_length" v-model="finalSpur.spur_length" class="form-control">
+            <div class="form-err-message">{{ validation.firstError('finalSpur.spur_length') }}</div>
           </div>
 
         </div>
@@ -54,9 +56,14 @@
 
 import generalMixin from './../../../mixins/general'
 import constructionMixin from './../../../mixins/construction'
+import formMixin from './../../../mixins/form'
+
+import SimpleVueValidation from 'simple-vue-validator'
+const Validator = SimpleVueValidation.Validator
+const validatorMixin = SimpleVueValidation.mixin
 
 export default{
-  mixins: [ generalMixin, constructionMixin ],
+  mixins: [ generalMixin, constructionMixin, validatorMixin, formMixin  ],
   props: ['finalSpur'],
 
   data() {
@@ -65,11 +72,27 @@ export default{
   },
 
   methods: {
-
+    validate(){
+      this.$validate().then(success => {
+          this.$emit('validate', success);
+      })
+    }
   },
 
   computed: {
 
+  },
+
+  validators: {
+    'finalSpur.mat_final_spur': function(value) {
+      return this.validateRequired(value)
+    },
+    'finalSpur.spur_length': function(value) {
+      return this.validatePositiveNumber(value)
+    },
+    'finalSpur.spur_length': function(value) {
+      return this.validatePositiveNumberGtZero(value)
+    },
   },
 
   components: {

@@ -149,8 +149,9 @@
           <legend>Pinteni și trepte</legend>
           <editor-sector-spur
           v-for="(item, index) in editedItem.spurs"
-          :spur="item" :key="editedItem.sector_nr+'_'+item.spur_nr"
-          ref="edit_sect"
+          :spur="item"
+          :key="editedItem.sector_nr+'_'+item.spur_nr"
+          ref="editSect"
           @validate = countValidation
           ></editor-sector-spur>
         </fieldset>
@@ -158,7 +159,10 @@
 
         <editor-final-spur-long-constr
         v-if="showFinalSpur"
-        :final-spur="editedFinalSpur" >
+        :final-spur="editedFinalSpur"
+        @validate = countValidation
+        ref="finalSpur"
+        >
       </editor-final-spur-long-constr>
 
         <br />
@@ -202,7 +206,7 @@ export default{
       editedItem: this.getNewSector(),
       editedFinalSpur: this.getNewSectorsFinalSpur(),
 
-      childToValidate: 0
+      nrChildrenToValidate: 0
     }
   },
 
@@ -210,22 +214,30 @@ export default{
     onSubmit(){
       this.validForm = true
 
-      this.childToValidate = 1 // main form
-      this.childToValidate += this.editedItem.spurs.length
-      this.childToValidate += this.showFinalSpur ? 1 : 0
+      this.nrChildrenToValidate = 1 // main form
+      this.nrChildrenToValidate += this.editedItem.spurs.length
+      this.nrChildrenToValidate += this.showFinalSpur ? 1 : 0
 
       this.$validate().then(success => {
         this.countValidation(success)
       })
 
       this.validateSectorSpurComponents()
+
+      this.validateFinalSpurComponent()
     },
 
     validateSectorSpurComponents(){
       if(this.editedItem.spurs.length){
-        this.$refs.edit_sect.forEach((comp, index)=>{
+        this.$refs.editSect.forEach((comp, index)=>{
           comp.validate()
         })
+      }
+    },
+
+    validateFinalSpurComponent(){
+      if(this.showFinalSpur){
+        this.$refs.finalSpur.validate()
       }
     },
 
@@ -240,10 +252,11 @@ export default{
 
 
     countValidation(success){
-      this.validForm = this.validForm && success
-      this.childToValidate -=1
 
-      if(this.childToValidate == 0){
+      this.validForm = this.validForm && success
+      this.nrChildrenToValidate -=1
+
+      if(this.nrChildrenToValidate == 0){
         if(this.validForm){
           this.submitSectorData()
         }else{

@@ -568,7 +568,7 @@ export default{
     onSubmit(){
       // copy all non-empty
       let query = this.jsonCopy(this.query)
-      Object.keys(query).forEach(key => { if( query[key] == '' || query[key] === undefined ) { delete query[key] } })
+      Object.keys(query).forEach(key => { if( query[key] === '' || query[key] === undefined ) { delete query[key] } })
       query.page = 1
       this.updateConstructionsSelectionFilters(query)
 
@@ -592,12 +592,12 @@ export default{
 
     clearQuery(type){
       let cq = {}
-      if(type == '' || type == 'long'){
+      if(type == undefined || type == 'long'){
         this.longQtyCriterias.forEach(c => cq[c] = '' )
         this.longMultiCriterias.forEach(c => cq[c] = [])
       }
 
-      if(type == '' || type == 'trans'){
+      if(type == undefined || type == 'trans'){
         this.transQtyCriterias.forEach(c => cq[c] = '' )
         this.transMultiCriterias.forEach(c => cq[c] = [])
       }
@@ -606,6 +606,8 @@ export default{
     },
 
     apronSelChanged(val){
+      if(!this.initializedSelectionForm) return
+
       if(this.query.has_apron == false){
         this.query.has_confuseur = ''
         this.query.has_final_spur = ''
@@ -687,7 +689,6 @@ export default{
       this.waterfallSelectionsCadastrals(selectionsArr, 0, (err, res) => {
         if(err) return console.log(err)
 
-        console.log('res waterfallSelectionsCadastrals', res)
         if(res < selectionsArr.length - 1){ // if some of the items were not finded
           for(let i = res; i < 6; i++){
             this.query['cc_l_'+i] = ''

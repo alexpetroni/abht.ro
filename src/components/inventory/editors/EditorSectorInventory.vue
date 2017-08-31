@@ -8,6 +8,7 @@
       </div>
       <div class="col-xs-6 col-sm-3 col-md-2">
         <input id="year" type="text" v-model="editedYear" class="form-control">
+        <div class="form-err-message">{{ validation.firstError('editedYear') }}</div>
       </div>
     </div>
     <div v-else>
@@ -42,11 +43,11 @@
                     <td class="text-center">% afectat</td>
                   </tr>
                   <tr>
-                    <td><div class="icas-field"><span class="metabox_label"></span><input  class="form-control" name="apron_craks_nr" v-model="editedItem.apron_craks_nr"></div></td>
-                    <td><div class="icas-field"><span class="metabox_label"></span><input  class="form-control" name="apron_damage_percent" v-model="editedItem.apron_damage_percent"></div></td>
-                    <td><div class="icas-field"><span class="metabox_label"></span><input  class="form-control" name="apron_displaced" v-model="editedItem.apron_displaced"></div></td>
-                    <td><div class="icas-field"><span class="metabox_label"></span><input  class="form-control" name="apron_abrasion_deep" v-model="editedItem.apron_abrasion_deep"></div></td>
-                    <td><div class="icas-field"><span class="metabox_label"></span><input  class="form-control" name="apron_abrasion_percent" v-model="editedItem.apron_abrasion_percent"></div></td>
+                    <td><div class="form-group" :class="{'has-error': validation.hasError('editedItem.apron_craks_nr')}"><span class="metabox_label"></span><input  class="form-control" name="apron_craks_nr" v-model="editedItem.apron_craks_nr"></div></td>
+                    <td><div class="form-group" :class="{'has-error': validation.hasError('editedItem.apron_damage_percent')}"><span class="metabox_label"></span><input  class="form-control" name="apron_damage_percent" v-model="editedItem.apron_damage_percent"></div></td>
+                    <td><div class="form-group" :class="{'has-error': validation.hasError('editedItem.apron_displaced')}"><span class="metabox_label"></span><input  class="form-control" name="apron_displaced" v-model="editedItem.apron_displaced"></div></td>
+                    <td><div class="form-group" :class="{'has-error': validation.hasError('editedItem.apron_abrasion_deep')}"><span class="metabox_label"></span><input  class="form-control" name="apron_abrasion_deep" v-model="editedItem.apron_abrasion_deep"></div></td>
+                    <td><div class="form-group" :class="{'has-error': validation.hasError('editedItem.apron_abrasion_percent')}"><span class="metabox_label"></span><input  class="form-control" name="apron_abrasion_percent" v-model="editedItem.apron_abrasion_percent"></div></td>
                   </tr>
                 </tbody>
               </table>
@@ -87,23 +88,23 @@
                   <tbody>
                     <tr>
                       <td style="font-weight:bold">Zid stânga</td>
-                      <td><div class="icas-field"><span class="metabox_label"></span><input size="3" class="form-control"  name="sidewall_left_horiz_craks_nr" v-model="editedItem.sidewall_left_horiz_craks_nr"></div></td>
-                      <td><div class="icas-field"><span class="metabox_label"></span><input size="3" class="form-control"  name="sidewall_left_horiz_length" v-model="editedItem.sidewall_left_horiz_length"></div></td>
-                      <td><div class="icas-field"><span class="metabox_label"></span><input size="3" class="form-control"  name="sidewall_left_vert_craks_nr" v-model="editedItem.sidewall_left_vert_craks_nr"></div></td>
-                      <td><div class="icas-field"><span class="metabox_label"></span><input size="3" class="form-control"  name="sidewall_left_vert_length" v-model="editedItem.sidewall_left_vert_length"></div></td>
-                      <td><div class="icas-field"><span class="metabox_label"></span><input size="3" class="form-control"  name="sidewall_left_displaced" v-model="editedItem.sidewall_left_displaced"></div></td>
-                      <td><div class="icas-field"><span class="metabox_label"></span><input size="3" class="form-control"  name="sidewall_left_abrasion_deep" v-model="editedItem.sidewall_left_abrasion_deep"></div></td>
-                      <td><div class="icas-field"><span class="metabox_label"></span><input size="3" class="form-control"  name="sidewall_left_abrasion_percent" v-model="editedItem.sidewall_left_abrasion_percent"></div></td>
+                      <td><div class="form-group" :class="{'has-error': validation.hasError('editedItem.sidewall_left_horiz_craks_nr')}"><span class="metabox_label"></span><input size="3" class="form-control"  name="sidewall_left_horiz_craks_nr" v-model="editedItem.sidewall_left_horiz_craks_nr"></div></td>
+                      <td><div class="form-group" :class="{'has-error': validation.hasError('editedItem.sidewall_left_horiz_length')}"><span class="metabox_label"></span><input size="3" class="form-control"  name="sidewall_left_horiz_length" v-model="editedItem.sidewall_left_horiz_length"></div></td>
+                      <td><div class="form-group" :class="{'has-error': validation.hasError('editedItem.sidewall_left_vert_craks_nr')}"><span class="metabox_label"></span><input size="3" class="form-control"  name="sidewall_left_vert_craks_nr" v-model="editedItem.sidewall_left_vert_craks_nr"></div></td>
+                      <td><div class="form-group" :class="{'has-error': validation.hasError('editedItem.sidewall_left_vert_length')}"><span class="metabox_label"></span><input size="3" class="form-control"  name="sidewall_left_vert_length" v-model="editedItem.sidewall_left_vert_length"></div></td>
+                      <td><div class="form-group" :class="{'has-error': validation.hasError('editedItem.sidewall_left_displaced')}"><span class="metabox_label"></span><input size="3" class="form-control"  name="sidewall_left_displaced" v-model="editedItem.sidewall_left_displaced"></div></td>
+                      <td><div class="form-group" :class="{'has-error': validation.hasError('editedItem.sidewall_left_abrasion_deep')}"><span class="metabox_label"></span><input size="3" class="form-control"  name="sidewall_left_abrasion_deep" v-model="editedItem.sidewall_left_abrasion_deep"></div></td>
+                      <td><div class="form-group" :class="{'has-error': validation.hasError('editedItem.sidewall_left_abrasion_percent')}"><span class="metabox_label"></span><input size="3" class="form-control"  name="sidewall_left_abrasion_percent" v-model="editedItem.sidewall_left_abrasion_percent"></div></td>
                     </tr>
                     <tr>
                       <td style="font-weight:bold">Zid dreapta</td>
-                      <td><div class="icas-field"><span class="metabox_label"></span><input size="3" class="form-control"  name="sidewall_right_horiz_craks_nr" v-model="editedItem.sidewall_right_horiz_craks_nr"></div></td>
-                      <td><div class="icas-field"><span class="metabox_label"></span><input size="3" class="form-control"  name="sidewall_right_horiz_length" v-model="editedItem.sidewall_right_horiz_length"></div></td>
-                      <td><div class="icas-field"><span class="metabox_label"></span><input size="3" class="form-control"  name="sidewall_right_vert_craks_nr" v-model="editedItem.sidewall_right_vert_craks_nr"></div></td>
-                      <td><div class="icas-field"><span class="metabox_label"></span><input size="3" class="form-control"  name="sidewall_right_vert_length" v-model="editedItem.sidewall_right_vert_length"></div></td>
-                      <td><div class="icas-field"><span class="metabox_label"></span><input size="3" class="form-control"  name="sidewall_right_displaced" v-model="editedItem.sidewall_right_displaced"></div></td>
-                      <td><div class="icas-field"><span class="metabox_label"></span><input size="3" class="form-control"  name="sidewall_right_abrasion_deep" v-model="editedItem.sidewall_right_abrasion_deep"></div></td>
-                      <td><div class="icas-field"><span class="metabox_label"></span><input size="3" class="form-control"  name="sidewall_right_abrasion_percent" v-model="editedItem.sidewall_right_abrasion_percent"></div></td>
+                      <td><div class="form-group" :class="{'has-error': validation.hasError('editedItem.sidewall_right_horiz_craks_nr')}"><span class="metabox_label"></span><input size="3" class="form-control"  name="sidewall_right_horiz_craks_nr" v-model="editedItem.sidewall_right_horiz_craks_nr"></div></td>
+                      <td><div class="form-group" :class="{'has-error': validation.hasError('editedItem.sidewall_right_horiz_length')}"><span class="metabox_label"></span><input size="3" class="form-control"  name="sidewall_right_horiz_length" v-model="editedItem.sidewall_right_horiz_length"></div></td>
+                      <td><div class="form-group" :class="{'has-error': validation.hasError('editedItem.sidewall_right_vert_craks_nr')}"><span class="metabox_label"></span><input size="3" class="form-control"  name="sidewall_right_vert_craks_nr" v-model="editedItem.sidewall_right_vert_craks_nr"></div></td>
+                      <td><div class="form-group" :class="{'has-error': validation.hasError('editedItem.sidewall_right_vert_length')}"><span class="metabox_label"></span><input size="3" class="form-control"  name="sidewall_right_vert_length" v-model="editedItem.sidewall_right_vert_length"></div></td>
+                      <td><div class="form-group" :class="{'has-error': validation.hasError('editedItem.sidewall_right_displaced')}"><span class="metabox_label"></span><input size="3" class="form-control"  name="sidewall_right_displaced" v-model="editedItem.sidewall_right_displaced"></div></td>
+                      <td><div class="form-group" :class="{'has-error': validation.hasError('editedItem.sidewall_right_abrasion_deep')}"><span class="metabox_label"></span><input size="3" class="form-control"  name="sidewall_right_abrasion_deep" v-model="editedItem.sidewall_right_abrasion_deep"></div></td>
+                      <td><div class="form-group" :class="{'has-error': validation.hasError('editedItem.sidewall_right_abrasion_percent')}"><span class="metabox_label"></span><input size="3" class="form-control"  name="sidewall_right_abrasion_percent" v-model="editedItem.sidewall_right_abrasion_percent"></div></td>
                     </tr>
                   </tbody>
                 </table>
@@ -143,18 +144,15 @@
                 </tr>
               </thead>
               <tbody>
-                <tr v-for="spur in editedItem.spurs">
-                  <td>{{ spur.spur_nr }}</td>
-                  <td><input name="spur_horiz_craks_nr" v-model="spur.spur_horiz_craks_nr" class="form-control" type="text"></td>
-                  <td><input name="spur_horiz_craks_nr" v-model="spur.spur_horiz_craks_lenght" class="form-control" type="text"></td>
-                  <td><input name="spur_horiz_craks_nr" v-model="spur.spur_vert_craks_nr" class="form-control" type="text"></td>
-                  <td><input name="spur_horiz_craks_nr" v-model="spur.spur_vert_craks_lenght" class="form-control" type="text"></td>
-                  <td><input name="spur_horiz_craks_nr" v-model="spur.spur_displaced_left" class="form-control" type="text"></td>
-                  <td><input name="spur_horiz_craks_nr" v-model="spur.spur_displaced_right" class="form-control" type="text"></td>
-                  <td><input name="spur_horiz_craks_nr" v-model="spur.spur_displaced_center" class="form-control" type="text"></td>
-                  <td><input name="spur_horiz_craks_nr" v-model="spur.spur_abrasion_percent" class="form-control" type="text"></td>
-                  <td><input name="spur_horiz_craks_nr" v-model="spur.spur_abrasion_deep" class="form-control" type="text"></td>
-                </tr>
+
+                <editor-spur-inventory
+                v-for="spur in editedItem.spurs"
+                :spur="spur"
+                :key="editedItem.sector_nr+'_'+spur.spur_nr"
+                @validate = "countValidation"
+                ref="editSpurInventory"
+                >
+                </editor-spur-inventory>
               </tbody>
             </table>
           </fieldset>
@@ -165,6 +163,8 @@
       <editor-final-spur-long-inventory
       v-if="showFinalSpur"
       :final-spur-inventory = "finalSpurInventory"
+      @validate = "countValidation"
+      ref="finalSpurInventory"
       ></editor-final-spur-long-inventory>
 
 
@@ -188,9 +188,9 @@
               </thead>
               <tbody>
                 <tr>
-                  <td><div class="icas-field"><span class="metabox_label"></span><input class="form-control" name="disf_colmat_su_percent" v-model="editedItem.disf_colmat_su_percent"></div></td>
-                  <td><div class="icas-field"><span class="metabox_label"></span><input class="form-control" name="disf_colmat_srad_percent" v-model="editedItem.disf_colmat_srad_percent"></div></td>
-                  <td><div class="icas-field"><span class="metabox_label"></span><input class="form-control" name="disf_section_dim_perecent" v-model="editedItem.disf_section_dim_perecent"></div></td>
+                  <td><div class="form-group" :class="{'has-error': validation.hasError('editedItem.disf_colmat_su_percent')}"><span class="metabox_label"></span><input class="form-control" name="disf_colmat_su_percent" v-model="editedItem.disf_colmat_su_percent"></div></td>
+                  <td><div class="form-group" :class="{'has-error': validation.hasError('editedItem.disf_colmat_srad_percent')}"><span class="metabox_label"></span><input class="form-control" name="disf_colmat_srad_percent" v-model="editedItem.disf_colmat_srad_percent"></div></td>
+                  <td><div class="form-group" :class="{'has-error': validation.hasError('editedItem.disf_section_dim_perecent')}"><span class="metabox_label"></span><input class="form-control" name="disf_section_dim_perecent" v-model="editedItem.disf_section_dim_perecent"></div></td>
                 </tr>
               </tbody>
             </table>
@@ -199,9 +199,18 @@
       </fieldset>
     </div>
 
+    <br />
+    <br />
+
+    <transition name="fade">
+    <div class="col-sm-12 text-center" v-show="!validForm">
+            <div class="alert alert-danger" role="alert">Verifica campurile invalide!</div>
+          </div>
+    </transition>
+
 
       <div class="col-sm-12 text-center">
-        <button type="submit" class="btn btn-primary" :disabled="!isValid">Submit</button>
+        <button type="submit" class="btn btn-primary" >Submit</button>
         <button type="button" class="btn btn-warning" @click="onCancel">Cancel</button>
       </div>
     </form>
@@ -209,28 +218,82 @@
 </template>
 
 <script>
+import SimpleVueValidation from 'simple-vue-validator'
+const Validator = SimpleVueValidation.Validator
+const validatorMixin = SimpleVueValidation.mixin
 
 import generalMixin  from './../../../mixins/general'
+import formMixin from './../../../mixins/form'
 
 import { EditState } from './../../../models/EditState'
 
 import EditorSpurInventory from './EditorSpurInventory.vue'
 import EditorFinalSpurLongInventory from './EditorFinalSpurLongInventory.vue'
 
+
+
 export default{
-  mixins: [ generalMixin ],
+  mixins: [ generalMixin, formMixin, validatorMixin ],
   props: [ 'sector', 'sectorInventory', 'finalSpurInventory', 'showFinalSpur' ,'year', 'editState' ],
 
   data() {
     return {
-      editedYear: '',
-      editedItem: null,
-      editedFinalSpur: null
+      editedYear: this.year,
+      editedItem: this.jsonCopy(this.sectorInventory),
+      editedFinalSpur: this.jsonCopy(this.finalSpurInventory),
+
+      nrChildrenToValidate: 0,
     }
   },
 
   methods: {
     onSubmit(){
+
+      this.validForm = true
+
+      this.nrChildrenToValidate = 1 // main form
+      this.nrChildrenToValidate += this.editedItem.spurs.length
+      this.nrChildrenToValidate += this.showFinalSpur ? 1 : 0
+
+      this.$validate().then(success => {
+        this.countValidation(success)
+      })
+
+    this.validateSectorSpurInventoryComponents()
+
+    this.validateFinalSpurInventoryComponent()
+    },
+
+
+    validateSectorSpurInventoryComponents(){
+      if(this.editedItem.spurs.length){
+        this.$refs.editSpurInventory.forEach((comp, index)=>{
+          console.log('comp', comp)
+          comp.validate()
+        })
+      }
+    },
+
+    validateFinalSpurInventoryComponent(){
+      if(this.showFinalSpur){
+        this.$refs.finalSpurInventory.validate()
+      }
+    },
+
+    countValidation(success){
+      this.validForm = this.validForm && success
+      this.nrChildrenToValidate -=1
+
+      if(this.nrChildrenToValidate == 0){
+        if(this.validForm){
+          this.submitSectorInventoryData()
+        }else{
+          this.showInvalidFormMessage()
+        }
+      }
+    },
+
+    submitSectorInventoryData(){
       let data = {
         sectorInventory: this.editedItem,
         year: this.editedYear
@@ -256,10 +319,111 @@ export default{
     isEdit(){
       return this.editState == EditState.EDIT
     },
+  },
 
-    isValid: function(){
-      return this.editedYear
+  validators: {
+    'editedYear': function(value){
+      if(this.isNew){
+         return this.validateYear(value)
+      }
+      return true
     },
+
+    'editedItem.apron_craks_nr': function(value) {
+      return this.validatePositiveNumber(value)
+    },
+
+    'editedItem.apron_damage_percent': function(value) {
+      return this.validatePercent(value)
+    },
+
+    'editedItem.apron_displaced': function(value) {
+      return this.validatePositiveNumber(value)
+    },
+
+    'editedItem.apron_abrasion_deep': function(value) {
+      return this.validatePositiveNumber(value)
+    },
+
+    'editedItem.apron_abrasion_percent': function(value) {
+      return this.validatePercent(value)
+    },
+
+
+
+    'editedItem.sidewall_left_horiz_craks_nr': function(value) {
+      return this.validatePositiveNumber(value)
+    },
+
+    'editedItem.sidewall_left_horiz_length': function(value) {
+      return this.validatePositiveNumber(value)
+    },
+
+    'editedItem.sidewall_left_vert_craks_nr': function(value) {
+      return this.validatePositiveNumber(value)
+    },
+
+    'editedItem.sidewall_left_vert_length': function(value) {
+      return this.validatePositiveNumber(value)
+    },
+
+    'editedItem.sidewall_left_displaced': function(value) {
+      return this.validatePositiveNumber(value)
+    },
+
+    'editedItem.sidewall_left_abrasion_deep': function(value) {
+      return this.validatePositiveNumber(value)
+    },
+
+    'editedItem.sidewall_left_abrasion_percent': function(value) {
+      return this.validatePercent(value)
+    },
+
+
+
+
+    'editedItem.sidewall_right_horiz_craks_nr': function(value) {
+      return this.validatePositiveNumber(value)
+    },
+
+    'editedItem.sidewall_right_horiz_length': function(value) {
+      return this.validatePositiveNumber(value)
+    },
+
+    'editedItem.sidewall_right_vert_craks_nr': function(value) {
+      return this.validatePositiveNumber(value)
+    },
+
+    'editedItem.sidewall_right_vert_length': function(value) {
+      return this.validatePositiveNumber(value)
+    },
+
+    'editedItem.sidewall_right_displaced': function(value) {
+      return this.validatePositiveNumber(value)
+    },
+
+    'editedItem.sidewall_right_abrasion_deep': function(value) {
+      return this.validatePositiveNumber(value)
+    },
+
+    'editedItem.sidewall_right_abrasion_percent': function(value) {
+      return this.validatePercent(value)
+    },
+
+
+
+    'editedItem.disf_colmat_su_percent': function(value) {
+      return this.validatePercent(value)
+    },
+
+    'editedItem.disf_colmat_srad_percent': function(value) {
+      return this.validatePercent(value)
+    },
+
+    'editedItem.disf_section_dim_perecent': function(value) {
+      return this.validatePercent(value)
+    },
+
   },
 
   components: {
@@ -274,6 +438,7 @@ export default{
 
     'sectorInventory': function(val){
       this.editedItem = this.jsonCopy(this.sectorInventory)
+      this.validation.reset()
     },
 
     'finalSpurInventory': function(val){
@@ -282,9 +447,7 @@ export default{
   },
 
   created(){
-    this.editedYear = this.year
-    this.editedItem = this.jsonCopy(this.sectorInventory)
-    this.editedFinalSpur = this.jsonCopy(this.finalSpurInventory)
+
   }
 
 }

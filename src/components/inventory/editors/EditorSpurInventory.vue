@@ -1,140 +1,29 @@
 <template>
-  <div class="row">
-      <div class="col-xs-12"><h4>Avarii pinten nr. {{ spur.spur_nr }}</h4></div>
-
-
-
-<!-- Fisuri orizontale -->
-<div class="col-xs-6 col-sm-4 col-md-2">
-  <div class="row">
-
-    <div class="col-xs-12 text-center"><strong>Fisuri orizontale</strong></div>
-
-    <div class="form-group col-xs-6">
-      <div class="row">
-        <label class="col-xs-12 compact" :for="'spur_horiz_craks_nr_' + spur.spur_nr">nr</label>
-        <div class="col-xs-12">
-          <input name="spur_horiz_craks_nr" :id="'spur_horiz_craks_nr_' + spur.spur_nr" v-model="spur.spur_horiz_craks_nr" class="form-control" type="text">
-        </div>
-      </div>
-
-    </div>
-
-    <div class="form-group col-xs-6">
-      <div class="row">
-        <label class="col-xs-12 compact" :for="'spur_horiz_craks_lenght_' + spur.spur_nr">lungime(m)</label>
-        <div class="col-xs-12">
-          <input name="spur_horiz_craks_lenght" :id="'spur_horiz_craks_lenght_' + spur.spur_nr" v-model="spur.spur_horiz_craks_lenght" class="form-control" type="text">
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-
-
-
-<!-- Fisuri verticale -->
-<div class="col-xs-6 col-sm-4 col-md-2">
-  <div class="row">
-
-    <div class="col-xs-12 text-center"><strong>Fisuri verticale</strong></div>
-
-    <div class="form-group col-xs-6">
-      <div class="row">
-        <label class="col-xs-12 compact" :for="'spur_vert_craks_nr_' + spur.spur_nr">nr</label>
-        <div class="col-xs-12">
-          <input name="spur_vert_craks_nr" :id="'spur_vert_craks_nr_' + spur.spur_nr" v-model="spur.spur_vert_craks_nr" class="form-control" type="text">
-        </div>
-      </div>
-
-    </div>
-
-    <div class="form-group col-xs-6">
-      <div class="row">
-        <label class="col-xs-12 compact" :for="'spur_vert_craks_lenght_' + spur.spur_nr">lungime(m)</label>
-        <div class="col-xs-12">
-          <input name="spur_vert_craks_lenght" :id="'spur_vert_craks_lenght_' + spur.spur_nr" v-model="spur.spur_vert_craks_lenght" class="form-control" type="text">
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-
-
-
-<!-- Desprinderi -->
-<div class="col-xs-9 col-sm-6 col-md-3">
-  <div class="row">
-
-    <div class="col-xs-12 text-center"><strong>Desprinderi</strong> (%)</div>
-
-    <div class="form-group col-xs-4">
-      <div class="row">
-        <label class="col-xs-12 compact" :for="'spur_displaced_left_' + spur.spur_nr">stânga</label>
-        <div class="col-xs-12">
-          <input name="spur_displaced_left" :id="'spur_displaced_left_' + spur.spur_nr" v-model="spur.spur_displaced_left" class="form-control" type="text">
-        </div>
-      </div>
-
-    </div>
-
-    <div class="form-group col-xs-4">
-      <div class="row">
-        <label class="col-xs-12 compact" :for="'spur_displaced_right_' + spur.spur_nr">dreapta</label>
-        <div class="col-xs-12">
-          <input name="spur_displaced_right" :id="'spur_displaced_right_' + spur.spur_nr" v-model="spur.spur_displaced_right" class="form-control" type="text">
-        </div>
-      </div>
-    </div>
-
-    <div class="form-group col-xs-4">
-      <div class="row">
-        <label class="col-xs-12 compact" :for="'spur_displaced_center_' + spur.spur_nr">centru</label>
-        <div class="col-xs-12">
-          <input name="spur_displaced_center" :id="'spur_displaced_center_' + spur.spur_nr" v-model="spur.spur_displaced_center" class="form-control" type="text">
-        </div>
-      </div>
-    </div>
-
-  </div>
-</div>
-
-
-
-<!-- Eroziuni -->
-<div class="col-xs-6 col-sm-4 col-md-2">
-  <div class="row">
-
-    <div class="col-xs-12 text-center"><strong>Eroziuni</strong></div>
-
-    <div class="form-group col-xs-6">
-      <div class="row">
-        <label class="col-xs-12 compact" :for="'spur_abrasion_percent' + spur.spur_nr">nr</label>
-        <div class="col-xs-12">
-          <input name="spur_abrasion_percent" :id="'spur_abrasion_percent' + spur.spur_nr" v-model="spur.spur_abrasion_percent" class="form-control" type="text">
-        </div>
-      </div>
-
-    </div>
-
-    <div class="form-group col-xs-6">
-      <div class="row">
-        <label class="col-xs-12 compact" :for="'spur_abrasion_deep' + spur.spur_nr">lungime(m)</label>
-        <div class="col-xs-12">
-          <input name="spur_abrasion_deep" :id="'spur_abrasion_deep' + spur.spur_nr" v-model="spur.spur_abrasion_deep" class="form-control" type="text">
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-
-</div>
+  <tr>
+  <td>{{ spur.spur_nr }}</td>
+  <td><div class="form-group" :class="{'has-error': validation.hasError('spur.spur_horiz_craks_nr')}"><input name="spur_horiz_craks_nr" v-model="spur.spur_horiz_craks_nr" class="form-control" type="text"></div></td>
+  <td><div class="form-group" :class="{'has-error': validation.hasError('spur.spur_horiz_craks_lenght')}"><input name="spur_horiz_craks_nr" v-model="spur.spur_horiz_craks_lenght" class="form-control" type="text"></div></td>
+  <td><div class="form-group" :class="{'has-error': validation.hasError('spur.spur_vert_craks_nr')}"><input name="spur_horiz_craks_nr" v-model="spur.spur_vert_craks_nr" class="form-control" type="text"></div></td>
+  <td><div class="form-group" :class="{'has-error': validation.hasError('spur.spur_vert_craks_lenght')}"><input name="spur_horiz_craks_nr" v-model="spur.spur_vert_craks_lenght" class="form-control" type="text"></div></td>
+  <td><div class="form-group" :class="{'has-error': validation.hasError('spur.spur_displaced_left')}"><input name="spur_horiz_craks_nr" v-model="spur.spur_displaced_left" class="form-control" type="text"></div></td>
+  <td><div class="form-group" :class="{'has-error': validation.hasError('spur.spur_displaced_right')}"><input name="spur_horiz_craks_nr" v-model="spur.spur_displaced_right" class="form-control" type="text"></div></td>
+  <td><div class="form-group" :class="{'has-error': validation.hasError('spur.spur_displaced_center')}"><input name="spur_horiz_craks_nr" v-model="spur.spur_displaced_center" class="form-control" type="text"></div></td>
+  <td><div class="form-group" :class="{'has-error': validation.hasError('spur.spur_abrasion_percent')}"><input name="spur_horiz_craks_nr" v-model="spur.spur_abrasion_percent" class="form-control" type="text"></div></td>
+  <td><div class="form-group" :class="{'has-error': validation.hasError('spur.spur_abrasion_deep')}"><input name="spur_horiz_craks_nr" v-model="spur.spur_abrasion_deep" class="form-control" type="text"></div></td>
+</tr>
 </template>
 
 <script>
 
+import formMixin from './../../../mixins/form'
+
+import SimpleVueValidation from 'simple-vue-validator'
+const Validator = SimpleVueValidation.Validator
+const validatorMixin = SimpleVueValidation.mixin
+
 export default{
   props: ['spur'],
+  mixins: [ validatorMixin, formMixin  ],
 
   data() {
     return {
@@ -143,11 +32,53 @@ export default{
   },
 
   methods: {
-
+    validate(){
+      this.$validate().then(success => {
+          this.$emit('validate', success);
+      })
+    }
   },
 
   computed: {
 
+  },
+
+  validators: {
+    'spur.spur_horiz_craks_nr': function(value) {
+      return this.validatePositiveNumber(value)
+    },
+
+    'spur.spur_horiz_craks_lenght': function(value) {
+      return this.validatePositiveNumber(value)
+    },
+
+    'spur.spur_vert_craks_nr': function(value) {
+      return this.validatePositiveNumber(value)
+    },
+
+    'spur.spur_vert_craks_lenght': function(value) {
+      return this.validatePositiveNumber(value)
+    },
+
+    'spur.spur_displaced_left': function(value) {
+      return this.validatePositiveNumber(value)
+    },
+
+    'spur.spur_displaced_right': function(value) {
+      return this.validatePositiveNumber(value)
+    },
+
+    'spur.spur_displaced_center': function(value) {
+      return this.validatePositiveNumber(value)
+    },
+
+    'spur.spur_abrasion_percent': function(value) {
+      return this.validatePercent(value)
+    },
+
+    'spur.spur_abrasion_deep': function(value) {
+      return this.validatePositiveNumber(value)
+    },
   },
 
   components: {

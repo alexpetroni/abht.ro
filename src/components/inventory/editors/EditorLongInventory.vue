@@ -71,6 +71,7 @@ export default{
       editedSector: null,
       currentView: 'editor-sector-inventory',
 
+
       formState:{
         steps: [
         ],

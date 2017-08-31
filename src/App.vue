@@ -1,20 +1,30 @@
 <template>
-  <div id="app">
+  <div>
+
+
+
     <app-main-menu @toggle="toggleSideMenu"></app-main-menu>
-    <div class="row">
 
-        <!-- Sidebar -->
-        <div class="col-sm-2">
-          <app-sidebar-menu></app-sidebar-menu>
-        </div>
-        <!-- Page Content -->
-        <div class="col-sm-10">
-            <router-view></router-view>
-        </div>
 
-      </div>
 
-          <app-footer></app-footer>
+  <div>
+    <div  class="row">
+          <!-- Sidebar -->
+          <div id="sidebar-container" class="col-sm-2">
+            <app-sidebar-menu></app-sidebar-menu>
+          </div>
+          <!-- Page Content -->
+          <div class="col-sm-10">
+              <router-view></router-view>
+          </div>
+   </div>
+
+
+<app-footer></app-footer>
+ </div>
+
+
+
     </div>
 </template>
 
