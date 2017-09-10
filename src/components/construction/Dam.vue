@@ -5,10 +5,10 @@
     <table class="table table-bordered abht-table text-center">
       <thead>
         <tr class="first-row">
-          <td colspan="5">Lucrare propriu-zisă</td>
-          <td colspan="5" :class="noApronClass">Radier</td>
-          <td colspan="2" :class="noConfuseurClass">Confuzor</td>
-          <td :class="noFinalSpurClass">Pinten terminal</td>
+          <td colspan="5"><strong>Lucrare propriu-zisă</strong></td>
+          <td colspan="5" :class="noApronClass"><strong>Radier</strong></td>
+          <td colspan="2" :class="noConfuseurClass"><strong>Confuzor</strong></td>
+          <td :class="noFinalSpurClass"><strong>Pinten terminal</strong></td>
         </tr>
 
         <tr>
@@ -72,12 +72,12 @@
     <table class="table table-bordered abht-table text-center">
       <thead>
         <tr class="first-row">
-          <td>Corp lucrare</td>
-          <td>Aripi lucrare</td>
-          <td :class="noApronClass">Radier</td>
-          <td>Contrabaraj</td>
-          <td>Ziduri de conducere</td>
-          <td :class="noFinalSpurClass">Pinten terminal</td>
+          <td><strong>Corp lucrare</strong></td>
+          <td><strong>Aripi lucrare</strong></td>
+          <td :class="noApronClass"><strong>Radier</strong></td>
+          <td><strong>Contrabaraj</strong></td>
+          <td><strong>Ziduri de conducere</strong></td>
+          <td :class="noFinalSpurClass"><strong>Pinten terminal</strong></td>
         </tr>
 
       </thead>

@@ -78,7 +78,7 @@
 
 
         <fieldset :class="{'disabledLabel': !construction.cd.has_apron}">
-          <legend :class="{'disabledLabel': ! construction.cd.has_apron}">Avarii radier</legend>
+          <legend :class="{'disabledLabel': !construction.cd.has_apron}">Avarii radier</legend>
 
           <table class="table table-bordered abht-table">
             <thead>
@@ -112,7 +112,7 @@
                 <template v-for="d in damApronDamagesFields">
                   <td>
                     <div class="form-group" :class="{'has-error': validation.hasError('editedItem.dam.'+d)}">
-                    <input type="text" v-model="editedItem.dam[d]" class="form-control">
+                    <input type="text" v-model="editedItem.dam[d]" class="form-control" :disabled="!construction.cd.has_apron">
                   </div>
                   </td>
                 </template>
@@ -126,8 +126,8 @@
 
 
 
-        <fieldset>
-          <legend>Avarii ziduri de conducere</legend>
+        <fieldset :class="{'disabledLabel': !construction.cd.has_apron}">
+          <legend :class="{'disabledLabel': !construction.cd.has_apron}">Avarii ziduri de conducere</legend>
 
           <table  class="table table-bordered abht-table">
             <thead>
@@ -154,7 +154,7 @@
                 <template v-for="d in damSidewallDamagesFields">
                   <td>
                     <div class="form-group" :class="{'has-error': validation.hasError('editedItem.dam.sidewall_left_'+d)}">
-                    <input type="text" v-model="editedItem.dam['sidewall_left_'+d]" class="form-control">
+                    <input type="text" v-model="editedItem.dam['sidewall_left_'+d]" class="form-control" :disabled="!construction.cd.has_apron">
                   </div>
                   </td>
                 </template>
@@ -164,7 +164,7 @@
                 <template v-for="d in damSidewallDamagesFields">
                   <td>
                     <div class="form-group" :class="{'has-error': validation.hasError('editedItem.dam.sidewall_right_'+d)}">
-                    <input type="text" v-model="editedItem.dam['sidewall_right_'+d]" class="form-control">
+                    <input type="text" v-model="editedItem.dam['sidewall_right_'+d]" class="form-control" :disabled="!construction.cd.has_apron">
                   </div>
                   </td>
                 </template>
@@ -549,30 +549,37 @@ export default{
 
 
       'editedItem.dam.sidewall_left_horiz_craks_nr': function(value) {
+        if(!this. construction.cd.has_apron) return
         return this.validatePositiveInteger(value)
       },
 
       'editedItem.dam.sidewall_left_horiz_length': function(value) {
+        if(!this. construction.cd.has_apron) return
         return this.validatePositiveNumber(value)
       },
 
       'editedItem.dam.sidewall_left_vert_craks_nr': function(value) {
+        if(!this. construction.cd.has_apron) return
         return this.validatePositiveInteger(value)
       },
 
       'editedItem.dam.sidewall_left_vert_length': function(value) {
+        if(!this. construction.cd.has_apron) return
         return this.validatePositiveNumber(value)
       },
 
       'editedItem.dam.sidewall_left_displaced_percent': function(value) {
+        if(!this. construction.cd.has_apron) return
         return this.validatePercent(value)
       },
 
       'editedItem.dam.sidewall_left_abrasion_deep': function(value) {
+        if(!this. construction.cd.has_apron) return
         return this.validatePositiveNumber(value)
       },
 
       'editedItem.dam.sidewall_left_abrasion_percent': function(value) {
+        if(!this. construction.cd.has_apron) return
         return this.validatePercent(value)
       },
 
@@ -581,30 +588,37 @@ export default{
 
 
       'editedItem.dam.sidewall_right_horiz_craks_nr': function(value) {
+        if(!this. construction.cd.has_apron) return
         return this.validatePositiveInteger(value)
       },
 
       'editedItem.dam.sidewall_right_horiz_length': function(value) {
+        if(!this. construction.cd.has_apron) return
         return this.validatePositiveNumber(value)
       },
 
       'editedItem.dam.sidewall_right_vert_craks_nr': function(value) {
+        if(!this. construction.cd.has_apron) return
         return this.validatePositiveInteger(value)
       },
 
       'editedItem.dam.sidewall_right_vert_length': function(value) {
+        if(!this. construction.cd.has_apron) return
         return this.validatePositiveNumber(value)
       },
 
       'editedItem.dam.sidewall_right_displaced_percent': function(value) {
+        if(!this. construction.cd.has_apron) return
         return this.validatePercent(value)
       },
 
       'editedItem.dam.sidewall_right_abrasion_deep': function(value) {
+        if(!this. construction.cd.has_apron) return
         return this.validatePositiveNumber(value)
       },
 
       'editedItem.dam.sidewall_right_abrasion_percent': function(value) {
+        if(!this. construction.cd.has_apron) return
         return this.validatePercent(value)
       },
 

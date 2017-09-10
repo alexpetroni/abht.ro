@@ -52,7 +52,7 @@ function getCadastralCodeId(codeArr, callback){
       if(err || level_0 == null) return callback(err) // level_0 should not be added after installation, they are fixed
 
       // remove all empty elements in codeArr
-      let emptyElIndex = codeArr.findIndex(e => { return e === null || ( typeof e == 'string'   && e.trim() == '')} )
+      let emptyElIndex = codeArr.findIndex(e => { return e === null || ( typeof e == 'string' && e.trim() == '')} )
       if(emptyElIndex != -1 ){
         codeArr.splice(emptyElIndex)
       }
@@ -134,6 +134,9 @@ function recordConstruction(arr, currentIndex){
   let adminLocation = data.gd._adminlocation
   let cadastralCodeArr = data.gd.cadastral_code.split('-')
 
+//  console.log('adminLocation', adminLocation)
+//  console.log('cadastralCodeArr', cadastralCodeArr)
+
   delete data.gd._adminlocation
   delete data.gd.cadastral_code
 
@@ -152,7 +155,7 @@ function recordConstruction(arr, currentIndex){
       return console.log( err )
     }
 
-    
+
 
     async.parallel([
       async.reflect(function(callback){

@@ -65,11 +65,81 @@ export default {
 </script>
 
 <style>
+.first-row{
+  font-weight: bold;
+}
 
 .form-err-message{
   color: red;
   font-size: .8em;
   height: 1em;
+}
+
+.disabledLabel{
+  color: #888888;
+}
+
+#sidebar-container{
+  background: #222d32;
+  margin-top: -20px;
+  padding-top: 20px;
+  height: 100%;
+  min-height: 700px;
+}
+
+#sidebar-wrapper{
+
+}
+
+/* Sidebar Styles */
+
+.sidebar-nav {
+   width: 100%;
+   margin: 0;
+   padding: 0;
+   list-style: none;
+   margin-top: 2px;
+}
+
+.sidebar-nav li {
+   text-indent: 15px;
+   line-height: 40px;
+}
+
+.sidebar-nav li a {
+   display: block;
+   text-decoration: none;
+   color: #999999;
+}
+
+.sidebar-nav li a:hover {
+   text-decoration: none;
+   color: #fff;
+   background: rgba(255,255,255,0.2);
+   border-left: red 2px solid;
+}
+
+.sidebar-nav li a:active,
+.sidebar-nav li a:focus {
+   text-decoration: none;
+}
+
+.sidebar-nav > .sidebar-brand {
+   height: 65px;
+   font-size: 18px;
+   line-height: 60px;
+}
+
+.sidebar-nav > .sidebar-brand a {
+   color: #999999;
+}
+
+.sidebar-nav > .sidebar-brand a:hover {
+   color: #fff;
+   background: none;
+}
+.no-margin{
+   margin:0;
 }
 
 </style>

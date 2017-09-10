@@ -33,7 +33,14 @@ export default{
   },
 
   methods: {
+    convertDMSToDD: function(degrees, minutes, seconds, direction) {
+    var dd = degrees + minutes/60 + seconds/(60*60);
 
+    if (direction == "S" || direction == "W") {
+        dd = dd * -1;
+    } // Don't do anything for N or E
+    return dd;
+  }
   },
 
   computed: {
@@ -46,8 +53,12 @@ export default{
 
     constructionMarker: function(){
       let g = this.construction.gd.geolocation;
-      if(g && g.lat && g.long){
-        let pos = { position: {lat: g.lat, lng: g.long} }
+      if(g && g.lat && g.lat.deg && g.long && g.long.deg ){
+
+        let lat = this.convertDMSToDD(g.lat.deg, g.lat.min, g.lat.sec)
+        let long = this.convertDMSToDD(g.long.deg, g.long.min, g.long.sec)
+
+        let pos = { position: {lat: lat, lng: long} }
         return pos
       }
 

@@ -18,14 +18,6 @@
 
                 <router-link v-if="isTransversalQuery" :to="{name: 'ys-distribution-materials'}" tag="li" active-class="active" exact><a><span class="fa-stack fa-lg pull-left"><i class="fa fa-bar-chart fa-stack-1x "></i></span>Distr. medie Ys fcţ. mat. de constr. corp transversale</a><span class="sr-only">(current)</span></a></router-link>
 
-
-                  <li>
-                      <a href="#"><span class="fa-stack fa-lg pull-left"><i class="fa fa-plus-square  fa-stack-1x "></i></span> Adaugă lucrare</a>
-                         <ul class="nav-pills nav-stacked" style="list-style-type:none;">
-                           <router-link :to="{name: 'new-transversal-construction'}" tag="li" active-class="active"><a><span class="fa-stack fa-lg pull-left"><i class="fa fa-file fa-stack-1x "></i></span>Transversală</a></router-link>
-                           <router-link :to="{name: 'new-longitudinal-construction'}" tag="li" active-class="active"><a><span class="fa-stack fa-lg pull-left"><i class="fa fa-file fa-stack-1x "></i></span>Longitudinală</a></router-link>
-                      </ul>
-                  </li>
               </ul>
           </div><!-- /#sidebar-wrapper -->
 

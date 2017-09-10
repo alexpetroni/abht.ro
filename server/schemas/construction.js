@@ -76,7 +76,7 @@ const constrSchema = new Schema({
     cadastral_code: { type: ObjectId, ref:"Cadastral" },
     construction_code: String,
     basin_name: String,
-    geolocation: {lat: Number, long: Number},
+    geolocation: {lat: {deg: Number, min:Number, sec:Number}, long: {deg: Number, min:Number, sec:Number}},
     _adminlocation: { type: ObjectId, ref:"Adminlocation" },
     construction_year: {type: Number, index: true},
     reparation_years: [ Number ],

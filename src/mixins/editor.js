@@ -65,11 +65,17 @@ const editorMixin = {
       }
     },
 
-    calculateLongitudinalTotalLength(){
+    calculateLongitudinalTotalLength(sectorsArr){
       let total_length = 0;
-      if(this.construction.cd.sectors){
-        this.construction.cd.sectors.forEach( s => total_length += s.sector_length)
+      if(sectorsArr && Array.isArray(sectorsArr)){
+        sectorsArr.forEach( s => {
+          console.log('s.sector_length', s.sector_length)
+          total_length += parseFloat(s.sector_length)
+
+        } )
+
       }
+      console.log('calculateLongitudinalTotalLength', total_length)
       return total_length
     },
 
@@ -88,7 +94,7 @@ const editorMixin = {
             let updateData = {
               type: this.construction.type,
               sectors: sectorsArr,
-              total_length: this.calculateLongitudinalTotalLength()
+              total_length: this.calculateLongitudinalTotalLength(sectorsArr)
             }
 
             // if was the last sector and has final spur
@@ -101,6 +107,7 @@ const editorMixin = {
             axios._put(req)
             .then( res => {
               this.$emit('constructionUpdated', res.data)
+              console.log('res.data', res.data)
               this.invalidateConstructionsList()
             })
             .catch( error => console.log(error) )
@@ -216,7 +223,7 @@ const editorMixin = {
       this.construction.current_inventory =  this.inventory
 
       if(this.isLongitudinal){
-        this.construction.cd.total_length = this.calculateLongitudinalTotalLength()
+        this.construction.cd.total_length = this.calculateLongitudinalTotalLength(this.construction.cd.sectors)
       }
 
       let req = { url:'constructions', data: this.jsonCopy(this.construction) }

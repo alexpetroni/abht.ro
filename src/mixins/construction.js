@@ -161,7 +161,7 @@ function getNewConstructionData(type){
       _cadastral_code_items_arr: ['', '', '', '', '', ''],
       construction_code: '',
       basin_name: '',
-      geolocation: {lat: '', long: ''},
+      geolocation: {lat: {deg: '', min: '', sec: ''}, long: {deg: '', min: '', sec: ''}},
       adminlocation: { county: '', county_slug: '', county_id: '', city: '', city_id: '' },
       construction_year: '',
       reparation_years: [],
@@ -323,21 +323,17 @@ const constructionMixin = {
     },
 
     getConstructionLongitude(){
-      if(this.construction && this.construction.gd && this.construction.gd.geolocation){
+      if(this.construction && this.construction.gd && this.construction.gd.geolocation && this.construction.gd.geolocation.long && this.construction.gd.geolocation.long.deg){
         let long = this.construction.gd.geolocation.long
-        if(long && !isNaN(long)){
-          return parseFloat(long).toFixed(6) + "°"
-        }
+        return long.deg + "° " + long.min + '′ ' + long.sec + '″ E'
       }
       return '-'
     },
 
     getConstructionLatitude(){
-      if(this.construction && this.construction.gd && this.construction.gd.geolocation){
+      if(this.construction && this.construction.gd && this.construction.gd.geolocation && this.construction.gd.geolocation.lat && this.construction.gd.geolocation.lat.deg){
         let lat = this.construction.gd.geolocation.lat
-        if(lat && !isNaN(lat)){
-          return parseFloat(lat).toFixed(6) + "°"
-        }
+        return lat.deg + "° " + lat.min + '′ ' + lat.sec + '″ N'
       }
       return '-'
     },

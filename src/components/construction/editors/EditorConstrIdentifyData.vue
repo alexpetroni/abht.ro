@@ -108,22 +108,45 @@
 
             <div class="form-group col-xs-12 col-sm-6 col-md-3">
               <div class="row">
-                <label class="col-xs-12" for="latitude">Latitudine</label>
-                <div class="col-xs-12">
-                  <input type="text" name="latitude" id="latitude" v-model="editedItem.gd.geolocation.lat" class="form-control">
-                  <div class="form-err-message">{{ validation.firstError('editedItem.gd.geolocation.lat') }}</div>
-                </div>
+                <label class="col-xs-12" >Latitudine N</label>
+
+                  <div class="col-xs-4">
+                    <input type="text" v-model="editedItem.gd.geolocation.lat.deg" placeholder="deg" class="form-control">
+                    <div class="form-err-message">{{ validation.firstError('editedItem.gd.geolocation.lat.deg') }}</div>
+                  </div>
+                  <div class="col-xs-4">
+                    <input type="text" v-model="editedItem.gd.geolocation.lat.min" placeholder="min" class="form-control">
+                    <div class="form-err-message">{{ validation.firstError('editedItem.gd.geolocation.lat.min') }}</div>
+                  </div>
+                  <div class="col-xs-4">
+                    <input type="text"  v-model="editedItem.gd.geolocation.lat.sec" placeholder="sec" class="form-control">
+                    <div class="form-err-message">{{ validation.firstError('editedItem.gd.geolocation.lat.sec') }}</div>
+                  </div>
+
+
               </div>
             </div>
 
 
             <div class="form-group col-xs-12 col-sm-6 col-md-3">
               <div class="row">
-                <label class="col-xs-12" for="longitude">Longitudine</label>
-                <div class="col-xs-12">
-                  <input type="text" name="longitude" id="longitude" v-model="editedItem.gd.geolocation.long" class="form-control">
-                  <div class="form-err-message">{{ validation.firstError('editedItem.gd.geolocation.long') }}</div>
+                <label class="col-xs-12" for="longitude">Longitudine E</label>
+
+                <div class="col-xs-4">
+                  <input type="text" v-model="editedItem.gd.geolocation.long.deg" placeholder="deg" class="form-control">
+                  <div class="form-err-message">{{ validation.firstError('editedItem.gd.geolocation.long.deg') }}</div>
                 </div>
+
+                <div class="col-xs-4">
+                  <input type="text" v-model="editedItem.gd.geolocation.long.min" placeholder="min" class="form-control">
+                  <div class="form-err-message">{{ validation.firstError('editedItem.gd.geolocation.long.min') }}</div>
+                </div>
+
+                <div class="col-xs-4">
+                  <input type="text" v-model="editedItem.gd.geolocation.long.sec" placeholder="sec" class="form-control">
+                  <div class="form-err-message">{{ validation.firstError('editedItem.gd.geolocation.long.sec') }}</div>
+                </div>
+
               </div>
             </div>
 
@@ -262,7 +285,7 @@ export default{
       console.log('onSubmit')
       this.$validate().then(success => {
 
-        if(true || success){
+        if(success){
             console.log('onSubmit success')
           let arr = []
 
@@ -453,12 +476,28 @@ export default{
       return Validator.value(value[0]).required()
     },
 
-    'editedItem.gd.geolocation.lat': function(value) {
-      return this.validateLatitudeLongitude(value)
+    'editedItem.gd.geolocation.lat.deg': function(value) {
+      return this.validateLatitudeCoordDeg(value)
     },
 
-    'editedItem.gd.geolocation.long': function(value) {
-      return this.validateLatitudeLongitude(value)
+    'editedItem.gd.geolocation.lat.min': function(value) {
+      return this.validateLatitudeCoordMin(value)
+    },
+
+    'editedItem.gd.geolocation.lat.sec': function(value) {
+      return this.validateLatitudeCoordSec(value)
+    },
+
+    'editedItem.gd.geolocation.long.deg': function(value) {
+      return this.validateLatitudeCoordDeg(value)
+    },
+
+    'editedItem.gd.geolocation.long.min': function(value) {
+      return this.validateLatitudeCoordMin(value)
+    },
+
+    'editedItem.gd.geolocation.long.sec': function(value) {
+      return this.validateLatitudeCoordSec(value)
     },
 
     'editedItem.gd.adminlocation.county_id': function(value) {

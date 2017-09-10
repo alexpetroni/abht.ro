@@ -7,19 +7,19 @@
         <table class="table table-bordered abht-table text-center">
           <thead>
             <tr class="first-row">
-              <td colspan="2">Decastrare</td>
-              <td colspan="2">Afuieri</td>
-              <td colspan="2">Fisuri orizontale</td>
-              <td colspan="2">Fisuri verticale</td>
-              <td colspan="3">Desprinderi %</td>
-              <td colspan="2">Eroziuni</td>
+              <td colspan="2"><strong>Decastrare</strong></td>
+              <td colspan="2"><strong>Afuieri</strong></td>
+              <td colspan="2"><strong>Fisuri orizontale</strong></td>
+              <td colspan="2"><strong>Fisuri verticale</strong></td>
+              <td colspan="3"><strong>Desprinderi %</strong></td>
+              <td colspan="2"><strong>Eroziuni</strong></td>
             </tr>
 
             <tr>
 
               <td>stanga</td>
               <td>dreapta</td>
-              <td>H</td>
+              <td>H(m)</td>
               <td>%</td>
               <td>nr</td>
               <td>lungime(m)</td>

@@ -32,11 +32,19 @@ const formMixin = {
     },
 
     validatePositiveNumberGtZero(value){
-      return Validator.value(value).required().regex(/^([1-9]\d?([.]\d+)?|0\.\d+)$/, 'Introduceti nr. mai mare decat 0')
+      return Validator.value(value).required().regex(/^([1-9]\d*([.]\d+)?|0\.\d+)$/, 'Introduceti nr. mai mare decat 0')
     },
 
-    validateLatitudeLongitude(value){
-      return Validator.value(value).required().regex(/^\d+\.\d{4,}?$/, 'Introduceti valoare coordonata valida')
+    validateLatitudeCoordDeg(value){
+      return Validator.value(value).required().between(0, 180, 'Introduceti numar intre 0 si 180')
+    },
+
+    validateLatitudeCoordMin(value){
+      return Validator.value(value).required().between(0, 59, 'Introduceti numar intre 0 si 59')
+    },
+
+    validateLatitudeCoordSec(value){
+      return Validator.value(value).required().between(0, 59.9, 'Introduceti numar intre 0 si 59.9')
     },
 
     validatePercent(value){

@@ -218,7 +218,7 @@
         <td>Înălțime aterisament</td>
         <td>Granulometrie aluviuni</td>
         <td colspan="2">Vegetație lemnoasă nedorită</td>
-        <td>Reducere secțiune</td>
+        <td>Reducere secțiune %</td>
       </tr>
       <tr>
         <td>%SU</td>

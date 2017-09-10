@@ -1,13 +1,14 @@
 <template>
   <div>
     <div v-if = "construction && inventory">
-
+    <div class="text-right">
       <editor-menu
       :construction="construction"
       :inventory="inventory"
       @deleteConstruction="onDeleteConstruction"
       >
       </editor-menu>
+    </div>
 
       <component :is="constructionPresentationType" :construction="construction" :inventory="inventory"></component>
     </div>

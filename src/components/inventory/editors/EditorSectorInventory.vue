@@ -123,12 +123,12 @@
             <table class="table table-bordered abht-table text-center">
               <thead>
                 <tr class="first-row">
-                  <td rowspan="2">Nr. pinten</td>
+                  <td rowspan="2"><strong>Nr. pinten</strong></td>
 
-                  <td colspan="2">Fisuri orizontale</td>
-                  <td colspan="2">Fisuri verticale</td>
-                  <td colspan="3">Desprinderi %</td>
-                  <td colspan="2">Eroziuni</td>
+                  <td colspan="2"><strong>Fisuri orizontale</strong></td>
+                  <td colspan="2"><strong>Fisuri verticale</strong></td>
+                  <td colspan="3"><strong>Desprinderi %</strong></td>
+                  <td colspan="2"><strong>Eroziuni</strong></td>
                 </tr>
 
                 <tr>
@@ -323,10 +323,7 @@ export default{
 
   validators: {
     'editedYear': function(value){
-      if(this.isNew){
-         return this.validateYear(value)
-      }
-      return true
+        return this.validateYear(value)
     },
 
     'editedItem.apron_craks_nr': function(value) {

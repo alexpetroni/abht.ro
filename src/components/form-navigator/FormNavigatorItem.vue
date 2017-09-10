@@ -1,6 +1,7 @@
 <template>
   <div class="form-group">
-    <label>{{ step.name }} </label>
+    <label> {{ step.name }} </label>
+    <br />
 
     <button type="text"
     @click.prevent = "onClick(currentStep)"
@@ -8,7 +9,7 @@
     :disabled = "isDisabled"
     >
 
-  {{ step.label }} </button>
+  {{ step.label }} </button>&nbsp;
   </div>
 </template>
 
@@ -44,7 +45,14 @@ export default{
     },
 
     statusClass(){
-      return {currentStep: this.formState.currentIndex == this.currentStep, invalidStep: this.step.status == 'invalid' }
+      let btnClass = {btn: true}
+      btnClass['btn-primary'] = this.formState.currentIndex == this.currentStep
+      btnClass['btn-danger'] = this.step.status == 'invalid'
+      btnClass['btn-success'] = !this.isDisabled
+
+      return btnClass
+
+      //return {currentStep: this.formState.currentIndex == this.currentStep, invalidStep: this.step.status == 'invalid' }
     },
 
     step(){

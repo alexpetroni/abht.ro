@@ -8,7 +8,8 @@
           name: 'construction',
           params:{ id: construction._id }
         }"
-        >Vizualizare constructie</router-link></div>
+        ><button class="btn btn-primary">Vizualizare constructie</button></router-link>
+      </div>
         <h3>{{ title }}</h3>
 
       <component

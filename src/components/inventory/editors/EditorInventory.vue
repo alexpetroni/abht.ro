@@ -1,17 +1,21 @@
 <template>
   <div>
   <div v-if="construction">
+
     <div class="text-right">
+      <button @click.prevent="deleteCurrentInventory" href="#" class="btn btn-primary" v-if = "construction.inventories_archive.length > 0">Sterge inventar</button>
+
       <router-link
       :to="{
         name: 'construction',
         params:{ id: construction._id }
       }"
-      >Vizualizare constructie</router-link>
-      <div>
-        <a @click.prevent="deleteCurrentInventory" href="#" v-if = "construction.inventories_archive.length > 0">Sterge inventar</a>
-      </div>
+      ><button class="btn btn-primary">Vizualizare constructie</button></router-link>
+
+
     </div>
+
+
     <h3>{{ title }}</h3>
     <component
     :is = "inventoryEditType"
@@ -104,7 +108,7 @@ export default{
       }
       title += ' ' + this.construction.gd.basin_name
       title += ' ' + this.getConstructionCadastralCode()
-      title += ' ' + this.construction.gd.construction_code
+      title += '#' + this.construction.gd.construction_code
       return title
     }
   },

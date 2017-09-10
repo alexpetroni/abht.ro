@@ -1,7 +1,10 @@
 <template>
   <div id="footer-container" class="text-center">
 
-    <h5>Footer</h5>
+    <h5>Amenajarea bazinelor hidrografice torential</h5>
+    <h5>Un proiect al INCDS Brasov</h5>
+    <div>Coordonatori: dr.ing. Serban Davidescu, ing. Nicu Tudose, ing. Cezar Ungureanu,
+ing. Agafia Davidescu</div>
   </div>
 </template>
 

@@ -42,7 +42,7 @@ const adminChildren = [
 
 export default new Router({
   routes: [
-      { path: '/' , component: Home, name: 'home' },
+      { path: '/' , component: ConstructionsSelect, name: 'home' },
       { path: '/constructions-select' , component: ConstructionsSelect, name: 'constructions-select' },
       { path: '/constructions-list' , component: ConstructionsList, name: 'constructions-list' },
       { path: '/constructions/:id/inventory/:year' , component: Construction, name: 'construction-year-inventory', props: true },
