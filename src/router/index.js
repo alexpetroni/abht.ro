@@ -27,6 +27,16 @@ import EditorConstruction from'./../components/construction/editors/EditorConstr
 import EditorInventory from './../components/inventory/editors/EditorInventory.vue'
 
 
+import UserLogin from './../components/user/UserLogin.vue'
+import UsersList from './../components/user/UsersList.vue'
+import UserAccountData from './../components/user/UserAccountData.vue'
+import UserCreateAccountForm from './../components/user/UserCreateAccountForm.vue'
+import UserAccountEditor from './../components/user/UserAccountEditor.vue'
+
+
+import store from './../store'
+
+
 
 Vue.use(Router)
 
@@ -38,9 +48,15 @@ const adminChildren = [
   { path: 'construction/:id/new-inventory', name: 'add-inventory' , component: EditorInventory, props: true },
   { path: 'construction/:id/inventory/:year/edit', name: 'edit-inventory' , component: EditorInventory, props: true },
 
+  { path: 'users-list', name: 'users-list' , component: UsersList },
+  { path: 'userdata', name: 'userdata' , component: UserAccountData },
+  { path: 'add-user', name: 'add-user' , component: UserCreateAccountForm },
+  { path: 'edit-user', name: 'edit-user' , component: UserAccountEditor },
+
+
 ]
 
-export default new Router({
+const router =  new Router({
   routes: [
       { path: '/' , component: ConstructionsSelect, name: 'home' },
       { path: '/constructions-select' , component: ConstructionsSelect, name: 'constructions-select' },
@@ -55,8 +71,23 @@ export default new Router({
       { path: '/charts/ys-distribution-ye' , component: ChartYsDistributionYe, name: 'ys-distribution-ye'},
       { path: '/charts/ys-distribution-materials' , component: ChartYsDistributionMaterials, name: 'ys-distribution-materials'},
 
-      { path: '/admin' , component: Admin, children: adminChildren },
+      { path: '/user-login' , component: UserLogin, name: 'user-login' },
+
+      { path: '/admin' , component: Admin, children: adminChildren, meta: { auth: true } },
+
+
+
       { path: '/error' , component: ErrorComponent, name: 'error' },
 
   ]
 })
+
+router.beforeEach((to, from, next) => {
+  if (to.matched.some(route => route.meta.auth) && !store.getters.isAuthenticated) {
+    next('/user-login');
+  } else {
+    next();
+  }
+});
+
+export default router

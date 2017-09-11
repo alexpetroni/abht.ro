@@ -15,6 +15,8 @@ const TransversalConstruction = construction.TransversalConstruction
 
 const Inventory = inventory.Inventory
 
+const User = require('./schemas/user')
+
 
 mongoose.connect('mongodb://localhost:27017/abhtro')
 
@@ -38,6 +40,7 @@ const Models = {
   Inventory,
   Adminlocation,
   Cadastral,
+  User
 }
 
 module.exports = Models

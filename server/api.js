@@ -19,6 +19,8 @@ const config = require('./../abht.config.js')
 
 const ys = require('./ys.js')
 
+const md5 = require('md5')
+
 
 const ObjectId = mongoose.Types.ObjectId
 
@@ -114,6 +116,150 @@ router.route('/counties')
 })
 
 
+// ===================== USERS =========================
+
+router.route('/login')
+.post((req, res, next) => {
+
+  let email = req.body.email
+  let password = md5(req.body.password)
+
+  db.User.findOne({email: email, password: password, status: 'active'}).exec(function(err, user){
+      if(err) return next(err)
+
+      if(!user){
+        return res.send({error: "User sau parola gresita"})
+      }
+
+      res.send({user: user})
+  })
+})
+
+router.route('/users')
+.get((req, res, next) => {
+
+  db.User
+  .find({ status: 'active', role: 'editor' })
+  .sort({ first_name: 'asc', last_name: 'asc' })
+  .exec( function(err, user){
+    if(err) return next(err)
+    res.send(user)
+  })
+})
+
+.post((req, res, next) => {
+
+  let data = req.body
+
+  data.password = md5(data.password)
+
+
+    db.User.findOne({email: data.email}).exec(function(err, user){
+      if(err) return next(err)
+
+      if(user){
+        return res.send({error: "Exista deja un user cu aceast email"})
+      }
+
+      delete data._id
+
+      db.User.create(data, function(err, user){
+        if(err) return next(err)
+
+        res.send(user)
+      })
+
+    })
+})
+
+
+router.route('/users/:id')
+.get((req, res, next) => {
+
+  let id = req.params.id
+
+  if(ObjectId.isValid(id)){
+
+    db.User
+    .findById(id)
+    .exec( function(err, user){
+      if(err) return next(err)
+      if(!user){
+        return next(new Error("Nu exista user cu acest id"))
+      }
+      res.send(user)
+    })
+
+  }else{
+    next(new Error("Invalid user id"))
+  }
+
+
+})
+
+.put((req, res, next) => {
+    let id = req.params.id
+
+    let data = req.body
+
+    if(ObjectId.isValid(id)){
+
+    db.User
+    .findById(id,
+      function(err, user){
+      if(err) return next(err)
+      if(!user){
+        return next(new Error("Nu exista user cu acest id"))
+      }
+
+      if(data.password){
+        data.password = md5(data.password)
+      }
+
+      user.set(data)
+
+      user.save(function(err, updatedUser){
+        if(err) return next(err)
+        res.send(updatedUser)
+      })
+
+    })
+
+  }else{
+    next(new Error("Invalid user id"))
+  }
+
+})
+
+.delete((req, res, next) => {
+
+  let id = req.params.id
+
+  if(ObjectId.isValid(id)){
+
+  db.User
+  .findById(id)
+  .exec( function(err, user){
+    if(err) return next(err)
+    if(!user){
+      return next(new Error("Nu exista user cu acest id"))
+    }
+
+    user.set({status: 'deleted'})
+
+    user.save(function(err, updatedUser){
+      if(err) return next(err)
+      console.log('updatedUser', updatedUser)
+      res.send(updatedUser)
+    })
+
+  })
+
+}else{
+  next(new Error("Invalid user id"))
+}
+})
+
 
 // ===================== CADASTRALS =========================
 
@@ -167,7 +313,6 @@ router.route('/constructions')
 
   let cons = db.Construction.create(data, function (err, c) {
     if (err) return next(err)
-    console.log('start calculate ys')
     // saved!
     c.current_inventory.ys = ys.calculateYs(c, c.current_inventory)
 
@@ -1701,6 +1846,9 @@ function parseQueryToFilters(q, callback){
         callback(null, filters)
       })
 }
+
+
+
 
 // ================================ DOWNLOAD ================================
 

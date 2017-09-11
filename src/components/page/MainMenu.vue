@@ -22,7 +22,9 @@
 
         <ul class="nav navbar-nav navbar-right">
 
-          <li  class="dropdown"  v-toggle-menu>
+          <li v-if="isAuthenticated" ><a>Salut {{ user.first_name }} {{ user.last_name }}</a></li>
+
+          <li  class="dropdown"  v-toggle-menu v-if="isAuthenticated">
             <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Adaugă lucrare <span class="caret"></span></a>
             <ul class="dropdown-menu">
               <router-link :to="{name: 'new-transversal-construction'}" tag="li" active-class="active"><a>Transversală</a></router-link>
@@ -31,17 +33,29 @@
           </li>
 
 
-          <li><a href="#">Login</a></li>
-          <li class="dropdown" v-toggle-menu>
-            <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Account <span class="caret"></span></a>
+
+
+          <li class="dropdown" v-toggle-menu v-if="isAuthenticated">
+            <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Contul meu<span class="caret"></span></a>
             <ul class="dropdown-menu">
-              <li><a href="#">My constructions</a></li>
+
               <li><a href="#">My account</a></li>
               <li><a href="#">Something else here</a></li>
-              <li role="separator" class="divider"></li>
-              <li><a href="#">Separated link</a></li>
+              <template v-if="user.role == 'admin'">
+                <li role="separator" class="divider"></li>
+                <router-link :to="{ name: 'users-list'}" tag="li" active-class="active"><a>Listă utilizatori</a></router-link>
+                <li role="separator" class="divider"></li>
+                <router-link :to="{ name: 'add-user'}" tag="li" active-class="active"><a>Adaugă utilizator</a></router-link>
+              </template>
+
+
+
             </ul>
           </li>
+
+         <li v-if="isAuthenticated"><a href="#"  @click.prevent="onLogout">Logout</a></li>
+
+         <router-link v-if="!isAuthenticated" :to="{ name: 'user-login'}" tag="li" active-class="active"><a>Login</a></router-link>
         </ul>
       </div><!-- /.navbar-collapse -->
     </div><!-- /.container-fluid -->
@@ -49,6 +63,8 @@
 </template>
 
 <script>
+
+import { mapGetters, mapActions } from 'vuex'
 
 export default {
   data(){
@@ -58,10 +74,21 @@ export default {
   },
 
   methods:{
+    ...mapActions(['setUser']),
+
     toggleSideMenu(){
       this.$emit('toggle')
+    },
+
+    onLogout(){
+      this.setUser(null)
+      this.$router.push({name: 'constructions-select'})
     }
 
+  },
+
+  computed: {
+    ...mapGetters(['isAuthenticated', 'user'])
   },
 
   directives: {

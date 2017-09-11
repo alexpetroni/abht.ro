@@ -1,8 +1,8 @@
 const path = require('path')
 
 var config = {
-  //apiUrl: 'http://localhost:3030/api',
-  apiUrl: 'http://lucrari.abht.ro:8080/api',
+  apiUrl: 'http://localhost:3030/api',
+  //apiUrl: 'http://lucrari.abht.ro:8080/api',
   uploadDir: './uploads',
   images: {
     resize: [

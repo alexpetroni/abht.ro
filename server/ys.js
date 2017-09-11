@@ -1,7 +1,6 @@
 const ys = {
 
   calculateYs: function(construction, inventory){
-    return ( 100 * Math.random()).toFixed(2)
     if(construction.type == 'long'){
       return ys_constr_long(construction, inventory)
     }else if(construction.type == 'trans'){
