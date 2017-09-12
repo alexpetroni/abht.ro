@@ -367,7 +367,7 @@ export default{
     },
 
     'editedDam.transversal_type': function(value) {
-      return Validator.value(value).required()
+      return this.validateRequired(value)
     },
 
 
@@ -384,7 +384,7 @@ export default{
 
     'editedDam.disip_type': function(value) {
       if(!this.construction.cd.has_apron) return
-      return Validator.value(value).required()
+      return this.validateRequired(value)
     },
 
     'editedDam.hz': function(value) {
@@ -394,7 +394,7 @@ export default{
 
     'editedDam.apron_teeth_no': function(value) {
       if(!this.construction.cd.has_apron) return
-      return Validator.value(value).required().integer().greaterThanOrEqualTo(0)
+      return this.validateRequired(value).integer().greaterThanOrEqualTo(0)
     },
 
 
@@ -416,29 +416,29 @@ export default{
 
 
     'editedDam.mat_main_body': function(value) {
-      return Validator.value(value).required()
+      return this.validateRequired(value)
     },
 
     'editedDam.mat_wings': function(value) {
-      return Validator.value(value).required()
+      return this.validateRequired(value)
     },
 
     'editedDam.mat_apron': function(value) {
       if(!this.construction.cd.has_apron) return
-      return Validator.value(value).required()
+      return this.validateRequired(value)
     },
 
     'editedDam.mat_counter_dam': function(value) {
-      return Validator.value(value).required()
+      return this.validateRequired(value)
     },
 
     'editedDam.mat_side_walls': function(value) {
-      return Validator.value(value).required()
+      return this.validateRequired(value)
     },
 
     'editedFinalSpur.mat_final_spur': function(value) {
       if( !this.construction.cd.has_final_spur ) return
-      return Validator.value(value).required()
+      return this.validateRequired(value)
     },
 
   },

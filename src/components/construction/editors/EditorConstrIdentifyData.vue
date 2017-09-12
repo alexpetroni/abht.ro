@@ -282,17 +282,17 @@ export default{
 
   methods: {
     onSubmit(){
-      console.log('onSubmit')
+
       this.$validate().then(success => {
 
         if(success){
-            console.log('onSubmit success')
+
           let arr = []
 
           // should be always true
           if(this.editedItem.gd._cadastral_code_items_arr[0]){
             this.editedItem.gd._cadastral_code_items_arr.forEach( (e, index) => {
-              console.log('cadastralCodesArr e ', e)
+
               if(e && isNaN(e) && index > 0){
                 arr[index] = e.toLowerCase(e)
               }else{
@@ -303,9 +303,9 @@ export default{
             this.editedItem.gd._cadastral_code_items_arr = arr
           }
 
-          console.log('after')
+
           let data = { construction: this.editedItem }
-          console.log('emit ', data)
+
           this.$emit('submit', JSON.stringify(data));
         }else{
           this.showInvalidFormMessage()
@@ -464,7 +464,7 @@ export default{
 
   validators: {
     'editedItem.gd.basin_name': function(value) {
-      return Validator.value(value).required()
+      return this.validateRequired(value)
     },
 
     'editedItem.gd.construction_code': function(value) {

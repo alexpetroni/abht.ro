@@ -1,9 +1,10 @@
 <template>
-  <div>
+  <div class="container-fluid">
 
 
-
+<div  class="row">
     <app-main-menu @toggle="toggleSideMenu"></app-main-menu>
+</div>
 
 
 
@@ -19,8 +20,9 @@
           </div>
    </div>
 
-
-<app-footer></app-footer>
+  <div  class="row">
+      <app-footer></app-footer>
+ </div>
  </div>
 
 
@@ -145,5 +147,11 @@ export default {
 .metadata{
   color: #888;
 }
+
+#footer-container{
+  margin-top: 4em;
+  background-color: #e7e7e7;
+}
+
 
 </style>

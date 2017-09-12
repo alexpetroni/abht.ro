@@ -1,0 +1,1 @@
+{"_id":{"$oid":"59b6be30d7c33508ff4302fe"},"email":"agafiadavidescu@yahoo.com","first_name":"Davidescu","last_name":"Agafia","password":"f071ead131a84ba6aeda5c0428e526f0","last_login":{"$date":"2017-09-11T16:47:44.986Z"},"role":"admin","status":"active","__v":0}

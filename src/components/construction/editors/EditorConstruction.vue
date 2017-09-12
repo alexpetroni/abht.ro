@@ -52,9 +52,14 @@ export default{
     },
 
     parseCadastralCodeToArr(cadastral_code){
-        if(cadastral_code && cadastral_code.breadcrumb && cadastral_code.ancestors && Array.isArray(cadastral_code.ancestors) ){
+        if(cadastral_code && cadastral_code.breadcrumb && Array.isArray(cadastral_code.ancestors) ){
           let elArr = cadastral_code.breadcrumb.split('-')
-          elArr[0] = cadastral_code.ancestors[0]
+          if(cadastral_code.ancestors[0]){ // if is more than one element deep
+            elArr[0] = cadastral_code.ancestors[0]
+          }else{
+            elArr[0] = cadastral_code._id
+          }
+
           return elArr;
         }
 

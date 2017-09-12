@@ -25,6 +25,8 @@ function ys_constr_trans_with_apron(construction, inventory){
 
   let sum = 0
 
+
+
   if((fVal(dam.ye) + fVal(dam.h) == 0) || fVal(dam.b) == 0){
     return -1
   }
@@ -35,9 +37,11 @@ function ys_constr_trans_with_apron(construction, inventory){
   let ponder_lucr_decastrare = 0.92
   let ilim_lucr_decastrare = 1
 
-  let Ii_lucr_decastrare = (fVal(damInv.dec_left) + fVal(damInv.dec_right)) / (dam.ye + dam.h)
+  let Ii_lucr_decastrare = (fVal(damInv.dec_left) + fVal(damInv.dec_right)) / (fVal(dam.ye) + fVal(dam.h))
 
   sum +=  ponder_lucr_decastrare * Math.min( Ii_lucr_decastrare / ilim_lucr_decastrare , 1)
+
+
 
   // afuiere
   let ponder_lucr_afuiere = 2.52
@@ -48,13 +52,17 @@ function ys_constr_trans_with_apron(construction, inventory){
   sum += ponder_lucr_afuiere * Math.min( Ii_lucr_afuiere / ilim_lucr_afuiere , 1 )
 
 
+
+
   // fisurare
   let ponder_lucr_fisurare = 0.74
   let ilim_lucr_fisurare = 10
 
-  let Ii_lucr_fisurare = fVal(damInv.h_crak_dev_l) / dam.b + fVal(damInv.v_crak_dev_l) / (dam.ye + dam.h)
+  let Ii_lucr_fisurare = fVal(damInv.h_crak_dev_l) / fVal(dam.b) + fVal(damInv.v_crak_dev_l) / (fVal(dam.ye) + fVal(dam.h))
 
   sum += ponder_lucr_fisurare * Math.min( Ii_lucr_fisurare / ilim_lucr_fisurare , 1)
+
+
 
   // desprindere zona deversata
   let ponder_lucr_desp_z_dev = 1.90
@@ -64,6 +72,8 @@ function ys_constr_trans_with_apron(construction, inventory){
 
   sum += ponder_lucr_desp_z_dev * Math.min( Ii_despr_z_dev / ilim_lucr_desp_z_dev , 1)
 
+
+
   // desprindere aripi
   let ponder_lucr_desp_aripi = 3.27
   let ilim_lucr_desp_aripi = 1
@@ -72,6 +82,8 @@ function ys_constr_trans_with_apron(construction, inventory){
 
   sum += ponder_lucr_desp_aripi * Math.min( Ii_lucr_desp_aripi / ilim_lucr_desp_aripi , 1 )
 
+
+
   // eroziune
   let ponder_lucr_eroziune = 0.82
   let ilim_lucr_eroziune = 50
@@ -79,6 +91,8 @@ function ys_constr_trans_with_apron(construction, inventory){
   let Ii_lucr_eroz = fVal(damInv.erosion_height) * fVal(damInv.erosion_percent) / 100
 
   sum += ponder_lucr_eroziune * Math.min( Ii_lucr_eroz / ilim_lucr_eroziune , 1 )
+
+
 
   // ============ Radier ===============
 
@@ -90,13 +104,19 @@ function ys_constr_trans_with_apron(construction, inventory){
 
   sum += ponder_rad_fisurare * Math.min( Ii_rad_fisurare / ilim_rad_fisurare , 1)
 
+
+
   // desprindere
   let ponder_rad_desprindere = 1.33
   let ilim_rad_desprindere = 1
 
   let Ii_rad_desprindere = fVal(damInv.apron_detach_percent) / 100
 
+  console.log('Ii_rad_desprindere', Ii_rad_desprindere)
+
   sum += ponder_rad_desprindere * Math.min( Ii_rad_desprindere / ilim_rad_desprindere , 1)
+
+
 
   // afuiere
   let ponder_rad_afuiere = 0.24
@@ -106,6 +126,8 @@ function ys_constr_trans_with_apron(construction, inventory){
 
   sum += ponder_rad_afuiere * Math.min( Ii_rad_afuiere / ilim_rad_afuiere , 1)
 
+
+
   // eroziune
   let ponder_rad_eroziune = 0.52
   let ilim_rad_eroziune = 50
@@ -113,6 +135,8 @@ function ys_constr_trans_with_apron(construction, inventory){
   let Ii_rad_eroziune = fVal(damInv.apron_erosion_height) * fVal(damInv.apron_erosion_percent) / 100
 
   sum += ponder_rad_eroziune * Math.min( Ii_rad_eroziune / ilim_rad_eroziune , 1)
+
+
 
   // ============ Sistem disipator ==========
 
@@ -124,6 +148,8 @@ function ys_constr_trans_with_apron(construction, inventory){
 
   sum += ponder_disip_desp_dinti * Math.min( Ii_disip_despr / ilim_disip_desp_dinti , 1)
 
+
+
   // desprindere contrabaraj
   let ponder_disip_desp_contrabaraj = 0.10
   let ilim_disip_desp_contrabaraj = 1
@@ -131,6 +157,8 @@ function ys_constr_trans_with_apron(construction, inventory){
   let Ii_disip_contrabaraj = fVal(damInv.apron_detach_counter_dam_percent) / 100
 
   sum += ponder_disip_desp_contrabaraj * Math.min( Ii_disip_contrabaraj / ilim_disip_desp_contrabaraj , 1)
+
+
 
   // ============ Ziduri de conducere ===============
 
@@ -142,6 +170,8 @@ function ys_constr_trans_with_apron(construction, inventory){
 
   sum += ponder_zc_fisurare * Math.min( Ii_zc_fisurare / ilim_zc_fisurare , 1 )
 
+
+
   // desprindere
   let ponder_zc_desprindere = 1
   let ilim_zc_desprindere = 1
@@ -150,6 +180,8 @@ function ys_constr_trans_with_apron(construction, inventory){
 
   sum += ponder_zc_desprindere * Math.min( Ii_zc_desprindere / ilim_zc_desprindere , 1 )
 
+
+
   // eroziune
   let ponder_zc_eroziune = 0.18
   let ilim_zc_eroziune = 50
@@ -157,6 +189,8 @@ function ys_constr_trans_with_apron(construction, inventory){
   let Ii_zc_eroziune = ( fVal(damInv.sidewall_left_abrasion_deep) * fVal(damInv.sidewall_left_abrasion_percent) + fVal(damInv.sidewall_right_abrasion_deep) * fVal(damInv.sidewall_right_abrasion_percent) ) / (2* 100)
 
   sum += ponder_zc_eroziune * Math.min( Ii_zc_eroziune / ilim_zc_eroziune , 1 )
+
+
 
   // ============ Pinten terminal ===============
 
@@ -174,6 +208,8 @@ function ys_constr_trans_with_apron(construction, inventory){
 
     sum += ponder_pt_decastrare * Math.min( Ii_pt_decastrare / ilim_pt_decastrare , 1 )
 
+
+
     // fisurare
     let ponder_pt_fisurare = 0.45
     let ilim_pt_fisurare = 5
@@ -181,6 +217,8 @@ function ys_constr_trans_with_apron(construction, inventory){
     let Ii_pt_fisurare = bp ? (fVal(fpInv.final_spur_horiz_crack_length) + fVal(fpInv.final_spur_vert_crack_length)) / bp : 0
 
     sum += ponder_pt_fisurare * Math.min( Ii_pt_fisurare / ilim_pt_fisurare , 1 )
+
+
 
     // desprindere
     let ponder_pt_desprindere = 1.18
@@ -190,6 +228,8 @@ function ys_constr_trans_with_apron(construction, inventory){
 
     sum += ponder_pt_desprindere * Math.min( Ii_pt_desprindere / ilim_pt_desprindere , 1)
 
+
+
     // eroziune
     let ponder_pt_eroziune = 0.38
     let ilim_pt_eroziune = 50
@@ -198,15 +238,17 @@ function ys_constr_trans_with_apron(construction, inventory){
 
     sum += ponder_pt_eroziune * Math.min( Ii_pt_eroziune / ilim_pt_eroziune , 1 )
 
+
+
   }
 
 
     let YaRef = 31.32
 
-    let ys = 100 - ( 1000 * sum )/ YaRef
+    let ys = 100 - ( 1000 * Math.sqrt(sum) )/ YaRef
 
 
-    return ys
+    return ys.toFixed(2)
 }
 
 function ys_constr_trans_without_apron(construction, inventory){
@@ -227,7 +269,7 @@ function ys_constr_trans_without_apron(construction, inventory){
     let ponder_lucr_decastrare = 2.41
     let ilim_lucr_decastrare = 1
 
-    let Ii_lucr_decastrare = (fVal(damInv.dec_left) + fVal(damInv.dec_right)) / (dam.ye + dam.h)
+    let Ii_lucr_decastrare = (fVal(damInv.dec_left) + fVal(damInv.dec_right)) / (fVal(dam.ye) + fVal(dam.h))
 
     sum += ponder_lucr_decastrare * Math.min( Ii_lucr_decastrare / ilim_lucr_decastrare , 1 )
 
@@ -243,7 +285,7 @@ function ys_constr_trans_without_apron(construction, inventory){
     let ponder_lucr_fisurare = 2.15
     let ilim_lucr_fisurare = 5
 
-    let Ii_lucr_fisurare = fVal(damInv.h_crak_dev_l) / dam.b + fVal(damInv.v_crak_dev_l) / (dam.ye + dam.h)
+    let Ii_lucr_fisurare = fVal(damInv.h_crak_dev_l) / fVal(dam.b) + fVal(damInv.v_crak_dev_l) / (fVal(dam.ye) + fVal(dam.h))
 
     sum += ponder_lucr_fisurare * Math.min( Ii_lucr_fisurare / ilim_lucr_fisurare , 1 )
 
@@ -273,9 +315,9 @@ function ys_constr_trans_without_apron(construction, inventory){
 
     let YaRef = 38.59
 
-    let ys = 100 - ( 1000 * sum )/ YaRef
+    let ys = 100 - ( 1000 * Math.sqrt(sum) )/ YaRef
 
-    return ys
+    return ys.toFixed(2)
 }
 
 
@@ -518,7 +560,7 @@ function ys_constr_long(construction, inventory){
 
   let YaRef = 32.20
 
-  let ys = 100 - ( 1000 * sum )/ YaRef
+  let ys = 100 - ( 1000 * Math.sqrt(sum) )/ YaRef
 
   return ys.toFixed(2)
 }

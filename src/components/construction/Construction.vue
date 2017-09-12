@@ -3,6 +3,7 @@
     <div v-if = "construction && inventory">
     <div class="text-right">
       <editor-menu
+      v-if="isAuthenticated"
       :construction="construction"
       :inventory="inventory"
       @deleteConstruction="onDeleteConstruction"
@@ -77,7 +78,7 @@ export default{
   },
 
   computed: {
-    ...mapGetters([ 'constrFilters']),
+    ...mapGetters([ 'constrFilters', 'isAuthenticated']),
 
     constructionPresentationType(){
       if(this.isLongitudinal){

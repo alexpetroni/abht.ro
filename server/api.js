@@ -6,7 +6,7 @@ const fs = require('fs')
 const mkdirp = require('mkdirp')
 const path = require('path')
 const mv = require('mv')
-// const sharp = require('sharp')
+const sharp = require('sharp')
 const multer = require('multer')
 
 const json2csv = require('json2csv')
@@ -27,6 +27,8 @@ const ObjectId = mongoose.Types.ObjectId
 
 const uploadDirPath = path.join(__dirname, `./../${config.uploadDir}`)
 const tmpUploadPath = uploadDirPath + '/tmp'
+
+
 
 
 // ===================== INSTALL =========================
@@ -56,6 +58,47 @@ router.route('/install')
 
 })
 
+
+// ===================== Update last ys =========================
+router.route('/updateys')
+
+.get((req, res, next) => {
+
+    db.Construction.find({}).sort({date_added: -1}).limit(500).exec(function(err, consArr){
+      if(err) return next(err)
+
+      async.eachLimit(consArr, 10, function(construction, cb){
+        let oldYs = construction.current_inventory.ys
+        let newYs = ys.calculateYs(construction, construction.current_inventory)
+
+        console.log('id', construction._id,  'type', construction.type,  'oldYs ', oldYs, ' newYs ', newYs , ' date_added ', construction.date_added)
+        construction.current_inventory.ys = newYs
+
+        construction.inventories_archive.forEach(inv => {
+          inv.ys = ys.calculateYs(construction, inv)
+        })
+
+        construction.save(function(err, newConst){
+          cb(err, {oldYs: oldYs, newYs: newYs})
+        })
+      },
+      function(err){
+        // if any of the file processing produced an error, err would equal that error
+        if( err ) {
+          // One of the iterations produced an error.
+          // All processing will now stop.
+          res.send('A construction failed to process');
+        } else {
+          res.send('All constructions have been processed successfully');
+        }
+      }
+    )
+
+    })
+
+
+
+})
 
 
 // ===================== INITIALIZE =========================
@@ -529,6 +572,16 @@ router.route('/constructions/:id/constructiondata')
         }
       }
 
+      console.log('before construction.current_inventory.ys', construction.current_inventory.ys)
+
+      let flat_cons = JSON.parse(JSON.stringify(construction))
+      let flat_inv = JSON.parse(JSON.stringify(construction.current_inventory))
+
+      construction.current_inventory.ys = ys.calculateYs(construction, construction.current_inventory)
+
+      construction.inventories_archive.forEach(inv => {
+        inv.ys = ys.calculateYs(construction, inv)
+      })
 
 
       construction.save(function(err, newConstruction){
