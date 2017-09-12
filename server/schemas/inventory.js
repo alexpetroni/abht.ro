@@ -180,7 +180,11 @@ const inventorySchema = new Schema({
   date_last_modified: { type: Date, default: Date.now },
 
   comments: String,
-  images: [ inventoryImageSchema ]
+  images: [ inventoryImageSchema ],
+
+  author: { type: ObjectId, ref:"User" },
+  last_edit_author: { type: ObjectId, ref:"User" }
+  
 }, { discriminatorKey: 'inventoryKind' })
 
 const longInventorySchema = new Schema({

@@ -47,15 +47,24 @@
 </template>
 
 <script>
+import generalMixin from './../../mixins/general'
+
 import * as axios from './../../api'
+
+import { mapGetters, mapActions } from 'vuex'
+
+
 
 import UserAccountEditor from './UserAccountEditor.vue'
 import UserPasswordEditor from './UserPasswordEditor.vue'
 
 export default{
 
+  mixins: [ generalMixin ],
 
   data() {
+
+
     return {
       user: null,
       state: 'view' // three available states: view, changePassword, editUserData
@@ -63,6 +72,8 @@ export default{
   },
 
   methods: {
+    ...mapActions(['setUser']),
+
     loadUser(id){
       let req = { url:'users/' + id}
       axios._get(req)
@@ -83,6 +94,10 @@ export default{
     onUserDataChanged: function(data){
       this.user = data
       this.state = 'view'
+      // if it is the the user who edit his own account, update
+      if(this.user._id == this.editUser._id){
+        this.setUser(this.user)
+      }
     },
 
 
@@ -98,7 +113,7 @@ export default{
   },
 
   computed: {
-
+    ...mapGetters({ editUser: 'user' })
   },
 
   components: {
@@ -114,7 +129,7 @@ export default{
     if(this.$route.query.id){
       this.loadUser(this.$route.query.id)
     }else{
-
+      this.user = this.jsonCopy(this.editUser)
     }
   }
 

@@ -2,6 +2,8 @@ import * as axios from './../api'
 
 import { EditState } from './../models/EditState'
 
+import store from './../store'
+
 const editorMixin = {
   data() {
     return {
@@ -11,12 +13,19 @@ const editorMixin = {
 
   methods: {
 
+    getEditorId(){
+      return store.getters.user._id
+    },
+
     // for new constructions
     onGeneralDataSubmit(jsonData){
       let data = JSON.parse(jsonData)
 
       if(this.editState == EditState.EDIT){
         let gd = data.construction.gd
+
+        gd.last_edit_author = this.getEditorId()
+        gd.date_last_modified = new Date().toISOString()
 
         let req = { url: 'constructions/'+this.construction._id + '/generaldata' , data: gd }
 
@@ -44,10 +53,10 @@ const editorMixin = {
       if(this.editState == EditState.EDIT){
 
         data.type = this.construction.type
+        data.last_edit_author = this.getEditorId()
+        data.date_last_modified = new Date().toISOString()
 
         let req = { url: 'constructions/'+this.construction._id + '/constructiondata', data: data }
-        console.log('req')
-        console.log(req)
         axios._put(req)
         .then( res => {
           this.$emit('constructionUpdated', res.data);
@@ -69,13 +78,12 @@ const editorMixin = {
       let total_length = 0;
       if(sectorsArr && Array.isArray(sectorsArr)){
         sectorsArr.forEach( s => {
-          console.log('s.sector_length', s.sector_length)
+
           total_length += parseFloat(s.sector_length)
 
         } )
 
       }
-      console.log('calculateLongitudinalTotalLength', total_length)
       return total_length
     },
 
@@ -84,7 +92,6 @@ const editorMixin = {
       let sector = data.sector
 
       let index = this.construction.cd.sectors.findIndex( e => e.sector_nr == sector.sector_nr)
-      console.log('index ' + index )
 
         if(this.editState == EditState.EDIT){
           if(index != -1){
@@ -94,7 +101,10 @@ const editorMixin = {
             let updateData = {
               type: this.construction.type,
               sectors: sectorsArr,
-              total_length: this.calculateLongitudinalTotalLength(sectorsArr)
+              total_length: this.calculateLongitudinalTotalLength(sectorsArr),
+
+              date_last_modified: new Date().toISOString(),
+              last_edit_author: this.getEditorId()
             }
 
             // if was the last sector and has final spur
@@ -107,7 +117,6 @@ const editorMixin = {
             axios._put(req)
             .then( res => {
               this.$emit('constructionUpdated', res.data)
-              console.log('res.data', res.data)
               this.invalidateConstructionsList()
             })
             .catch( error => console.log(error) )
@@ -153,9 +162,6 @@ const editorMixin = {
       let data = JSON.parse(jsonData)
       this.inventory = data.inventory
 
-      console.log('inside onDamInventoryDataSubmit')
-      console.log(this.inventory)
-      console.log(this.construction)
       if(this.editState == EditState.EDIT){ // edit existent inventory
         this.updateCurrentInventory()
 
@@ -167,8 +173,6 @@ const editorMixin = {
             yearRecorded = this.checkIfInventoryYearAlreadyExist(this.construction, this.inventory.year)
         }
 
-        console.log('yearRecorded')
-        console.log(yearRecorded)
         if(!yearRecorded){
           this.markupCurrentStepAsValid()
           this.showNextFormStep()
@@ -199,7 +203,12 @@ const editorMixin = {
       if(this.editState == EditState.EDIT){
 
         let url = 'constructions/'+this.construction._id+'/inventory/' + this.inventory.year
-        const req = { url: url, data: this.jsonCopy(this.inventory)  }
+
+        let data = this.jsonCopy(this.inventory)
+        data.last_edit_author = this.getEditorId()
+        data.date_last_modified = new Date().toISOString()
+
+        const req = { url: url, data: data  }
         axios._put( req )
         .then( res => {
           // this.construction = res.data
@@ -219,15 +228,19 @@ const editorMixin = {
     },
 
     registerNewConstructionWithInventory(){
-      console.log('registerNewConstructionWithInventory')
       this.construction.current_inventory =  this.inventory
 
       if(this.isLongitudinal){
         this.construction.cd.total_length = this.calculateLongitudinalTotalLength(this.construction.cd.sectors)
       }
 
-      let req = { url:'constructions', data: this.jsonCopy(this.construction) }
-      console.log(req)
+      let data = this.jsonCopy(this.construction)
+      data.author = this.getEditorId()
+
+
+
+      let req = { url:'constructions', data: data }
+
       axios._post(req)
       .then( res => {
         this.invalidateConstructionsList()
@@ -249,7 +262,6 @@ const editorMixin = {
 
     // this is only when a new inventory is added for an existing construction
     onSaveNewInventorySubmit(jsonData){
-      console.log('inside onSaveNewInventorySubmit ', jsonData)
       let data = JSON.parse(jsonData)
       this.inventory.images = data
 
@@ -263,15 +275,14 @@ const editorMixin = {
 
     onDeleteImageSubmit(jsonData){
       let data = JSON.parse(jsonData)
-console.log('data')
-console.log(data)
+
       if(this.editState == EditState.EDIT){ // edit existent inventory
         const url = 'constructions/'+ this.construction._id + '/inventory/' + this.inventory.year +'/images?imgid='+ data._id
         const req = { url: url, data: data }
-        console.log(req)
+
         axios._delete(req)
         .then(response => {
-          console.log('delete response ', response)
+
           let construction = response.data
 
           let images = []
@@ -297,9 +308,7 @@ console.log(data)
           if (error.response) {
             // The request was made and the server responded with a status code
             // that falls out of the range of 2xx
-            // console.log(error.response.data);
-            // console.log(error.response.status);
-            // console.log(error.response.headers);
+
           } else if (error.request) {
             // The request was made but no response was received
             // `error.request` is an instance of XMLHttpRequest in the browser and an instance of
@@ -327,16 +336,12 @@ console.log(data)
     onAppendImagesSubmit(jsonData){
       let data = JSON.parse(jsonData)
 
-      console.log('onAppendImagesSubmit ', data)
-
       if(this.editState == EditState.EDIT){ // edit existent inventory
         const url = 'constructions/'+ this.construction._id + '/inventory/' + this.inventory.year +'/images'
         const req = { url: url, data: { images: data, type: this.construction.type } }
 
         axios._put(req)
         .then(response => {
-          console.log(' editor response after append ');
-          console.log(response);
 
           let construction = response.data
 
@@ -368,11 +373,17 @@ console.log(data)
 
     updateCurrentInventory(){
       let url = 'constructions/'+this.construction._id+'/inventory/' + this.inventory.year
-      let req = { url: url, data: this.jsonCopy(this.inventory) }
+
+      let data = this.jsonCopy(this.inventory)
+
+      data.last_edit_author = this.getEditorId()
+
+      data.date_last_modified = new Date().toISOString()
+
+      let req = { url, data }
 
       axios._put(req)
       .then( res => {
-        console.log(res)
         this.invalidateConstructionsList()
       })
       .catch( error => console.log(error) )
@@ -381,9 +392,14 @@ console.log(data)
 
     registerNewInventoryForConstruction(){
 
-      console.log('inside registerNewInventoryForConstruction')
+      let url = 'constructions/' + this.construction._id + '/inventory'
+      let data = this.jsonCopy(this.inventory)
 
-      const req = { url: 'constructions/' + this.construction._id + '/inventory', data: this.jsonCopy(this.inventory)  }
+      data.author = this.getEditorId()
+
+      data.date_added = Date.now()
+
+      let req = { url, data }
       axios._post( req )
     .then( res => {
       if(res.data.error){

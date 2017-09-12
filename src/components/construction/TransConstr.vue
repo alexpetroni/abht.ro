@@ -39,6 +39,13 @@
           :inventory = "inventory"
           ></trans-inventory>
       </div>
+
+      <div class="col-sm-12">
+        <construction-metadata
+        :construction = "construction"
+        :inventory = "inventory"
+        ></construction-metadata>
+      </div>
   </div>
 </template>
 
@@ -51,6 +58,8 @@ import Dam from './Dam.vue'
 import TransInventory from './../inventory/TransInventory.vue'
 
 import ConstrInventoryImages from './ConstrInventoryImages.vue'
+
+import ConstructionMetadata from './ConstructionMetadata.vue'
 
 export default{
   mixins: [ constructionMixin ],
@@ -75,7 +84,8 @@ export default{
     ConstructionOnMap,
     Dam,
     TransInventory,
-    ConstrInventoryImages
+    ConstrInventoryImages,
+    ConstructionMetadata
   },
 
   watch: {

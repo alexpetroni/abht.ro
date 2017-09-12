@@ -32,6 +32,7 @@
     <div class="col-sm-12">
       <sector
       v-for="(sector, index) in construction.cd.sectors"
+      :key="construction._id + '_' + index"
       :sector="sector"
       ></sector>
     </div>
@@ -62,6 +63,14 @@
       :inventory = "inventory"
       ></long-inventory>
     </div>
+
+    <div class="col-sm-12">
+      <construction-metadata
+      :construction = "construction"
+      :inventory = "inventory"
+      ></construction-metadata>
+    </div>
+
   </div>
 </template>
 
@@ -74,6 +83,8 @@ import Sector from './Sector.vue'
 import LongInventory from './../inventory/LongInventory.vue'
 
 import ConstrInventoryImages from './ConstrInventoryImages.vue'
+
+import ConstructionMetadata from './ConstructionMetadata.vue'
 
 export default{
   mixins: [ constructionMixin ],
@@ -98,7 +109,8 @@ export default{
     ConstructionOnMap,
     Sector,
     LongInventory,
-    ConstrInventoryImages
+    ConstrInventoryImages,
+    ConstructionMetadata
   },
 
   watch: {

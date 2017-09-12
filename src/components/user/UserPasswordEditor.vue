@@ -6,13 +6,12 @@
 
         <fieldset>
           <legend>Modificare parolă utilizator</legend>
-
           <div class="form-group col-xs-12">
             <div class="row">
               <label class="col-xs-12" >Parolă</label>
               <div class="col-xs-12">
-                <input type="password" v-model="password" class="form-control">
-                <div class="form-err-message">{{ validation.firstError('password') }}</div>
+                <input type="password" v-model="pswdRepeat" class="form-control">
+                <div class="form-err-message">{{ validation.firstError('pswdRepeat') }} </div>
               </div>
             </div>
           </div>
@@ -22,11 +21,14 @@
             <div class="row">
               <label class="col-xs-12" >Repetă parola</label>
               <div class="col-xs-12">
-                <input type="password" v-model="pswdRepeat" class="form-control">
-                <div class="form-err-message">{{ validation.firstError('pswdRepeat') }} </div>
+                <input type="password" v-model="password" class="form-control">
+                <div class="form-err-message">{{ validation.firstError('password') }}</div>
               </div>
             </div>
           </div>
+
+
+
 
 
           <div class="col-sm-12 text-center">
@@ -98,7 +100,7 @@ export default{
     'pswdRepeat': function(value) {
       return Validator.value(value).required().minLength(6)
     },
-    
+
     'password': function(value) {
       return Validator.value(value).required().minLength(6)
     },

@@ -38,9 +38,7 @@
           <li class="dropdown" v-toggle-menu v-if="isAuthenticated">
             <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Contul meu<span class="caret"></span></a>
             <ul class="dropdown-menu">
-
-              <li><a href="#">My account</a></li>
-              <li><a href="#">Something else here</a></li>
+              <router-link :to="{ name: 'userdata'}" tag="li" active-class="active"><a>Date cont</a></router-link>
               <template v-if="user.role == 'admin'">
                 <li role="separator" class="divider"></li>
                 <router-link :to="{ name: 'users-list'}" tag="li" active-class="active"><a>Listă utilizatori</a></router-link>

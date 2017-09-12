@@ -91,6 +91,9 @@ const constrSchema = new Schema({
   date_added: { type: Date, default: Date.now },
   date_last_modified: { type: Date, default: Date.now },
 
+  author: { type: ObjectId, ref:"User" },
+  last_edit_author: { type: ObjectId, ref:"User" }
+
 
 
 }, { discriminatorKey: 'kind' })
@@ -139,7 +142,13 @@ constrSchema.methods.getCadastralCode = function(cb){
 
 constrSchema.statics.getFullConstruction = function(id, cb){
 
-  return this.findById(id).populate('gd.cadastral_code').exec(function(err, constr){
+  return this.findById(id)
+  .populate('gd.cadastral_code')
+  .populate('author')
+  .populate('last_edit_author')
+  .populate('current_inventory.author')
+  .populate('current_inventory.last_edit_author')
+  .exec(function(err, constr){
     if(err) return cb(err)
 
     if(constr){

@@ -2,7 +2,11 @@
   <div>
     <h2>Inventariere {{inventory.year}} Ys: {{inventory.ys}}</h2>
 
-    <sector-inventory v-for="sector in inventory.sectors" :sector-inventory = "sector"></sector-inventory>
+    <sector-inventory
+    v-for="sector in inventory.sectors"
+    :key = "sector.sector_nr"
+    :sector-inventory = "sector"
+    ></sector-inventory>
 
     <final-spur-long-inventory v-if="construction.cd.has_final_spur" :inventory = "inventory"></final-spur-long-inventory>
 

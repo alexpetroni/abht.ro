@@ -142,4 +142,8 @@ export default {
    margin:0;
 }
 
+.metadata{
+  color: #888;
+}
+
 </style>

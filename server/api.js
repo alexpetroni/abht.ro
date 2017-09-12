@@ -311,10 +311,18 @@ router.route('/constructions')
   delete data['gd']['cadastral_code']
   delete data['gd']['adminlocation']
 
+  let author = ObjectId(data.author)
+
+
+
   let cons = db.Construction.create(data, function (err, c) {
     if (err) return next(err)
     // saved!
     c.current_inventory.ys = ys.calculateYs(c, c.current_inventory)
+
+    c.author = author
+
+    c.current_inventory.author = author
 
     async.parallel([
       async.reflect(function(callback){
@@ -451,6 +459,9 @@ router.route('/constructions/:id/generaldata')
 
       construction.gd = data
 
+      construction.last_edit_author = ObjectId(data.last_edit_author)
+      construction.date_last_modified = data.date_last_modified
+
       async.parallel([
         async.reflect(function(callback){
           getAdminlocationId(data.adminlocation.county_id, data.adminlocation.city, callback)
@@ -502,6 +513,9 @@ router.route('/constructions/:id/constructiondata')
         return next(new Error("No construction with this id"))
       }
 
+      construction.last_edit_author = ObjectId(data.last_edit_author)
+      construction.date_last_modified = data.date_last_modified
+
       if(data.type == 'trans'){
         construction.cd.dam = data.dam
         if(construction.cd.has_final_spur){
@@ -551,6 +565,8 @@ router.route('/constructions/:id/inventory/:year')
 
       let invYs = ys.calculateYs(construction, data)
       data.ys = invYs
+
+      data.last_edit_author = ObjectId(data.last_edit_author)
 
       if(construction.current_inventory.year == year){
         construction.current_inventory = data
@@ -862,7 +878,6 @@ router.route('/charts/ys-distribution-condition')
     parseQueryToFilters(q, function(err, filters){
       if(err) return next(err)
 
-      console.log('filters ', filters)
 
       db.Construction.aggregate([
               { $match: filters },
@@ -920,8 +935,6 @@ router.route('/charts/ys-distribution-condition')
       parseQueryToFilters(q, function(err, filters){
         if(err) return next(err)
 
-        //console.log('filters ', filters)
-
         db.Construction.aggregate([
                 { $match: filters },
 
@@ -963,8 +976,6 @@ router.route('/charts/ys-distribution-condition')
 
       parseQueryToFilters(q, function(err, filters){
         if(err) return next(err)
-
-        console.log('filters ', filters)
 
         db.Construction.aggregate([
                 { $match: filters },
@@ -1052,7 +1063,6 @@ router.route('/charts/ys-distribution-condition')
 
             function(err, result){
               if(err) return next(err)
-              console.log('result total + constArr ', result)
               res.send(result)
             }
           )
@@ -1073,8 +1083,6 @@ router.route('/charts/ys-distribution-condition')
 
           parseQueryToFilters(q, function(err, filters){
             if(err) return next(err)
-
-            console.log('filters ', filters)
 
             db.Construction.aggregate([
                     { $match: filters },
@@ -1131,7 +1139,6 @@ router.route('/charts/ys-distribution-condition')
             parseQueryToFilters(q, function(err, filters){
               if(err) return next(err)
 
-              console.log('filters ', filters)
 
               db.Construction.aggregate([
                       { $match: filters },
@@ -1313,9 +1320,6 @@ router.route('/download/constructions-list')
 
             function(err){
             if(err) return next(err)
-            console.log('each limit finsihed')
-            //console.log('data ', data)
-              console.log('data length', data.length)
 
             json2csv({ data: data, fields: fields }, function(err, csv) {
               res.setHeader('Content-disposition', 'attachment; filename=data.csv');

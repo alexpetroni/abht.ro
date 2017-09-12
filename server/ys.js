@@ -520,10 +520,10 @@ function ys_constr_long(construction, inventory){
 
   let ys = 100 - ( 1000 * sum )/ YaRef
 
-  return ys
+  return ys.toFixed(2)
 }
 // get the float val or 0 if not numeric
-function fval(x){
+function fVal(x){
   return parseFloat(x) || 0
 }
 
