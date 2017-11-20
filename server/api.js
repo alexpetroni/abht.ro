@@ -6,7 +6,7 @@ const fs = require('fs')
 const mkdirp = require('mkdirp')
 const path = require('path')
 const mv = require('mv')
-const sharp = require('sharp')
+// const sharp = require('sharp')
 const multer = require('multer')
 
 const json2csv = require('json2csv')

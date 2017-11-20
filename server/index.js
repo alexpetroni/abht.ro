@@ -31,7 +31,7 @@ function errorHandler (err, req, res, next) {
 
 app.use(errorHandler)
 
-const port = 3030
+const port = 8080
 
 app.listen(port, function(){
   console.log('server start on '+port)

@@ -505,7 +505,7 @@ function ys_constr_long(construction, inventory){
 
     let fs = construction.cd.final_spur
 
-    let Hz = fVal(fs.sidewall_height)
+    let Hz = fs && fs.sidewall_height ? fVal(fs.sidewall_height) : 0
 
 
     // decastrare
