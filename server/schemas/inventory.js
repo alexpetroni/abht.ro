@@ -2,6 +2,7 @@ const mongoose = require('mongoose')
 const Schema = mongoose.Schema
 const ObjectId = Schema.Types.ObjectId
 
+
 const damInventorySchema = new Schema({
  // mainBody damages
  dec_left: { type: Number, default: 0},
@@ -184,7 +185,7 @@ const inventorySchema = new Schema({
 
   author: { type: ObjectId, ref:"User" },
   last_edit_author: { type: ObjectId, ref:"User" }
-  
+
 }, { discriminatorKey: 'inventoryKind' })
 
 const longInventorySchema = new Schema({

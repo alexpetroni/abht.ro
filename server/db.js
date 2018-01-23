@@ -18,19 +18,26 @@ const Inventory = inventory.Inventory
 const User = require('./schemas/user')
 
 
-mongoose.connect('mongodb://localhost:27017/abhtro')
+// mongoose.connect('mongodb://abht:SteelTape3@localhost:27017/abhtro')
+//
+// const db = mongoose.connection
+//
+// db.on('error', function(){
+//   console.log('Database connection error')
+// })
+//
+// db.on('open', function(){
+//     console.log('The database has connected.')
+// })
 
-const db = mongoose.connection
 
-db.on('error', function(){
-  console.log('Database connection error')
-})
+mongoose.Promise = global.Promise;
 
-db.on('open', function(){
-    console.log('The database has connected.')
-})
-
-
+// Connect to MongoDB on localhost:27017
+mongoose.connect('mongodb://localhost:27017/abhtro',
+{
+    "useMongoClient": true
+});
 
 
 const Models = {

@@ -1,0 +1,220 @@
+{"_id":{"$oid":"59ac14d440c4093750c8ec1c"},"parent":null,"slug":"bh","__v":0,"name":"Bihor"}
+{"_id":{"$oid":"59ac14d440c4093750c8ec1e"},"parent":null,"slug":"br","__v":0,"name":"Braila"}
+{"_id":{"$oid":"59ac14d440c4093750c8ec18"},"parent":null,"slug":"ar","__v":0,"name":"Arad"}
+{"_id":{"$oid":"59ac14d440c4093750c8ec20"},"parent":null,"slug":"bv","__v":0,"name":"Brasov"}
+{"_id":{"$oid":"59ac14d440c4093750c8ec19"},"parent":null,"slug":"ab","__v":0,"name":"Alba"}
+{"_id":{"$oid":"59ac14d440c4093750c8ec23"},"parent":null,"slug":"cs","__v":0,"name":"Caras-Severin"}
+{"_id":{"$oid":"59ac14d440c4093750c8ec24"},"parent":null,"slug":"cj","__v":0,"name":"Cluj"}
+{"_id":{"$oid":"59ac14d440c4093750c8ec1a"},"parent":null,"slug":"ag","__v":0,"name":"Arges"}
+{"_id":{"$oid":"59ac14d440c4093750c8ec27"},"parent":null,"slug":"dj","__v":0,"name":"Dolj"}
+{"_id":{"$oid":"59ac14d440c4093750c8ec28"},"parent":null,"slug":"gl","__v":0,"name":"Galati"}
+{"_id":{"$oid":"59ac14d440c4093750c8ec2a"},"parent":null,"slug":"hd","__v":0,"name":"Hunedoara"}
+{"_id":{"$oid":"59ac14d440c4093750c8ec2d"},"parent":null,"slug":"bc","__v":0,"name":"Bacau"}
+{"_id":{"$oid":"59ac14d440c4093750c8ec30"},"parent":null,"slug":"bt","__v":0,"name":"Botosani"}
+{"_id":{"$oid":"59ac14d440c4093750c8ec31"},"parent":null,"slug":"b","__v":0,"name":"Bucuresti"}
+{"_id":{"$oid":"59ac14d440c4093750c8ec35"},"parent":null,"slug":"cl","__v":0,"name":"Calarasi"}
+{"_id":{"$oid":"59ac14d440c4093750c8ec37"},"parent":null,"slug":"ct","__v":0,"name":"Constanta"}
+{"_id":{"$oid":"59ac14d440c4093750c8ec36"},"parent":null,"slug":"bn","__v":0,"name":"Bistrita-Nasaud"}
+{"_id":{"$oid":"59ac14d440c4093750c8ec2c"},"parent":null,"slug":"il","__v":0,"name":"Ialomita"}
+{"_id":{"$oid":"59ac14d440c4093750c8ec41"},"parent":null,"slug":"cv","__v":0,"name":"Covasna"}
+{"_id":{"$oid":"59ac14d440c4093750c8ec3b"},"parent":null,"slug":"db","__v":0,"name":"Dambovita"}
+{"_id":{"$oid":"59ac14d440c4093750c8ec42"},"parent":null,"slug":"hr","__v":0,"name":"Harghita"}
+{"_id":{"$oid":"59ac14d440c4093750c8ec45"},"parent":null,"slug":"is","__v":0,"name":"Iasi"}
+{"_id":{"$oid":"59ac14d440c4093750c8ec47"},"parent":null,"slug":"mm","__v":0,"name":"Maramures"}
+{"_id":{"$oid":"59ac14d440c4093750c8ec4b"},"parent":null,"slug":"if","__v":0,"name":"Ilfov"}
+{"_id":{"$oid":"59ac14d440c4093750c8ec46"},"parent":null,"slug":"gj","__v":0,"name":"Gorj"}
+{"_id":{"$oid":"59ac14d440c4093750c8ec3f"},"parent":null,"slug":"gr","__v":0,"name":"Giurgiu"}
+{"_id":{"$oid":"59ac14d440c4093750c8ec4c"},"parent":null,"slug":"mh","__v":0,"name":"Mehedinti"}
+{"_id":{"$oid":"59ac14d440c4093750c8ec4e"},"parent":null,"slug":"ms","__v":0,"name":"Mures"}
+{"_id":{"$oid":"59ac14d440c4093750c8ec3c"},"parent":null,"slug":"bz","__v":0,"name":"Buzau"}
+{"_id":{"$oid":"59ac14d440c4093750c8ec51"},"parent":null,"slug":"ot","__v":0,"name":"Olt"}
+{"_id":{"$oid":"59ac14d440c4093750c8ec50"},"parent":null,"slug":"nt","__v":0,"name":"Neamt"}
+{"_id":{"$oid":"59ac14d440c4093750c8ec53"},"parent":null,"slug":"ph","__v":0,"name":"Prahova"}
+{"_id":{"$oid":"59ac14d440c4093750c8ec5c"},"parent":null,"slug":"sv","__v":0,"name":"Suceava"}
+{"_id":{"$oid":"59ac14d440c4093750c8ec5e"},"parent":null,"slug":"tr","__v":0,"name":"Teleorman"}
+{"_id":{"$oid":"59ac14d440c4093750c8ec60"},"parent":null,"slug":"tm","__v":0,"name":"Timis"}
+{"_id":{"$oid":"59ac14d440c4093750c8ec62"},"parent":null,"slug":"tl","__v":0,"name":"Tulcea"}
+{"_id":{"$oid":"59ac14d440c4093750c8ec57"},"parent":null,"slug":"sm","__v":0,"name":"Satu Mare"}
+{"_id":{"$oid":"59ac14d440c4093750c8ec66"},"parent":null,"slug":"vs","__v":0,"name":"Vaslui"}
+{"_id":{"$oid":"59ac14d440c4093750c8ec5a"},"parent":null,"slug":"sb","__v":0,"name":"Sibiu"}
+{"_id":{"$oid":"59ac14d440c4093750c8ec65"},"parent":null,"slug":"vl","__v":0,"name":"Valcea"}
+{"_id":{"$oid":"59ac14d440c4093750c8ec67"},"parent":null,"slug":"vn","__v":0,"name":"Vrancea"}
+{"_id":{"$oid":"59ac14e4577868137244911f"},"name":"Costesti","parent":{"$oid":"59ac14d440c4093750c8ec1a"},"__v":0}
+{"_id":{"$oid":"59ac14e4577868137244912c"},"name":"Moroieni","parent":{"$oid":"59ac14d440c4093750c8ec3b"},"__v":0}
+{"_id":{"$oid":"59ac14d440c4093750c8ec55"},"parent":null,"slug":"sj","__v":0,"name":"Salaj"}
+{"_id":{"$oid":"59ac14e45778681372449150"},"name":"Sacele","parent":{"$oid":"59ac14d440c4093750c8ec20"},"__v":0}
+{"_id":{"$oid":"59ac14e557786813724491be"},"name":"Hangu","parent":{"$oid":"59ac14d440c4093750c8ec50"},"__v":0}
+{"_id":{"$oid":"59ac14e557786813724491a5"},"name":"Agapia","parent":{"$oid":"59ac14d440c4093750c8ec50"},"__v":0}
+{"_id":{"$oid":"59ac14e557786813724491ed"},"name":"Pângăraţi","parent":{"$oid":"59ac14d440c4093750c8ec50"},"__v":0}
+{"_id":{"$oid":"59ac14e557786813724491d3"},"name":"Strungari","parent":{"$oid":"59ac14d440c4093750c8ec19"},"__v":0}
+{"_id":{"$oid":"59ac14e957786813724495a9"},"name":"RUNCU","parent":{"$oid":"59ac14d440c4093750c8ec46"},"__v":0}
+{"_id":{"$oid":"59ac14e957786813724495be"},"name":"Padeș","parent":{"$oid":"59ac14d440c4093750c8ec46"},"__v":0}
+{"_id":{"$oid":"59ac14e657786813724492ad"},"name":"Bolotești","parent":{"$oid":"59ac14d440c4093750c8ec67"},"__v":0}
+{"_id":{"$oid":"59ac14e957786813724495e5"},"name":"Călugăreni","parent":{"$oid":"59ac14d440c4093750c8ec46"},"__v":0}
+{"_id":{"$oid":"59ac14e95778681372449698"},"name":"Petroșani","parent":{"$oid":"59ac14d440c4093750c8ec46"},"__v":0}
+{"_id":{"$oid":"59ac14e55778681372449258"},"name":"Pângărați - fir principal","parent":{"$oid":"59ac14d440c4093750c8ec50"},"__v":0}
+{"_id":{"$oid":"59ac14ea57786813724496a4"},"name":"Petroșani","parent":{"$oid":"59ac14d440c4093750c8ec2a"},"__v":0}
+{"_id":{"$oid":"59ac14ea57786813724496b8"},"name":"CORBENI","parent":{"$oid":"59ac14d440c4093750c8ec1a"},"__v":0}
+{"_id":{"$oid":"59ac14e65778681372449387"},"name":"Vrancea","parent":{"$oid":"59ac14d440c4093750c8ec67"},"__v":0}
+{"_id":{"$oid":"59ac14ea57786813724496c9"},"name":"Arefu","parent":{"$oid":"59ac14d440c4093750c8ec1a"},"__v":0}
+{"_id":{"$oid":"59ac14eb57786813724497f1"},"name":"Câineni","parent":{"$oid":"59ac14d440c4093750c8ec65"},"__v":0}
+{"_id":{"$oid":"59ac14eb57786813724497da"},"name":"Costești-Vâlsănești","parent":{"$oid":"59ac14d440c4093750c8ec1a"},"__v":0}
+{"_id":{"$oid":"59ac14eb5778681372449858"},"name":"Cicănești","parent":{"$oid":"59ac14d440c4093750c8ec1a"},"__v":0}
+{"_id":{"$oid":"59ac14ec5778681372449898"},"name":"Bărăști","parent":{"$oid":"59ac14d440c4093750c8ec1a"},"__v":0}
+{"_id":{"$oid":"59ac14ee5778681372449a7e"},"name":"SOVATA","parent":{"$oid":"59ac14d440c4093750c8ec4e"},"__v":0}
+{"_id":{"$oid":"59ac14ee5778681372449ab9"},"name":"EREMITU","parent":{"$oid":"59ac14d440c4093750c8ec4e"},"__v":0}
+{"_id":{"$oid":"59ac14ef5778681372449b8c"},"name":"GURGHIU","parent":{"$oid":"59ac14d440c4093750c8ec4e"},"__v":0}
+{"_id":{"$oid":"59ac14ef5778681372449afb"},"name":"IBANESTI","parent":{"$oid":"59ac14d440c4093750c8ec4e"},"__v":0}
+{"_id":{"$oid":"59ac14ef5778681372449c06"},"name":"Predeal","parent":{"$oid":"59ac14d440c4093750c8ec20"},"__v":0}
+{"_id":{"$oid":"59ac14ef5778681372449c16"},"name":"DEDA","parent":{"$oid":"59ac14d440c4093750c8ec4e"},"__v":0}
+{"_id":{"$oid":"59ac14ec577868137244992b"},"name":"Râul Sadului","parent":{"$oid":"59ac14d440c4093750c8ec5a"},"__v":0}
+{"_id":{"$oid":"59ac14ed57786813724499d6"},"name":"Avram Iancu","parent":{"$oid":"59ac14d440c4093750c8ec19"},"__v":0}
+{"_id":{"$oid":"59ac14f15778681372449daf"},"name":"Stanceni","parent":{"$oid":"59ac14d440c4093750c8ec4e"},"__v":0}
+{"_id":{"$oid":"59ac14f05778681372449c55"},"name":"RĂSTOLIŢA","parent":{"$oid":"59ac14d440c4093750c8ec4e"},"__v":0}
+{"_id":{"$oid":"59ac14f35778681372449efd"},"name":"Salard","parent":{"$oid":"59ac14d440c4093750c8ec4e"},"__v":0}
+{"_id":{"$oid":"59ac14f5577868137244a005"},"name":"IZVORU BARZEI","parent":{"$oid":"59ac14d440c4093750c8ec4c"},"__v":0}
+{"_id":{"$oid":"59ac14f7577868137244a0bc"},"name":"GURA VĂII","parent":{"$oid":"59ac14d440c4093750c8ec4c"},"__v":0}
+{"_id":{"$oid":"59ac14f45778681372449f8a"},"name":"IZVORUL BÂRZEI","parent":{"$oid":"59ac14d440c4093750c8ec4c"},"__v":0}
+{"_id":{"$oid":"59ac14f7577868137244a0e4"},"name":"IESELNITA","parent":{"$oid":"59ac14d440c4093750c8ec4c"},"__v":0}
+{"_id":{"$oid":"59ac14f7577868137244a0fa"},"name":"ORSOVA","parent":{"$oid":"59ac14d440c4093750c8ec4c"},"__v":0}
+{"_id":{"$oid":"59ac14f8577868137244a15a"},"name":"Nehoiu","parent":{"$oid":"59ac14d440c4093750c8ec3c"},"__v":0}
+{"_id":{"$oid":"59ac14f9577868137244a1ff"},"name":"COMANDAU","parent":{"$oid":"59ac14d440c4093750c8ec41"},"__v":0}
+{"_id":{"$oid":"59ac14fa577868137244a2aa"},"name":"Motnău","parent":{"$oid":"59ac14d440c4093750c8ec67"},"__v":0}
+{"_id":{"$oid":"59ac14f8577868137244a12d"},"name":"Hîrlau","parent":{"$oid":"59ac14d440c4093750c8ec45"},"__v":0}
+{"_id":{"$oid":"59ac14fb577868137244a301"},"name":"Valea Sarii","parent":{"$oid":"59ac14d440c4093750c8ec67"},"__v":0}
+{"_id":{"$oid":"59ac14fb577868137244a35c"},"name":"Tulnici","parent":{"$oid":"59ac14d440c4093750c8ec67"},"__v":0}
+{"_id":{"$oid":"59ac14fb577868137244a2d1"},"name":"Chiojdeni","parent":{"$oid":"59ac14d440c4093750c8ec67"},"__v":0}
+{"_id":{"$oid":"59ac14f05778681372449cda"},"name":"Lunca Bradului","parent":{"$oid":"59ac14d440c4093750c8ec4e"},"__v":0}
+{"_id":{"$oid":"59ac14fd577868137244a51a"},"name":"Bîrseşti","parent":{"$oid":"59ac14d440c4093750c8ec67"},"__v":0}
+{"_id":{"$oid":"59ac14fc577868137244a417"},"name":"Andreiaşu","parent":{"$oid":"59ac14d440c4093750c8ec67"},"__v":0}
+{"_id":{"$oid":"59ac14fd577868137244a4d8"},"name":"ValeaSării","parent":{"$oid":"59ac14d440c4093750c8ec67"},"__v":0}
+{"_id":{"$oid":"59ac14fc577868137244a459"},"name":"Vidra","parent":{"$oid":"59ac14d440c4093750c8ec67"},"__v":0}
+{"_id":{"$oid":"59ac14fd577868137244a597"},"name":"Slănic Moldova","parent":{"$oid":"59ac14d440c4093750c8ec2d"},"__v":0}
+{"_id":{"$oid":"59ac14ff577868137244a70d"},"name":"BROSTENI","parent":{"$oid":"59ac14d440c4093750c8ec5c"},"__v":0}
+{"_id":{"$oid":"59ac14fe577868137244a60a"},"name":"Dărmăneşti","parent":{"$oid":"59ac14d440c4093750c8ec2d"},"__v":0}
+{"_id":{"$oid":"59ac1501577868137244a933"},"name":"PLUTONITA","parent":{"$oid":"59ac14d440c4093750c8ec5c"},"__v":0}
+{"_id":{"$oid":"59ac1502577868137244a9cc"},"name":"FRASIN","parent":{"$oid":"59ac14d440c4093750c8ec5c"},"__v":0}
+{"_id":{"$oid":"59ac1507577868137244ac47"},"name":"Valea Doftanei","parent":{"$oid":"59ac14d440c4093750c8ec53"},"__v":0}
+{"_id":{"$oid":"59ac1509577868137244ad83"},"name":"Dragoslavele","parent":{"$oid":"59ac14d440c4093750c8ec1a"},"__v":0}
+{"_id":{"$oid":"59ac150a577868137244ada4"},"name":"Rucar","parent":{"$oid":"59ac14d440c4093750c8ec1a"},"__v":0}
+{"_id":{"$oid":"59ac1505577868137244ab65"},"name":"Cernica","parent":{"$oid":"59ac14d440c4093750c8ec53"},"__v":0}
+{"_id":{"$oid":"59ac1506577868137244abde"},"name":"Maneciu","parent":{"$oid":"59ac14d440c4093750c8ec53"},"__v":0}
+{"_id":{"$oid":"59ac150a577868137244adf7"},"name":"Campulung Muscel","parent":{"$oid":"59ac14d440c4093750c8ec1a"},"__v":0}
+{"_id":{"$oid":"59ac150b577868137244ae1b"},"name":"LEREŞTI","parent":{"$oid":"59ac14d440c4093750c8ec1a"},"__v":0}
+{"_id":{"$oid":"59ac150b577868137244ae5c"},"name":"CURTEA DE ARGES","parent":{"$oid":"59ac14d440c4093750c8ec1a"},"__v":0}
+{"_id":{"$oid":"59ac150d577868137244aefc"},"name":"BELIN","parent":{"$oid":"59ac14d440c4093750c8ec41"},"__v":0}
+{"_id":{"$oid":"59ac150c577868137244aec5"},"name":"Oiesti","parent":{"$oid":"59ac14d440c4093750c8ec1a"},"__v":0}
+{"_id":{"$oid":"59ac150d577868137244af21"},"name":"Recea","parent":{"$oid":"59ac14d440c4093750c8ec65"},"__v":0}
+{"_id":{"$oid":"59ac1503577868137244aa7d"},"name":"Campulung Moldovenesc","parent":{"$oid":"59ac14d440c4093750c8ec5c"},"__v":0}
+{"_id":{"$oid":"59ac150d577868137244af73"},"name":"Vaideeni","parent":{"$oid":"59ac14d440c4093750c8ec65"},"__v":0}
+{"_id":{"$oid":"59ac150f577868137244b037"},"name":"Govora","parent":{"$oid":"59ac14d440c4093750c8ec65"},"__v":0}
+{"_id":{"$oid":"59ac150e577868137244afce"},"name":"Corbi","parent":{"$oid":"59ac14d440c4093750c8ec65"},"__v":0}
+{"_id":{"$oid":"59ac1510577868137244b0a0"},"name":"Budesti","parent":{"$oid":"59ac14d440c4093750c8ec65"},"__v":0}
+{"_id":{"$oid":"59ac1510577868137244b0d4"},"name":"Muiereasca","parent":{"$oid":"59ac14d440c4093750c8ec65"},"__v":0}
+{"_id":{"$oid":"59ac1512577868137244b1af"},"name":"Racovita","parent":{"$oid":"59ac14d440c4093750c8ec65"},"__v":0}
+{"_id":{"$oid":"59ac1511577868137244b13f"},"name":"Malaia","parent":{"$oid":"59ac14d440c4093750c8ec65"},"__v":0}
+{"_id":{"$oid":"59ac150f577868137244b012"},"name":"Costesti","parent":{"$oid":"59ac14d440c4093750c8ec65"},"__v":0}
+{"_id":{"$oid":"59ac1513577868137244b1f6"},"name":"Balota","parent":{"$oid":"59ac14d440c4093750c8ec65"},"__v":0}
+{"_id":{"$oid":"59ac1514577868137244b276"},"name":"Golesti","parent":{"$oid":"59ac14d440c4093750c8ec65"},"__v":0}
+{"_id":{"$oid":"59ac1513577868137244b247"},"name":"Piscu Pietrei","parent":{"$oid":"59ac14d440c4093750c8ec65"},"__v":0}
+{"_id":{"$oid":"59ac1516577868137244b352"},"name":"Daiesti","parent":{"$oid":"59ac14d440c4093750c8ec65"},"__v":0}
+{"_id":{"$oid":"59ac1515577868137244b2eb"},"name":"Bujoreni","parent":{"$oid":"59ac14d440c4093750c8ec65"},"__v":0}
+{"_id":{"$oid":"59ac1519577868137244b4ad"},"name":"MOIECIU","parent":{"$oid":"59ac14d440c4093750c8ec20"},"__v":0}
+{"_id":{"$oid":"59ac151c577868137244b61e"},"name":"COVASNA","parent":{"$oid":"59ac14d440c4093750c8ec41"},"__v":0}
+{"_id":{"$oid":"59ac151e577868137244b713"},"name":"BAIA DE ARAMA","parent":{"$oid":"59ac14d440c4093750c8ec4c"},"__v":0}
+{"_id":{"$oid":"59ac1516577868137244b38f"},"name":"SADU","parent":{"$oid":"59ac14d440c4093750c8ec5a"},"__v":0}
+{"_id":{"$oid":"59ac151f577868137244b76f"},"name":"SAMBOTIN","parent":{"$oid":"59ac14d440c4093750c8ec46"},"__v":0}
+{"_id":{"$oid":"59ac151f577868137244b7a0"},"name":"SADU","parent":{"$oid":"59ac14d440c4093750c8ec46"},"__v":0}
+{"_id":{"$oid":"59ac1516577868137244b3ba"},"name":"DEJANI","parent":{"$oid":"59ac14d440c4093750c8ec20"},"__v":0}
+{"_id":{"$oid":"59ac1520577868137244b7f4"},"name":"PETRILA","parent":{"$oid":"59ac14d440c4093750c8ec2a"},"__v":0}
+{"_id":{"$oid":"59ac1523577868137244b929"},"name":"VALIUG","parent":{"$oid":"59ac14d440c4093750c8ec23"},"__v":0}
+{"_id":{"$oid":"59ac1517577868137244b3f0"},"name":"Timis","parent":{"$oid":"59ac14d440c4093750c8ec20"},"__v":0}
+{"_id":{"$oid":"59ac1523577868137244b945"},"name":"RUSCA MONTANA","parent":{"$oid":"59ac14d440c4093750c8ec23"},"__v":0}
+{"_id":{"$oid":"59ac1524577868137244b9a2"},"name":"Riu de Mori","parent":{"$oid":"59ac14d440c4093750c8ec2a"},"__v":0}
+{"_id":{"$oid":"59ac1523577868137244b976"},"name":"Pui","parent":{"$oid":"59ac14d440c4093750c8ec2a"},"__v":0}
+{"_id":{"$oid":"59ac1522577868137244b8d0"},"name":"CRUŞOVĂŢ","parent":{"$oid":"59ac14d440c4093750c8ec23"},"__v":0}
+{"_id":{"$oid":"59ac1527577868137244bb9e"},"name":"JINA","parent":{"$oid":"59ac14d440c4093750c8ec5a"},"__v":0}
+{"_id":{"$oid":"59ac1524577868137244b9fc"},"name":"Cugir","parent":{"$oid":"59ac14d440c4093750c8ec19"},"__v":0}
+{"_id":{"$oid":"59ac1522577868137244b8f8"},"name":"Potoc","parent":{"$oid":"59ac14d440c4093750c8ec23"},"__v":0}
+{"_id":{"$oid":"59ac1529577868137244bce1"},"name":"SUGAG","parent":{"$oid":"59ac14d440c4093750c8ec19"},"__v":0}
+{"_id":{"$oid":"59ac152b577868137244bd65"},"name":"METEŞ","parent":{"$oid":"59ac14d440c4093750c8ec19"},"__v":0}
+{"_id":{"$oid":"59ac152d577868137244be27"},"name":"Cricau","parent":{"$oid":"59ac14d440c4093750c8ec19"},"__v":0}
+{"_id":{"$oid":"59ac152f577868137244bf39"},"name":"Salciua","parent":{"$oid":"59ac14d440c4093750c8ec19"},"__v":0}
+{"_id":{"$oid":"59ac152e577868137244be9a"},"name":"POSAGA","parent":{"$oid":"59ac14d440c4093750c8ec19"},"__v":0}
+{"_id":{"$oid":"59ac1529577868137244bcee"},"name":"PRESACA-AMPOIULUI","parent":{"$oid":"59ac14d440c4093750c8ec19"},"__v":0}
+{"_id":{"$oid":"59ac1530577868137244bfa1"},"name":"BISTRA","parent":{"$oid":"59ac14d440c4093750c8ec19"},"__v":0}
+{"_id":{"$oid":"59ac1531577868137244c022"},"name":"Garda","parent":{"$oid":"59ac14d440c4093750c8ec19"},"__v":0}
+{"_id":{"$oid":"59ac152a577868137244bd38"},"name":"IGHIEL","parent":{"$oid":"59ac14d440c4093750c8ec19"},"__v":0}
+{"_id":{"$oid":"59ac1531577868137244c065"},"name":"ALESD","parent":{"$oid":"59ac14d440c4093750c8ec1c"},"__v":0}
+{"_id":{"$oid":"59ac1532577868137244c0a5"},"name":"BOROD","parent":{"$oid":"59ac14d440c4093750c8ec1c"},"__v":0}
+{"_id":{"$oid":"59ac1534577868137244c231"},"name":"MĂRGĂU","parent":{"$oid":"59ac14d440c4093750c8ec24"},"__v":0}
+{"_id":{"$oid":"59ac1534577868137244c1a8"},"name":"BULZ","parent":{"$oid":"59ac14d440c4093750c8ec1c"},"__v":0}
+{"_id":{"$oid":"59ac1536577868137244c2f2"},"name":"CRISTIORU DE JOS","parent":{"$oid":"59ac14d440c4093750c8ec1c"},"__v":0}
+{"_id":{"$oid":"59ac1537577868137244c37c"},"name":"CEICA","parent":{"$oid":"59ac14d440c4093750c8ec1c"},"__v":0}
+{"_id":{"$oid":"59ac1537577868137244c398"},"name":"CHISCAU","parent":{"$oid":"59ac14d440c4093750c8ec1c"},"__v":0}
+{"_id":{"$oid":"59ac1538577868137244c43c"},"name":"BUCES","parent":{"$oid":"59ac14d440c4093750c8ec2a"},"__v":0}
+{"_id":{"$oid":"59ac153a577868137244c4e3"},"name":"GILAU","parent":{"$oid":"59ac14d440c4093750c8ec24"},"__v":0}
+{"_id":{"$oid":"59ac1539577868137244c4b6"},"name":"BAIA MARE","parent":{"$oid":"59ac14d440c4093750c8ec47"},"__v":0}
+{"_id":{"$oid":"59ac153a577868137244c52e"},"name":"MAGURI RACATAU","parent":{"$oid":"59ac14d440c4093750c8ec24"},"__v":0}
+{"_id":{"$oid":"59ac153c577868137244c629"},"name":"SPERMEZEU","parent":{"$oid":"59ac14d440c4093750c8ec36"},"__v":0}
+{"_id":{"$oid":"59ac1533577868137244c143"},"name":"BUDUREASA","parent":{"$oid":"59ac14d440c4093750c8ec1c"},"__v":0}
+{"_id":{"$oid":"59ac153c577868137244c5f5"},"name":"MARISEL","parent":{"$oid":"59ac14d440c4093750c8ec24"},"__v":0}
+{"_id":{"$oid":"59ac153c577868137244c654"},"name":"COLIBITA","parent":{"$oid":"59ac14d440c4093750c8ec36"},"__v":0}
+{"_id":{"$oid":"59ac153d577868137244c70b"},"name":"REBRA MARE","parent":{"$oid":"59ac14d440c4093750c8ec36"},"__v":0}
+{"_id":{"$oid":"59ac153e577868137244c724"},"name":"Ruscova","parent":{"$oid":"59ac14d440c4093750c8ec47"},"__v":0}
+{"_id":{"$oid":"59ac153e577868137244c7cb"},"name":"Poienile de sub Munte","parent":{"$oid":"59ac14d440c4093750c8ec47"},"__v":0}
+{"_id":{"$oid":"59ac153f577868137244c829"},"name":"Viseul de Sus","parent":{"$oid":"59ac14d440c4093750c8ec47"},"__v":0}
+{"_id":{"$oid":"59ac17839ee66c6723051af4"},"name":"Oradea","parent":{"$oid":"59ac14d440c4093750c8ec1c"},"__v":0}
+{"_id":{"$oid":"59ae5cf117e3fb7f78dc76c5"},"name":"Corbi","parent":{"$oid":"59ac14d440c4093750c8ec1a"},"__v":0}
+{"_id":{"$oid":"59ae81a317e3fb7f78dc778f"},"name":"Moroieni","parent":{"$oid":"59ac14d440c4093750c8ec1a"},"__v":0}
+{"_id":{"$oid":"59ae825c17e3fb7f78dc77b5"},"name":"Cosesti","parent":{"$oid":"59ac14d440c4093750c8ec1a"},"__v":0}
+{"_id":{"$oid":"59afd31817e3fb7f78dc798e"},"name":"MALAIA","parent":{"$oid":"59ac14d440c4093750c8ec65"},"__v":0}
+{"_id":{"$oid":"59aff42617e3fb7f78dc7b88"},"name":"Hârtieşti","parent":{"$oid":"59ac14d440c4093750c8ec1a"},"__v":0}
+{"_id":{"$oid":"59b0f57117e3fb7f78dc7ce1"},"name":"Hârtieşti","parent":{"$oid":"59ac14d440c4093750c8ec18"},"__v":0}
+{"_id":{"$oid":"59b0fe7117e3fb7f78dc7d29"},"name":"Cheia","parent":{"$oid":"59ac14d440c4093750c8ec65"},"__v":0}
+{"_id":{"$oid":"59b12b8417e3fb7f78dc7e99"},"name":"Săcele","parent":{"$oid":"59ac14d440c4093750c8ec20"},"__v":0}
+{"_id":{"$oid":"59b1360c17e3fb7f78dc7f1f"},"name":"Călimănești","parent":{"$oid":"59ac14d440c4093750c8ec65"},"__v":0}
+{"_id":{"$oid":"59b1372c17e3fb7f78dc7f51"},"name":"Rebra Mare","parent":{"$oid":"59ac14d440c4093750c8ec36"},"__v":0}
+{"_id":{"$oid":"59b1425e17e3fb7f78dc80cd"},"name":"Mălureni","parent":{"$oid":"59ac14d440c4093750c8ec1a"},"__v":0}
+{"_id":{"$oid":"59b259f517e3fb7f78dc82a0"},"name":"Maieru","parent":{"$oid":"59ac14d440c4093750c8ec36"},"__v":0}
+{"_id":{"$oid":"59b5150917e3fb7f78dc83b9"},"name":"Oradea","parent":{"$oid":"59ac14d440c4093750c8ec19"},"__v":0}
+{"_id":{"$oid":"59b67a6417e3fb7f78dc88e5"},"name":"Hârtiești","parent":{"$oid":"59ac14d440c4093750c8ec36"},"__v":0}
+{"_id":{"$oid":"59b67bf017e3fb7f78dc88f3"},"name":"Hârtiești","parent":{"$oid":"59ac14d440c4093750c8ec1a"},"__v":0}
+{"_id":{"$oid":"59b772b617e3fb7f78dc8afb"},"name":"Stoenești","parent":{"$oid":"59ac14d440c4093750c8ec1a"},"__v":0}
+{"_id":{"$oid":"59b7861117e3fb7f78dc8b47"},"name":"Muşăteşti","parent":{"$oid":"59ac14d440c4093750c8ec1a"},"__v":0}
+{"_id":{"$oid":"59b786f617e3fb7f78dc8b4c"},"name":"Muşăteşti","parent":{"$oid":"59ac14d440c4093750c8ec18"},"__v":0}
+{"_id":{"$oid":"59b7c18b17e3fb7f78dc8b92"},"name":"Secaria","parent":{"$oid":"59ac14d440c4093750c8ec53"},"__v":0}
+{"_id":{"$oid":"59b7c39517e3fb7f78dc8b97"},"name":"Remeţi","parent":{"$oid":"59ac14d440c4093750c8ec1c"},"__v":0}
+{"_id":{"$oid":"59b7c55117e3fb7f78dc8ba9"},"name":"Mușătești","parent":{"$oid":"59ac14d440c4093750c8ec1a"},"__v":0}
+{"_id":{"$oid":"59b7d50117e3fb7f78dc8c20"},"name":"Răchitele","parent":{"$oid":"59ac14d440c4093750c8ec24"},"__v":0}
+{"_id":{"$oid":"59b7d5ad17e3fb7f78dc8c29"},"name":"Rachitele","parent":{"$oid":"59ac14d440c4093750c8ec24"},"__v":0}
+{"_id":{"$oid":"59b8c87c17e3fb7f78dc8d13"},"name":"Scrind","parent":{"$oid":"59ac14d440c4093750c8ec24"},"__v":0}
+{"_id":{"$oid":"59b8ccec17e3fb7f78dc8d18"},"name":"Scrind","parent":{"$oid":"59ac14d440c4093750c8ec1c"},"__v":0}
+{"_id":{"$oid":"59b8ce6e17e3fb7f78dc8d48"},"name":"Răchițele","parent":{"$oid":"59ac14d440c4093750c8ec24"},"__v":0}
+{"_id":{"$oid":"59b8dc5517e3fb7f78dc8e13"},"name":"„Răchițele","parent":{"$oid":"59ac14d440c4093750c8ec24"},"__v":0}
+{"_id":{"$oid":"59b8e94217e3fb7f78dc8e51"},"name":"Rșchițele","parent":{"$oid":"59ac14d440c4093750c8ec24"},"__v":0}
+{"_id":{"$oid":"59b8edd117e3fb7f78dc8e6c"},"name":"Poiana Tapului","parent":{"$oid":"59ac14d440c4093750c8ec53"},"__v":0}
+{"_id":{"$oid":"59b8f07b17e3fb7f78dc8e7a"},"name":"Pomezeu","parent":{"$oid":"59ac14d440c4093750c8ec1c"},"__v":0}
+{"_id":{"$oid":"59b923ea8340a94060f5cb06"},"name":"Pietroasa","parent":{"$oid":"59ac14d440c4093750c8ec1c"},"__v":0}
+{"_id":{"$oid":"59b927738340a94060f5cb30"},"name":"PoianaTapului","parent":{"$oid":"59ac14d440c4093750c8ec53"},"__v":0}
+{"_id":{"$oid":"59b92a698340a94060f5cb3f"},"name":"Răchițele","parent":{"$oid":"59ac14d440c4093750c8ec1c"},"__v":0}
+{"_id":{"$oid":"59b933518340a94060f5cba8"},"name":"Rîchițele","parent":{"$oid":"59ac14d440c4093750c8ec24"},"__v":0}
+{"_id":{"$oid":"59b97e788340a94060f5cc00"},"name":"poiana Tapului","parent":{"$oid":"59ac14d440c4093750c8ec53"},"__v":0}
+{"_id":{"$oid":"59ba2a5907eca056360f381e"},"name":"Pietroşani","parent":{"$oid":"59ac14d440c4093750c8ec1a"},"__v":0}
+{"_id":{"$oid":"59ba2b9807eca056360f3834"},"name":"Leicești","parent":{"$oid":"59ac14d440c4093750c8ec1a"},"__v":0}
+{"_id":{"$oid":"59ba525107eca056360f3890"},"name":"Gura Teghii","parent":{"$oid":"59ac14d440c4093750c8ec3c"},"__v":0}
+{"_id":{"$oid":"59bb63d307eca056360f399a"},"name":"Galeș- Brădet","parent":{"$oid":"59ac14d440c4093750c8ec1a"},"__v":0}
+{"_id":{"$oid":"59bb8bf107eca056360f3a0c"},"name":"Costești","parent":{"$oid":"59ac14d440c4093750c8ec1a"},"__v":0}
+{"_id":{"$oid":"59ca1dcb07eca056360f3cf3"},"name":"Petroşani","parent":{"$oid":"59ac14d440c4093750c8ec2a"},"__v":0}
+{"_id":{"$oid":"59ca254d07eca056360f3d3c"},"name":"Runcu","parent":{"$oid":"59ac14d440c4093750c8ec46"},"__v":0}
+{"_id":{"$oid":"59ccb68e07eca056360f42f9"},"name":"Cugir","parent":{"$oid":"59ac14d440c4093750c8ec18"},"__v":0}
+{"_id":{"$oid":"59ccc32307eca056360f4337"},"name":"PRESACA-AMPOIULUI Proprietar","parent":{"$oid":"59ac14d440c4093750c8ec19"},"__v":0}
+{"_id":{"$oid":"59dde53507eca056360f46af"},"name":"Șimian","parent":{"$oid":"59ac14d440c4093750c8ec4c"},"__v":0}
+{"_id":{"$oid":"59df0ed807eca056360f46f3"},"name":"Gura Văii","parent":{"$oid":"59ac14d440c4093750c8ec4c"},"__v":0}
+{"_id":{"$oid":"59edaab507eca056360f4c2e"},"name":"Sadu","parent":{"$oid":"59ac14d440c4093750c8ec46"},"__v":0}
+{"_id":{"$oid":"59ef011c07eca056360f4d01"},"name":"Petrosani","parent":{"$oid":"59ac14d440c4093750c8ec2a"},"__v":0}
+{"_id":{"$oid":"59f1a01307eca056360f5225"},"name":"Crușovăț","parent":{"$oid":"59ac14d440c4093750c8ec23"},"__v":0}
+{"_id":{"$oid":"59f2d1e707eca056360f52c7"},"name":"Poiana Mărului","parent":{"$oid":"59ac14d440c4093750c8ec23"},"__v":0}
+{"_id":{"$oid":"59f6d82f07eca056360f5472"},"name":"Gura Văii","parent":{"$oid":"59ac14d440c4093750c8ec23"},"__v":0}
+{"_id":{"$oid":"59f711f107eca056360f55da"},"name":"Padeş","parent":{"$oid":"59ac14d440c4093750c8ec46"},"__v":0}
+{"_id":{"$oid":"59f7268207eca056360f5627"},"name":"Petrila","parent":{"$oid":"59ac14d440c4093750c8ec2a"},"__v":0}

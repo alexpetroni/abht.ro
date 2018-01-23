@@ -2,6 +2,7 @@ const mongoose = require('mongoose')
 const Schema = mongoose.Schema
 const ObjectId = Schema.Types.ObjectId
 
+
 const inventory = require('./inventory.js')
 
 const longInventorySchema = inventory.longInventorySchema

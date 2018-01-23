@@ -31,7 +31,7 @@ function ys_constr_trans_with_apron(construction, inventory){
     return -1
   }
 
-  // ============ Lucreare propriu-zisa ===============
+  // ============ Lucrare propriu-zisa ===============
 
   // decastrare
   let ponder_lucr_decastrare = 0.92
@@ -120,7 +120,7 @@ function ys_constr_trans_with_apron(construction, inventory){
 
   // afuiere
   let ponder_rad_afuiere = 0.24
-  let ilim_rad_afuiere = 1
+  let ilim_rad_afuiere = 1.5
 
   let Ii_rad_afuiere = fVal(damInv.apron_af_height) * fVal(damInv.apron_af_percent) / 100
 
@@ -166,7 +166,7 @@ function ys_constr_trans_with_apron(construction, inventory){
   let ponder_zc_fisurare = 0.31
   let ilim_zc_fisurare = 5
 
-  let Ii_zc_fisurare = fVal(dam.lr) ? (fVal(damInv.sidewall_left_horiz_length) + fVal(damInv.sidewall_left_vert_length) + fVal(damInv.sidewall_right_horiz_length) + fVal(damInv.sidewall_right_vert_length)) / fVal(dam.lr) : 0
+  let Ii_zc_fisurare = fVal(dam.lr) ? (fVal(damInv.sidewall_left_horiz_length) + fVal(damInv.sidewall_left_vert_length) + fVal(damInv.sidewall_right_horiz_length) + fVal(damInv.sidewall_right_vert_length)) / (2*fVal(dam.lr)) : 0
 
   sum += ponder_zc_fisurare * Math.min( Ii_zc_fisurare / ilim_zc_fisurare , 1 )
 
@@ -264,7 +264,7 @@ function ys_constr_trans_without_apron(construction, inventory){
     return -1
   }
 
-    // ============ Lucreare propriu-zisa ===============
+    // ============ Lucrare propriu-zisa ===============
     // decastrare
     let ponder_lucr_decastrare = 2.41
     let ilim_lucr_decastrare = 1
@@ -283,7 +283,7 @@ function ys_constr_trans_without_apron(construction, inventory){
 
     // fisurare
     let ponder_lucr_fisurare = 2.15
-    let ilim_lucr_fisurare = 5
+    let ilim_lucr_fisurare = 10
 
     let Ii_lucr_fisurare = fVal(damInv.h_crak_dev_l) / fVal(dam.b) + fVal(damInv.v_crak_dev_l) / (fVal(dam.ye) + fVal(dam.h))
 
@@ -394,8 +394,10 @@ function ys_constr_long(construction, inventory){
   let Ii_zc_fisurare = 0
 
   secInv.forEach((s, index) => {
-    Ii_zc_fisurare += ( fVal(s.sidewall_left_horiz_length) +  fVal(s.sidewall_right_horiz_length) + fVal(s.sidewall_left_vert_length) + fVal(s.sidewall_right_vert_length) ) / sectorsLength[index]
+    Ii_zc_fisurare += ( fVal(s.sidewall_left_horiz_length) +  fVal(s.sidewall_right_horiz_length) + fVal(s.sidewall_left_vert_length) + fVal(s.sidewall_right_vert_length) )
   })
+
+  Ii_zc_fisurare = Ii_zc_fisurare/sectorsTotalLenght // modified conf. S. Davidescu mail from 2017-11-22
 
   sum += ponder_zc_fisurare * Math.min( Ii_zc_fisurare / ilim_zc_fisurare , 1 )
 
@@ -453,6 +455,10 @@ function ys_constr_long(construction, inventory){
     })
   })
 
+  if(total_pinteni_avariati){
+    Ii_pinteni_fisurare = Ii_pinteni_fisurare/total_pinteni_avariati
+  }
+
   sum += ponder_pinteni_fisurare * Math.min( Ii_pinteni_fisurare/ ilim_pinteni_fisurare , 1 )
 
   // desprindere aripi
@@ -466,6 +472,10 @@ function ys_constr_long(construction, inventory){
       Ii_pinteni_desp_aripi += (fVal(spurInventory.spur_displaced_left) + fVal(spurInventory.spur_displaced_right))/(2 * 100)
     })
   })
+
+  if(total_pinteni_avariati){
+    Ii_pinteni_desp_aripi = Ii_pinteni_desp_aripi/total_pinteni_avariati
+  }
 
   sum += ponder_pinteni_desp_aripi * Math.min( Ii_pinteni_desp_aripi / ilim_pinteni_desp_aripi, 1)
 
@@ -481,6 +491,10 @@ function ys_constr_long(construction, inventory){
       })
     })
 
+    if(total_pinteni_avariati){
+      Ii_pinteni_desp_z_centrala = Ii_pinteni_desp_z_centrala/total_pinteni_avariati
+    }
+
   sum += ponder_pinteni_desp_z_centrala * Math.min( Ii_pinteni_desp_z_centrala / ilim_pinteni_desp_z_centrala , 1 )
 
   // eroziune
@@ -495,6 +509,10 @@ function ys_constr_long(construction, inventory){
         Ii_pinteni_eroziune += fVal(spurInventory.spur_abrasion_deep) * fVal(spurInventory.spur_abrasion_percent) / 100
       })
     })
+
+    if(total_pinteni_avariati){
+      Ii_pinteni_eroziune = Ii_pinteni_eroziune/total_pinteni_avariati
+    }
 
   sum += ponder_pinteni_eroziune * Math.min( Ii_pinteni_eroziune / ilim_pinteni_eroziune , 1 )
 

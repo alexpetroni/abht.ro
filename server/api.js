@@ -6,7 +6,7 @@ const fs = require('fs')
 const mkdirp = require('mkdirp')
 const path = require('path')
 const mv = require('mv')
-// const sharp = require('sharp')
+const sharp = require('sharp')
 const multer = require('multer')
 
 const json2csv = require('json2csv')
@@ -64,7 +64,7 @@ router.route('/updateys')
 
 .get((req, res, next) => {
 
-    db.Construction.find({}).sort({date_added: -1}).limit(500).exec(function(err, consArr){
+    db.Construction.find({}).sort({date_added: -1}).limit(7500).exec(function(err, consArr){
       if(err) return next(err)
 
       async.eachLimit(consArr, 10, function(construction, cb){
